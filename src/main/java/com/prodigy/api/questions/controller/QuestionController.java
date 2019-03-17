@@ -1,8 +1,10 @@
 package com.prodigy.api.questions.controller;
 
 
+import com.prodigy.api.questions.domain.AddQuestionRequest;
 import com.prodigy.api.questions.domain.Question;
-import com.prodigy.api.questions.data.QuestionRepository;
+import com.prodigy.api.questions.domain.QuestionService;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,15 +18,15 @@ import java.util.List;
 @RestController("/questions")
 public class QuestionController {
 
-    private final QuestionRepository questionRepository;
+    private final QuestionService questionService;
 
-    public QuestionController(QuestionRepository questionRepository) {
-        this.questionRepository = questionRepository;
+    public QuestionController(QuestionService questionService) {
+        this.questionService = questionService;
     }
 
 //    @RequestMapping(method = RequestMethod.GET)
 //    public List<Question> searchQuestions(@RequestParam("type") String type, @RequestParam("answer") String answer) throws Exception {
-//        List<? extends Question> questions = questionRepository.searchByAnswer(answer);
+//        List<? extends Question> questions = questionService.searchByAnswer(answer);
 //        List<Question> result = new ArrayList<>();
 //        for (Question question : questions) {
 //            result.add(question);
@@ -33,8 +35,13 @@ public class QuestionController {
 //    }
 
     @RequestMapping(method = RequestMethod.GET)
-    public List<Question> getAll() throws Exception {
-        return questionRepository.getAll();
+    public List<Question> getAll() {
+        return questionService.getAll();
+    }
+
+    @RequestMapping(method = RequestMethod.POST)
+    public Question add(@RequestBody AddQuestionRequest request) throws Exception {
+        return questionService.add(request.getQuestion().build());
     }
 
 }

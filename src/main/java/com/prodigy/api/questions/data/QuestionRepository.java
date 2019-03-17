@@ -14,9 +14,11 @@ public interface QuestionRepository {
 
     List<Question> getAll() throws Exception;
 
-    void add(Question question) throws Exception;
+    Question add(Question question) throws Exception;
 
     void add(List<Question> questions) throws Exception;
+
+    void update(Question question) throws Exception;
 
     void delete(String id) throws Exception;
 

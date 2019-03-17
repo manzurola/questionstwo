@@ -2,9 +2,11 @@ package com.prodigy.api.common;
 
 import java.util.UUID;
 
-public abstract class EntityFactory {
+public interface EntityFactory<T> {
 
-    public String nextId() {
+    default String nextId() {
         return UUID.randomUUID().toString();
     }
+
+    T build();
 }

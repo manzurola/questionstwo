@@ -4,13 +4,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
 import com.prodigy.api.common.DataStore;
 import com.prodigy.api.common.ElasticsearchDataStore;
-import com.prodigy.api.questions.domain.QuestionFactory;
-import com.prodigy.api.questions.domain.QuestionFactoryImpl;
 import com.prodigy.api.questions.data.ElasticsearchQuestionRepository;
 import com.prodigy.api.questions.data.QuestionRepository;
+import com.prodigy.api.questions.domain.QuestionService;
+import com.prodigy.api.questions.domain.QuestionServiceImpl;
 import com.prodigy.api.users.ElasticsearchUserRepository;
-import com.prodigy.api.users.UserFactory;
-import com.prodigy.api.users.UserFactoryImpl;
 import com.prodigy.api.users.UserRepository;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.settings.Settings;
@@ -44,17 +42,17 @@ public class Application {
     //    @Value("${jetty.host}")
     private String jettyHost;
 
-//    @Value("${elasticsearch.index}")
+    //    @Value("${elasticsearch.index}")
     private String elasticsearchIndex;
 
     @Value("${elasticsearch.port}")
     private int elasticsearchPort;
 
     @Value("${elasticsearch.clustername}")
-    private String  elasticsearchClusterName;
+    private String elasticsearchClusterName;
 
     @Value("${elasticsearch.hostname}")
-    private String  elasticsearchHostName;
+    private String elasticsearchHostName;
 
 
     public static void main(String[] args) {
@@ -87,18 +85,13 @@ public class Application {
     }
 
     @Bean
-    public QuestionFactory questionFactory() {
-        return new QuestionFactoryImpl();
+    public QuestionService questionService() throws Exception {
+        return new QuestionServiceImpl(questionRepository());
     }
 
     @Bean
     public UserRepository userRepository() throws UnknownHostException {
         return new ElasticsearchUserRepository(transportClient(), objectMapper());
-    }
-
-    @Bean
-    public UserFactory userFactory() {
-        return new UserFactoryImpl();
     }
 
     @Bean

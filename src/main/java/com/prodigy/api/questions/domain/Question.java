@@ -1,5 +1,9 @@
 package com.prodigy.api.questions.domain;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonSetter;
+import com.prodigy.api.common.EntityFactory;
+
 import java.util.List;
 import java.util.Objects;
 
@@ -8,18 +12,22 @@ import java.util.Objects;
  */
 public class Question {
 
-    private String id;
-    private String body;
-    private List<String> answerKey;
-    private String instructions;
-    private String subject;
-    private String source;
-    private String version; // to reference the parser version
+    private final String id;
+    private final String body;
+    private final List<String> answerKey;
+    private final String instructions;
+    private final String subject;
+    private final String source;
+    private final String version; // to reference the parser version
 
-    public Question() {
-    }
-
-    public Question(String id, String body, List<String> answerKey, String instructions, String subject, String source, String version) {
+    @JsonCreator
+    private Question(String id,
+                    String body,
+                    List<String> answerKey,
+                    String instructions,
+                    String subject,
+                    String source,
+                    String version) {
         this.id = id;
         this.body = body;
         this.answerKey = answerKey;
@@ -33,57 +41,30 @@ public class Question {
         return id;
     }
 
-    public void setId(String id) {
-        this.id = id;
-    }
-
     public String getBody() {
         return body;
-    }
-
-    public void setBody(String body) {
-        this.body = body;
     }
 
     public List<String> getAnswerKey() {
         return answerKey;
     }
 
-    public void setAnswerKey(List<String> answerKey) {
-        this.answerKey = answerKey;
-    }
-
     public String getInstructions() {
         return instructions;
-    }
-
-    public void setInstructions(String instructions) {
-        this.instructions = instructions;
     }
 
     public String getSubject() {
         return subject;
     }
 
-    public void setSubject(String subject) {
-        this.subject = subject;
-    }
-
     public String getSource() {
         return source;
-    }
-
-    public void setSource(String source) {
-        this.source = source;
     }
 
     public String getVersion() {
         return version;
     }
 
-    public void setVersion(String version) {
-        this.version = version;
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -102,5 +83,83 @@ public class Question {
     @Override
     public int hashCode() {
         return Objects.hash(id, body, answerKey, instructions, subject, source, version);
+    }
+
+    @Override
+    public String toString() {
+        return "Question{" +
+                "id='" + id + '\'' +
+                ", body='" + body + '\'' +
+                ", answerKey=" + answerKey +
+                ", instructions='" + instructions + '\'' +
+                ", subject='" + subject + '\'' +
+                ", source='" + source + '\'' +
+                ", version='" + version + '\'' +
+                '}';
+    }
+
+    public static class Builder implements EntityFactory<Question> {
+
+        private final String id;
+        private String body;
+        private List<String> answerKey;
+        private String instructions;
+        private String subject;
+        private String source;
+        private String version; // to reference the parser version
+
+        public Builder() {
+            this.id = nextId();
+        }
+
+        public Builder(Question question) {
+            this.id = question.getId();
+            merge(question);
+        }
+
+        public Builder merge(Question other) {
+            this.body = other.getBody();
+            this.answerKey = other.getAnswerKey();
+            this.instructions = other.getInstructions();
+            this.subject = other.getSubject();
+            this.source = other.getSource();
+            this.version = other.getVersion();
+            return this;
+        }
+
+        public Builder setBody(String body) {
+            this.body = body;
+            return this;
+        }
+
+        public Builder setAnswerKey(List<String> answerKey) {
+            this.answerKey = answerKey;
+            return this;
+        }
+
+        public Builder setInstructions(String instructions) {
+            this.instructions = instructions;
+            return this;
+        }
+
+        public Builder setSubject(String subject) {
+            this.subject = subject;
+            return this;
+        }
+
+        public Builder setSource(String source) {
+            this.source = source;
+            return this;
+        }
+
+        public Builder setVersion(String version) {
+            this.version = version;
+            return this;
+        }
+
+        public Question build() {
+            return new Question(id, body, answerKey, instructions, subject, source, version);
+        }
+
     }
 }

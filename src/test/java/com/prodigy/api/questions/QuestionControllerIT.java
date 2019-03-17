@@ -1,6 +1,7 @@
 package com.prodigy.api.questions;
 
 import com.prodigy.api.Application;
+import com.prodigy.api.questions.domain.AddQuestionRequest;
 import com.prodigy.api.questions.domain.Question;
 import com.prodigy.api.test.ElasticsearchCollaborator;
 import org.junit.After;
@@ -13,6 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -58,7 +60,7 @@ public class QuestionControllerIT {
     }
 
     @Test
-    public void getQuestions() throws Exception {
+    public void getQuestionsReturnsEmptyList() throws Exception {
         ResponseEntity<List<Question>> response = template.exchange(
                 base.toString() + "questions/",
                 HttpMethod.GET,
@@ -67,5 +69,29 @@ public class QuestionControllerIT {
                 });
         List<Question> questions = response.getBody();
         assertEquals(questions, Arrays.asList());
+    }
+
+    @Test
+    public void addQuestion() throws Exception {
+        AddQuestionRequest request = new AddQuestionRequest(
+                new Question.Builder()
+                .setBody("this is the body")
+                .setAnswerKey(Arrays.asList("answer1", "answer2"))
+                .setInstructions("do it")
+                .setSubject("life")
+                .setSource("guyman")
+                .setVersion("1")
+        );
+        ResponseEntity<Question> response = template.exchange(
+                base.toString() + "questions/",
+                HttpMethod.POST,
+                new HttpEntity<>(request),
+                new ParameterizedTypeReference<Question>() {
+                });
+        Question question = response.getBody();
+        Question expected = new Question.Builder(question)
+                .merge(request.getQuestion().build())
+                .build();
+        assertEquals(question, expected);
     }
 }

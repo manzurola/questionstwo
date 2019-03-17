@@ -31,7 +31,12 @@ public class ElasticsearchQuestionRepository implements QuestionRepository {
 
     @Override
     public Question get(String id) throws Exception {
-        return mapper.readValue(client.prepareGet(index, mappedType, id).get().getSourceAsBytes(), Question.class);
+        return mapper.readValue(
+                client.prepareGet(index, mappedType, id)
+                        .get()
+                        .getSourceAsBytes(),
+                Question.class
+        );
     }
 
     @Override
@@ -48,9 +53,11 @@ public class ElasticsearchQuestionRepository implements QuestionRepository {
     }
 
     @Override
-    public void add(Question question) throws Exception {
+    public Question add(Question question) throws Exception {
         client.prepareIndex(index, mappedType, question.getId())
-                .setSource(mapper.writeValueAsBytes(question), XContentType.JSON).get();
+                .setSource(mapper.writeValueAsBytes(question), XContentType.JSON)
+                .get();
+        return question;
     }
 
     @Override
@@ -58,6 +65,13 @@ public class ElasticsearchQuestionRepository implements QuestionRepository {
         for (Question question : questions) {
             add(question);
         }
+    }
+
+    @Override
+    public void update(Question question) throws Exception {
+        client.prepareUpdate(index, mappedType, question.getId())
+                .setDoc(mapper.writeValueAsBytes(question), XContentType.JSON)
+                .get();
     }
 
     @Override
