@@ -1,7 +1,7 @@
 package com.prodigy.api.questions;
 
 
-import com.prodigy.api.questions.domain.Question;
+import com.prodigy.api.questions.service.Question;
 
 /**
  * Created by guym on 24/05/2017.

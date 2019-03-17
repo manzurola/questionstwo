@@ -6,8 +6,10 @@ import com.prodigy.api.common.DataStore;
 import com.prodigy.api.common.ElasticsearchDataStore;
 import com.prodigy.api.questions.data.ElasticsearchQuestionRepository;
 import com.prodigy.api.questions.data.QuestionRepository;
-import com.prodigy.api.questions.domain.QuestionService;
-import com.prodigy.api.questions.domain.QuestionServiceImpl;
+import com.prodigy.api.questions.service.QuestionCommandFactory;
+import com.prodigy.api.questions.service.QuestionCommandFactoryImpl;
+import com.prodigy.api.questions.service.QuestionService;
+import com.prodigy.api.questions.service.QuestionServiceImpl;
 import com.prodigy.api.users.ElasticsearchUserRepository;
 import com.prodigy.api.users.UserRepository;
 import org.elasticsearch.client.transport.TransportClient;
@@ -87,6 +89,11 @@ public class Application {
     @Bean
     public QuestionService questionService() throws Exception {
         return new QuestionServiceImpl(questionRepository());
+    }
+
+    @Bean
+    public QuestionCommandFactory questionCommandFactory() throws Exception {
+        return new QuestionCommandFactoryImpl(questionRepository());
     }
 
     @Bean

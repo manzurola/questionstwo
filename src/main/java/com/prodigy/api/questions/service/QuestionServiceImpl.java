@@ -1,4 +1,4 @@
-package com.prodigy.api.questions.domain;
+package com.prodigy.api.questions.service;
 
 import com.prodigy.api.questions.data.QuestionRepository;
 

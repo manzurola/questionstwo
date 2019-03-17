@@ -1,7 +1,7 @@
 package com.prodigy.api.questions.data;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.prodigy.api.questions.domain.Question;
+import com.prodigy.api.questions.service.Question;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.xcontent.XContentType;

@@ -1,7 +1,7 @@
 package com.prodigy.api.questions.data;
 
 
-import com.prodigy.api.questions.domain.Question;
+import com.prodigy.api.questions.service.Question;
 
 import java.util.List;
 

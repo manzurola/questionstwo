@@ -1,7 +1,7 @@
 package com.prodigy.api.questions;
 
 import com.opencsv.CSVReader;
-import com.prodigy.api.questions.domain.Question;
+import com.prodigy.api.questions.service.Question;
 
 import java.io.IOException;
 import java.io.Reader;

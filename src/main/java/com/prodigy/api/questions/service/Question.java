@@ -1,7 +1,6 @@
-package com.prodigy.api.questions.domain;
+package com.prodigy.api.questions.service;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonSetter;
 import com.prodigy.api.common.EntityFactory;
 
 import java.util.List;
@@ -22,12 +21,12 @@ public class Question {
 
     @JsonCreator
     private Question(String id,
-                    String body,
-                    List<String> answerKey,
-                    String instructions,
-                    String subject,
-                    String source,
-                    String version) {
+                     String body,
+                     List<String> answerKey,
+                     String instructions,
+                     String subject,
+                     String source,
+                     String version) {
         this.id = id;
         this.body = body;
         this.answerKey = answerKey;
@@ -98,9 +97,13 @@ public class Question {
                 '}';
     }
 
+    public static Builder builder() {
+        return new Builder();
+    }
+
     public static class Builder implements EntityFactory<Question> {
 
-        private final String id;
+        private String id;
         private String body;
         private List<String> answerKey;
         private String instructions;
@@ -127,32 +130,37 @@ public class Question {
             return this;
         }
 
-        public Builder setBody(String body) {
+        public Builder id(String id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder body(String body) {
             this.body = body;
             return this;
         }
 
-        public Builder setAnswerKey(List<String> answerKey) {
+        public Builder answerKey(List<String> answerKey) {
             this.answerKey = answerKey;
             return this;
         }
 
-        public Builder setInstructions(String instructions) {
+        public Builder instructions(String instructions) {
             this.instructions = instructions;
             return this;
         }
 
-        public Builder setSubject(String subject) {
+        public Builder subject(String subject) {
             this.subject = subject;
             return this;
         }
 
-        public Builder setSource(String source) {
+        public Builder source(String source) {
             this.source = source;
             return this;
         }
 
-        public Builder setVersion(String version) {
+        public Builder version(String version) {
             this.version = version;
             return this;
         }

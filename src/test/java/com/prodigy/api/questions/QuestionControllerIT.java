@@ -1,8 +1,8 @@
 package com.prodigy.api.questions;
 
 import com.prodigy.api.Application;
-import com.prodigy.api.questions.domain.AddQuestionRequest;
-import com.prodigy.api.questions.domain.Question;
+import com.prodigy.api.questions.service.AddQuestionRequest;
+import com.prodigy.api.questions.service.Question;
 import com.prodigy.api.test.ElasticsearchCollaborator;
 import org.junit.After;
 import org.junit.Before;
@@ -74,13 +74,12 @@ public class QuestionControllerIT {
     @Test
     public void addQuestion() throws Exception {
         AddQuestionRequest request = new AddQuestionRequest(
-                new Question.Builder()
-                .setBody("this is the body")
-                .setAnswerKey(Arrays.asList("answer1", "answer2"))
-                .setInstructions("do it")
-                .setSubject("life")
-                .setSource("guyman")
-                .setVersion("1")
+                "this is the body",
+                Arrays.asList("answer1", "answer2"),
+                "do it",
+                "life",
+                "guyman",
+                "1"
         );
         ResponseEntity<Question> response = template.exchange(
                 base.toString() + "questions/",
@@ -88,10 +87,10 @@ public class QuestionControllerIT {
                 new HttpEntity<>(request),
                 new ParameterizedTypeReference<Question>() {
                 });
-        Question question = response.getBody();
-        Question expected = new Question.Builder(question)
-                .merge(request.getQuestion().build())
+        Question actual = response.getBody();
+        Question expected = new Question.Builder(actual)
+                .id(actual.getId())
                 .build();
-        assertEquals(question, expected);
+        assertEquals(actual, expected);
     }
 }

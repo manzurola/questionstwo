@@ -1,4 +1,4 @@
-package com.prodigy.api.questions.domain;
+package com.prodigy.api.questions.service;
 
 import java.util.List;
 

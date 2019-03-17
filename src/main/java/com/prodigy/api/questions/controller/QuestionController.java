@@ -1,9 +1,10 @@
 package com.prodigy.api.questions.controller;
 
 
-import com.prodigy.api.questions.domain.AddQuestionRequest;
-import com.prodigy.api.questions.domain.Question;
-import com.prodigy.api.questions.domain.QuestionService;
+import com.prodigy.api.questions.service.AddQuestionRequest;
+import com.prodigy.api.questions.service.Question;
+import com.prodigy.api.questions.service.QuestionCommandFactory;
+import com.prodigy.api.questions.service.QuestionService;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -19,9 +20,11 @@ import java.util.List;
 public class QuestionController {
 
     private final QuestionService questionService;
+    private final QuestionCommandFactory questionCommandFactory;
 
-    public QuestionController(QuestionService questionService) {
+    public QuestionController(QuestionService questionService, QuestionCommandFactory questionCommandFactory) {
         this.questionService = questionService;
+        this.questionCommandFactory = questionCommandFactory;
     }
 
 //    @RequestMapping(method = RequestMethod.GET)
@@ -40,8 +43,8 @@ public class QuestionController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public Question add(@RequestBody AddQuestionRequest request) throws Exception {
-        return questionService.add(request.getQuestion().build());
+    public Question add(@RequestBody AddQuestionRequest request) {
+        return questionCommandFactory.createAdd().doExecute(request);
     }
 
 }
