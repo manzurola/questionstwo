@@ -1,11 +1,14 @@
 package com.prodigy.api.test;
 
+import com.prodigy.api.questions.data.ElasticsearchQuestionRepository;
 import pl.allegro.tech.embeddedelasticsearch.EmbeddedElastic;
 import pl.allegro.tech.embeddedelasticsearch.IndexSettings;
 import pl.allegro.tech.embeddedelasticsearch.PopularProperties;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.ServerSocket;
+import java.nio.file.Files;
 
 import static java.lang.ClassLoader.getSystemResourceAsStream;
 
@@ -22,10 +25,12 @@ public class ElasticsearchCollaborator implements Collaborator {
 
     private final int httpPort;
     private final int transportPort;
+    private final String clusterName;
 
-    public ElasticsearchCollaborator(int transportPort) {
+    public ElasticsearchCollaborator(int transportPort, String clusterName) {
         this.httpPort = 0;
         this.transportPort = transportPort;
+        this.clusterName = clusterName;
     }
 
     /**
@@ -37,15 +42,13 @@ public class ElasticsearchCollaborator implements Collaborator {
         if (embeddedElastic == null) {
 
             embeddedElastic = EmbeddedElastic.builder()
-                    .withElasticVersion("5.4.0")
-//                    .withSetting(PopularProperties.TRANSPORT_TCP_PORT, transportPort)
+                    .withElasticVersion("5.0.0")
 //                    .withSetting(PopularProperties.HTTP_PORT, httpPort)
-                    .withSetting(PopularProperties.TRANSPORT_TCP_PORT, httpPort)
-                    .withSetting(PopularProperties.CLUSTER_NAME, "my_cluster")
-                    .withPlugin("analysis-stempel")
-//                    .withIndex("cars", IndexSettings.builder()
-//                            .withType("car", getSystemResourceAsStream("car-mapping.json"))
-//                            .build())
+                    .withSetting(PopularProperties.TRANSPORT_TCP_PORT, transportPort)
+                    .withSetting(PopularProperties.CLUSTER_NAME, clusterName)
+                    .withInstallationDirectory(new File(System.getProperty("user.dir") + "/temp/elasticsearch"))
+//                    .withPlugin("analysis-stempel")
+                    .withIndex(ElasticsearchQuestionRepository.index)
                     .build()
                     .start();
 

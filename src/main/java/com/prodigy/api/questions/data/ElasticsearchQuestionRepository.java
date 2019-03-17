@@ -1,9 +1,7 @@
 package com.prodigy.api.questions.data;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.prodigy.api.questions.domain.Question;
-import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.xcontent.XContentType;
@@ -14,8 +12,6 @@ import org.elasticsearch.search.SearchHit;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -23,8 +19,8 @@ import java.util.List;
  */
 public class ElasticsearchQuestionRepository implements QuestionRepository {
 
-    private final String index = "questions_en";
-    private final String mappedType = "question";
+    public static final String index = "questions_en";
+    public static final String mappedType = "question";
     private final TransportClient client;
     private final ObjectMapper mapper;
 
@@ -40,17 +36,15 @@ public class ElasticsearchQuestionRepository implements QuestionRepository {
 
     @Override
     public List<Question> getAll() throws Exception {
-        GetResponse getResponse = client.prepareGet()
-                .setIndex(index)
-                .setType(mappedType)
+        SearchResponse response = client.prepareSearch(index)
+                .setTypes(mappedType)
                 .get();
-        if (!getResponse.isExists()) return Collections.emptyList();
-        return mapper.readValue(
-                getResponse
-                        .getSourceAsBytes(),
-                new TypeReference<List<Question>>() {
-                }
-        );
+        List<Question> results = new ArrayList<>();
+        for (SearchHit searchHit : response.getHits()) {
+            results.add(mapper.readValue(searchHit.getSourceAsString(), Question.class));
+        }
+
+        return results;
     }
 
     @Override

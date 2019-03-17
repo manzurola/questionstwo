@@ -33,6 +33,12 @@ public class QuestionControllerIT {
     @Value("${elasticsearch.port}")
     private int elasticsearchPort;
 
+    @Value("${elasticsearch.clustername}")
+    private String  elasticsearchClusterName;
+
+    @Value("${elasticsearch.hostname}")
+    private String  elasticsearchHostName;
+
     private URL base;
 
     @Autowired
@@ -43,7 +49,7 @@ public class QuestionControllerIT {
     @Before
     public void setUp() throws Exception {
         this.base = new URL("http://localhost:" + port + "/");
-        elasticsearchCollaborator = new ElasticsearchCollaborator(elasticsearchPort).start();
+        elasticsearchCollaborator = new ElasticsearchCollaborator(elasticsearchPort, elasticsearchClusterName).start();
     }
 
     @After
