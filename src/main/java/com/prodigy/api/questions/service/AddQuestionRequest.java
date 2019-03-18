@@ -1,8 +1,5 @@
 package com.prodigy.api.questions.service;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonUnwrapped;
-import com.prodigy.api.common.EntityFactory;
 import com.prodigy.api.common.service.ServiceRequest;
 
 import java.util.List;

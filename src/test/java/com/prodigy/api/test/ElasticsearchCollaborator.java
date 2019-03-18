@@ -2,15 +2,11 @@ package com.prodigy.api.test;
 
 import com.prodigy.api.questions.data.ElasticsearchQuestionRepository;
 import pl.allegro.tech.embeddedelasticsearch.EmbeddedElastic;
-import pl.allegro.tech.embeddedelasticsearch.IndexSettings;
 import pl.allegro.tech.embeddedelasticsearch.PopularProperties;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.ServerSocket;
-import java.nio.file.Files;
-
-import static java.lang.ClassLoader.getSystemResourceAsStream;
 
 public class ElasticsearchCollaborator implements Collaborator {
 

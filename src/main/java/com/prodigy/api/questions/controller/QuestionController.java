@@ -44,7 +44,8 @@ public class QuestionController {
 
     @RequestMapping(method = RequestMethod.POST)
     public Question add(@RequestBody AddQuestionRequest request) {
-        return questionCommandFactory.createAdd().doExecute(request);
+        Question payload = questionCommandFactory.createAdd().execute(request).payload();
+        return payload;
     }
 
 }
