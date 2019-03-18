@@ -1,7 +1,7 @@
 package com.prodigy.api.questions;
 
 import com.prodigy.api.Application;
-import com.prodigy.api.questions.service.AddQuestionRequest;
+import com.prodigy.api.questions.service.request.AddQuestionRequest;
 import com.prodigy.api.questions.service.Question;
 import com.prodigy.api.test.ElasticsearchCollaborator;
 import org.junit.After;
@@ -64,7 +64,7 @@ public class QuestionControllerIT {
         ResponseEntity<List<Question>> response = template.exchange(
                 base.toString() + "questions/",
                 HttpMethod.GET,
-                null,
+                HttpEntity.EMPTY,
                 new ParameterizedTypeReference<List<Question>>() {
                 });
         List<Question> questions = response.getBody();

@@ -1,6 +1,6 @@
 package com.prodigy.api.common.service;
 
-public interface ServiceResult<T> {
+public interface Result<T> {
 
     boolean isOk();
 
@@ -8,16 +8,16 @@ public interface ServiceResult<T> {
 
     Throwable exception();
 
-    static <RESULT> ServiceResult<RESULT> ok(RESULT payload) {
+    static <RESULT> Result<RESULT> ok(RESULT payload) {
         return new ServiceResultOk<>(payload);
     }
 
-    static <RESULT> ServiceResult<RESULT> error(Throwable exception) {
+    static <RESULT> Result<RESULT> error(Throwable exception) {
         return new ServiceResultError<>(exception);
     }
 }
 
-class ServiceResultOk<T> implements ServiceResult<T> {
+class ServiceResultOk<T> implements Result<T> {
 
     private final T payload;
 
@@ -41,7 +41,7 @@ class ServiceResultOk<T> implements ServiceResult<T> {
     }
 }
 
-class ServiceResultError<T> implements ServiceResult<T>{
+class ServiceResultError<T> implements Result<T> {
 
     private Throwable exception;
 

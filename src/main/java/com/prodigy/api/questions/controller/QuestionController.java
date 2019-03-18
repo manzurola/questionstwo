@@ -1,10 +1,14 @@
 package com.prodigy.api.questions.controller;
 
 
-import com.prodigy.api.questions.service.AddQuestionRequest;
+import com.prodigy.api.common.service.Result;
+import com.prodigy.api.common.service.ServiceExecutor;
 import com.prodigy.api.questions.service.Question;
-import com.prodigy.api.questions.service.QuestionCommandFactory;
 import com.prodigy.api.questions.service.QuestionService;
+import com.prodigy.api.questions.service.command.AddQuestionCommand;
+import com.prodigy.api.questions.service.command.GetAllQuestionsCommand;
+import com.prodigy.api.questions.service.request.AddQuestionRequest;
+import com.prodigy.api.questions.service.request.GetAllQuestionsRequest;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -19,12 +23,10 @@ import java.util.List;
 @RestController("/questions")
 public class QuestionController {
 
-    private final QuestionService questionService;
-    private final QuestionCommandFactory questionCommandFactory;
+    private final ServiceExecutor serviceExecutor;
 
-    public QuestionController(QuestionService questionService, QuestionCommandFactory questionCommandFactory) {
-        this.questionService = questionService;
-        this.questionCommandFactory = questionCommandFactory;
+    public QuestionController(ServiceExecutor serviceExecutor) {
+        this.serviceExecutor = serviceExecutor;
     }
 
 //    @RequestMapping(method = RequestMethod.GET)
@@ -39,13 +41,14 @@ public class QuestionController {
 
     @RequestMapping(method = RequestMethod.GET)
     public List<Question> getAll() {
-        return questionService.getAll();
+        Result<List<Question>> result = serviceExecutor.execute(GetAllQuestionsCommand.class, new GetAllQuestionsRequest());
+        return result.payload();
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public Question add(@RequestBody AddQuestionRequest request) {
-        Question payload = questionCommandFactory.createAdd().execute(request).payload();
-        return payload;
+    public Question add(@RequestBody AddQuestionRequest requestBody) {
+        Result<Question> result = serviceExecutor.execute(AddQuestionCommand.class, requestBody);
+        return result.payload();
     }
 
 }

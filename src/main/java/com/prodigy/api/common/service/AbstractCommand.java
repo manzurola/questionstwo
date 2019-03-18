@@ -7,7 +7,7 @@ import javax.validation.ValidatorFactory;
 import java.util.Set;
 
 public abstract class AbstractCommand<RESULT, REQUEST extends ServiceRequest>
-        implements ServiceCommand<RESULT, REQUEST>{
+        implements Command<RESULT, REQUEST> {
 
     protected Validator validator;
 
@@ -17,16 +17,16 @@ public abstract class AbstractCommand<RESULT, REQUEST extends ServiceRequest>
     }
 
     @Override
-    public final ServiceResult<RESULT> execute(REQUEST request) {
+    public final Result<RESULT> execute(REQUEST request) {
         Set<ConstraintViolation<REQUEST>> constraintViolations = validator.validate(request);
         if (!constraintViolations.isEmpty()) {
-            return ServiceResult.error(new CommandValidationException(null));
+            return Result.error(new CommandValidationException(null));
         }
 
         try {
-            return ServiceResult.ok(doExecute(request));
+            return Result.ok(doExecute(request));
         } catch (Exception e) {
-            return ServiceResult.error(new CommandExecutionExecption(e));
+            return Result.error(new CommandExecutionExecption(e));
         }
     }
 

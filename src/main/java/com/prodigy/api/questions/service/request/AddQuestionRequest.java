@@ -1,4 +1,4 @@
-package com.prodigy.api.questions.service;
+package com.prodigy.api.questions.service.request;
 
 import com.prodigy.api.common.service.ServiceRequest;
 

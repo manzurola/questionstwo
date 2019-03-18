@@ -4,12 +4,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
 import com.prodigy.api.common.DataStore;
 import com.prodigy.api.common.ElasticsearchDataStore;
+import com.prodigy.api.common.service.ServiceExecutor;
+import com.prodigy.api.common.service.ServiceExecutorImpl;
 import com.prodigy.api.questions.data.ElasticsearchQuestionRepository;
 import com.prodigy.api.questions.data.QuestionRepository;
-import com.prodigy.api.questions.service.QuestionCommandFactory;
-import com.prodigy.api.questions.service.QuestionCommandFactoryImpl;
+import com.prodigy.api.questions.service.command.AddQuestionCommand;
 import com.prodigy.api.questions.service.QuestionService;
 import com.prodigy.api.questions.service.QuestionServiceImpl;
+import com.prodigy.api.questions.service.command.GetAllQuestionsCommand;
 import com.prodigy.api.users.ElasticsearchUserRepository;
 import com.prodigy.api.users.UserRepository;
 import org.elasticsearch.client.transport.TransportClient;
@@ -37,6 +39,9 @@ public class Application {
 
     @Autowired
     private Environment env;
+
+    @Autowired
+    private ApplicationContext applicationContext;
 
     //    @Value("${jetty.port}")
     private Integer jettyPort;
@@ -82,6 +87,16 @@ public class Application {
     }
 
     @Bean
+    public AddQuestionCommand addQuestionCommand(QuestionRepository questionRepository) {
+        return new AddQuestionCommand(questionRepository);
+    }
+
+    @Bean
+    public GetAllQuestionsCommand getAllQuestionsCommand(QuestionRepository questionRepository) {
+        return new GetAllQuestionsCommand(questionRepository);
+    }
+
+    @Bean
     public QuestionRepository questionRepository() throws Exception {
         return new ElasticsearchQuestionRepository(transportClient(), objectMapper());
     }
@@ -92,8 +107,8 @@ public class Application {
     }
 
     @Bean
-    public QuestionCommandFactory questionCommandFactory() throws Exception {
-        return new QuestionCommandFactoryImpl(questionRepository());
+    public ServiceExecutor serviceExecutor() {
+        return new ServiceExecutorImpl(applicationContext::getBean);
     }
 
     @Bean
