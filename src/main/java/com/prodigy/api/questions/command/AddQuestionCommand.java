@@ -4,7 +4,9 @@ import com.prodigy.api.common.service.AbstractCommand;
 import com.prodigy.api.questions.data.QuestionRepository;
 import com.prodigy.api.questions.request.AddQuestionRequest;
 import com.prodigy.api.questions.Question;
+import org.springframework.stereotype.Component;
 
+@Component
 public class AddQuestionCommand extends AbstractCommand<Question, AddQuestionRequest> {
 
     private final QuestionRepository repository;

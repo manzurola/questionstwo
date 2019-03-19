@@ -1,6 +1,8 @@
 package com.prodigy.api.env;
 
 import com.prodigy.api.Application;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -27,12 +29,23 @@ public abstract class EndToEndTest {
     @Value("${elasticsearch.hostname}")
     private String elasticsearchHostName;
 
-    private URL base;
+    private EmbeddedElasticsearch embeddedElasticsearch;
+
+    protected URL baseUrl;
 
     @Autowired
-    private TestRestTemplate template;
+    protected TestRestTemplate template;
 
-    private ElasticsearchCollaborator elasticsearchCollaborator;
 
+    @Before
+    public void setUp() throws Exception {
+        this.baseUrl = new URL("http://localhost:" + port);
+        embeddedElasticsearch = new EmbeddedElasticsearch(elasticsearchPort, elasticsearchClusterName).start();
+    }
+
+    @After
+    public void tearDown() throws Exception {
+        embeddedElasticsearch.stop();
+    }
 
 }

@@ -8,7 +8,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.ServerSocket;
 
-public class ElasticsearchCollaborator implements Collaborator {
+public class EmbeddedElasticsearch implements Collaborator {
 
     /**
      * The embedded Elasticseearch executable
@@ -23,7 +23,7 @@ public class ElasticsearchCollaborator implements Collaborator {
     private final int transportPort;
     private final String clusterName;
 
-    public ElasticsearchCollaborator(int transportPort, String clusterName) {
+    public EmbeddedElasticsearch(int transportPort, String clusterName) {
         this.httpPort = 0;
         this.transportPort = transportPort;
         this.clusterName = clusterName;
@@ -34,7 +34,7 @@ public class ElasticsearchCollaborator implements Collaborator {
      *
      * @throws IOException if an error occurs starting Elasticseearch
      */
-    public ElasticsearchCollaborator start() throws Exception {
+    public EmbeddedElasticsearch start() throws Exception {
         if (embeddedElastic == null) {
 
             embeddedElastic = EmbeddedElastic.builder()

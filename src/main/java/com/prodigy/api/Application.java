@@ -91,16 +91,6 @@ public class Application {
     }
 
     @Bean
-    public AddQuestionCommand addQuestionCommand(QuestionRepository questionRepository) {
-        return new AddQuestionCommand(questionRepository);
-    }
-
-    @Bean
-    public GetAllQuestionsCommand getAllQuestionsCommand(QuestionRepository questionRepository) {
-        return new GetAllQuestionsCommand(questionRepository);
-    }
-
-    @Bean
     public QuestionRepository questionRepository() throws Exception {
         return new ElasticsearchQuestionRepository(dataStore());
     }
