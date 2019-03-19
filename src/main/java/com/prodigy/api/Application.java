@@ -1,5 +1,7 @@
 package com.prodigy.api;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
@@ -130,10 +132,11 @@ public class Application {
         module.addSerializer(Id.class, new IdSerializer());
         module.addDeserializer(Id.class, new IdDeserializer());
 
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.registerModule(new ParameterNamesModule());
-        mapper.setVisibility(FIELD, ANY);
-        mapper.registerModule(module);
+        ObjectMapper mapper = new ObjectMapper()
+                .setVisibility(FIELD, ANY)
+                .enable(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES)
+                .registerModule(new ParameterNamesModule(JsonCreator.Mode.PROPERTIES))
+                .registerModule(module);
 
         return mapper;
     }

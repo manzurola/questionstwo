@@ -1,6 +1,6 @@
-package com.prodigy.api;
+package com.prodigy.api.env;
 
-import com.prodigy.api.test.ElasticsearchCollaborator;
+import com.prodigy.api.Application;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,10 +22,10 @@ public abstract class EndToEndTest {
     private int elasticsearchPort;
 
     @Value("${elasticsearch.clustername}")
-    private String  elasticsearchClusterName;
+    private String elasticsearchClusterName;
 
     @Value("${elasticsearch.hostname}")
-    private String  elasticsearchHostName;
+    private String elasticsearchHostName;
 
     private URL base;
 

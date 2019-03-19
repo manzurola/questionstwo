@@ -1,4 +1,4 @@
-package com.prodigy.api.test;
+package com.prodigy.api.env;
 
 public interface Collaborator {
 

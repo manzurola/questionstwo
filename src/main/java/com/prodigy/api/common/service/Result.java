@@ -56,7 +56,7 @@ class ServiceResultError<T> implements Result<T> {
 
     @Override
     public T payload() {
-        return null;
+        throw new RuntimeException(exception);
     }
 
     @Override

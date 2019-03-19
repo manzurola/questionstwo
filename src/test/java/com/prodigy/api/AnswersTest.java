@@ -1,8 +1,12 @@
-package com.prodigy.api.questions;
+package com.prodigy.api;
 
-import com.prodigy.api.Application;
+import com.prodigy.api.answers.Answer;
+import com.prodigy.api.answers.SubmitAnswerRequest;
+import com.prodigy.api.questions.Question;
 import com.prodigy.api.questions.request.AddQuestionRequest;
-import com.prodigy.api.test.ElasticsearchCollaborator;
+import com.prodigy.api.env.ElasticsearchCollaborator;
+import com.prodigy.api.users.User;
+import com.prodigy.api.users.request.AddUserRequest;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,13 +24,12 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.net.URL;
 import java.util.Arrays;
-import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = Application.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class QuestionControllerIT {
+public class AnswersTest {
 
     @LocalServerPort
     private int port;
@@ -35,10 +38,10 @@ public class QuestionControllerIT {
     private int elasticsearchPort;
 
     @Value("${elasticsearch.clustername}")
-    private String  elasticsearchClusterName;
+    private String elasticsearchClusterName;
 
     @Value("${elasticsearch.hostname}")
-    private String  elasticsearchHostName;
+    private String elasticsearchHostName;
 
     private URL base;
 
@@ -47,6 +50,7 @@ public class QuestionControllerIT {
 
     private ElasticsearchCollaborator elasticsearchCollaborator;
 
+
     @Before
     public void setUp() throws Exception {
         this.base = new URL("http://localhost:" + port + "/");
@@ -54,25 +58,13 @@ public class QuestionControllerIT {
     }
 
     @After
-    public void tearDown() throws  Exception {
+    public void tearDown() throws Exception {
         elasticsearchCollaborator.stop();
     }
 
     @Test
-    public void getQuestionsReturnsEmptyList() throws Exception {
-        ResponseEntity<List<Question>> response = template.exchange(
-                base.toString() + "questions/",
-                HttpMethod.GET,
-                HttpEntity.EMPTY,
-                new ParameterizedTypeReference<List<Question>>() {
-                });
-        List<Question> questions = response.getBody();
-        assertEquals(questions, Arrays.asList());
-    }
-
-    @Test
-    public void addQuestion() throws Exception {
-        AddQuestionRequest request = new AddQuestionRequest(
+    public void submitAnswer() {
+        AddQuestionRequest addQuestionRequest = new AddQuestionRequest(
                 "this is the body",
                 Arrays.asList("answer1", "answer2"),
                 "do it",
@@ -80,25 +72,38 @@ public class QuestionControllerIT {
                 "guyman",
                 "1"
         );
-        ResponseEntity<Question> response = template.exchange(
-                base.toString() + "questions/",
+        ResponseEntity<Question> addQuestionResponse = template.exchange(
+                base.toString() + "questions",
                 HttpMethod.POST,
-                new HttpEntity<>(request),
+                new HttpEntity<>(addQuestionRequest),
                 new ParameterizedTypeReference<Question>() {
                 });
+        Question question = addQuestionResponse.getBody();
 
-        Question actual = response.getBody();
+        AddUserRequest addUserRequest = new AddUserRequest("guym@guy.com");
+        ResponseEntity<User> addUserResponse = template.exchange(
+                base.toString() + "users",
+                HttpMethod.POST,
+                new HttpEntity<>(addUserRequest),
+                new ParameterizedTypeReference<User>() {
+                });
+        User user = addUserResponse.getBody();
 
-        Question expected = new Question.Builder()
-                .id(actual.getId())
-                .answerKey(request.getAnswerKey())
-                .body(request.getBody())
-                .instructions(request.getInstructions())
-                .source(request.getSource())
-                .subject(request.getSubject())
-                .version(request.getVersion())
+        SubmitAnswerRequest submitAnswerRequest = new SubmitAnswerRequest(user.getId(), question.getId(), "my answer");
+        ResponseEntity<Answer> submitAnswerResponse = template.exchange(
+                base.toString() + "answers",
+                HttpMethod.POST,
+                new HttpEntity<>(submitAnswerRequest),
+                new ParameterizedTypeReference<Answer>() {
+                });
+        Answer actual = submitAnswerResponse.getBody();
+        Answer expected = Answer.builder()
+                .setId(actual.getId())
+                .setUserId(user.getId())
+                .setQuestionId(question.getId())
+                .setAnswer(submitAnswerRequest.getAnswer())
                 .build();
 
-        assertEquals(actual, expected);
+        assertEquals(expected, actual);
     }
 }

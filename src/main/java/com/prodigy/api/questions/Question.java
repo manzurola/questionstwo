@@ -3,6 +3,8 @@ package com.prodigy.api.questions;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.prodigy.api.common.Id;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Objects;
 
@@ -19,7 +21,6 @@ public class Question {
     private final String source;
     private final String version; // to reference the parser version
 
-    @JsonCreator
     private Question(Id<Question> id,
                      String body,
                      List<String> answerKey,

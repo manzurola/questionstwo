@@ -1,8 +1,8 @@
-package com.prodigy.api.users;
+package com.prodigy.api;
 
-import com.prodigy.api.Application;
-import com.prodigy.api.test.ElasticsearchCollaborator;
-import com.prodigy.api.users.request.AddUserRequest;
+import com.prodigy.api.questions.Question;
+import com.prodigy.api.questions.request.AddQuestionRequest;
+import com.prodigy.api.env.ElasticsearchCollaborator;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,12 +19,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.net.URL;
+import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = Application.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class UserControllerIT {
+public class QuestionControllerTest {
 
     @LocalServerPort
     private int port;
@@ -47,7 +49,7 @@ public class UserControllerIT {
 
     @Before
     public void setUp() throws Exception {
-        this.base = new URL("http://localhost:" + port + "/users");
+        this.base = new URL("http://localhost:" + port + "/");
         elasticsearchCollaborator = new ElasticsearchCollaborator(elasticsearchPort, elasticsearchClusterName).start();
     }
 
@@ -56,23 +58,45 @@ public class UserControllerIT {
         elasticsearchCollaborator.stop();
     }
 
+    @Test
+    public void getQuestionsReturnsEmptyList() throws Exception {
+        ResponseEntity<List<Question>> response = template.exchange(
+                base.toString() + "questions/",
+                HttpMethod.GET,
+                HttpEntity.EMPTY,
+                new ParameterizedTypeReference<List<Question>>() {
+                });
+        List<Question> questions = response.getBody();
+        assertEquals(Arrays.asList(), questions);
+    }
 
     @Test
-    public void addUser() throws Exception {
-        AddUserRequest request = new AddUserRequest("guym@guy.com");
-
-        ResponseEntity<User> response = template.exchange(
-                base.toString(),
+    public void addQuestion() throws Exception {
+        AddQuestionRequest request = new AddQuestionRequest(
+                "this is the body",
+                Arrays.asList("answer1", "answer2"),
+                "do it",
+                "life",
+                "guyman",
+                "1"
+        );
+        ResponseEntity<Question> response = template.exchange(
+                base.toString() + "questions/",
                 HttpMethod.POST,
                 new HttpEntity<>(request),
-                new ParameterizedTypeReference<User>() {
+                new ParameterizedTypeReference<Question>() {
                 });
 
-        User actual = response.getBody();
+        Question actual = response.getBody();
 
-        User expected = User.builder()
-                .setId(actual.getId())
-                .setEmail(request.getEmail())
+        Question expected = new Question.Builder()
+                .id(actual.getId())
+                .answerKey(request.getAnswerKey())
+                .body(request.getBody())
+                .instructions(request.getInstructions())
+                .source(request.getSource())
+                .subject(request.getSubject())
+                .version(request.getVersion())
                 .build();
 
         assertEquals(actual, expected);

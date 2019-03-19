@@ -2,13 +2,19 @@ package com.prodigy.api.questions.request;
 
 import com.prodigy.api.common.service.ServiceRequest;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 public class AddQuestionRequest implements ServiceRequest {
 
+    @NotEmpty
     private final String body;
-    private final List<String> answerKey;
+    @NotNull
+    private final List<@NotEmpty String> answerKey;
+    @NotEmpty
     private final String instructions;
+    @NotEmpty
     private final String subject;
     private final String source;
     private final String version; // to reference the parser version
