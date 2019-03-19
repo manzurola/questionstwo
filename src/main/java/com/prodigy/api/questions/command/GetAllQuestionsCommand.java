@@ -1,9 +1,9 @@
-package com.prodigy.api.questions.service.command;
+package com.prodigy.api.questions.command;
 
 import com.prodigy.api.common.service.AbstractCommand;
 import com.prodigy.api.questions.data.QuestionRepository;
-import com.prodigy.api.questions.service.Question;
-import com.prodigy.api.questions.service.request.GetAllQuestionsRequest;
+import com.prodigy.api.questions.Question;
+import com.prodigy.api.questions.request.GetAllQuestionsRequest;
 
 import java.util.List;
 

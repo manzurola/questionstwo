@@ -1,19 +1,21 @@
 package com.prodigy.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
-import com.prodigy.api.common.DataStore;
 import com.prodigy.api.common.ElasticsearchDataStore;
+import com.prodigy.api.common.ElasticsearchDataStoreImpl;
+import com.prodigy.api.common.Id;
+import com.prodigy.api.common.jackson.IdDeserializer;
+import com.prodigy.api.common.jackson.IdSerializer;
 import com.prodigy.api.common.service.ServiceExecutor;
 import com.prodigy.api.common.service.ServiceExecutorImpl;
+import com.prodigy.api.questions.command.AddQuestionCommand;
+import com.prodigy.api.questions.command.GetAllQuestionsCommand;
 import com.prodigy.api.questions.data.ElasticsearchQuestionRepository;
 import com.prodigy.api.questions.data.QuestionRepository;
-import com.prodigy.api.questions.service.command.AddQuestionCommand;
-import com.prodigy.api.questions.service.QuestionService;
-import com.prodigy.api.questions.service.QuestionServiceImpl;
-import com.prodigy.api.questions.service.command.GetAllQuestionsCommand;
-import com.prodigy.api.users.ElasticsearchUserRepository;
-import com.prodigy.api.users.UserRepository;
+import com.prodigy.api.users.data.ElasticsearchUserRepository;
+import com.prodigy.api.users.data.UserRepository;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
@@ -82,8 +84,8 @@ public class Application {
     }
 
     @Bean
-    public DataStore dataStore(TransportClient client, ObjectMapper mapper, ElasticsearchDataStore.Mappings mappings) {
-        return new ElasticsearchDataStore(client, mapper, mappings);
+    public ElasticsearchDataStore dataStore() throws UnknownHostException {
+        return new ElasticsearchDataStoreImpl(transportClient(), objectMapper());
     }
 
     @Bean
@@ -98,12 +100,7 @@ public class Application {
 
     @Bean
     public QuestionRepository questionRepository() throws Exception {
-        return new ElasticsearchQuestionRepository(transportClient(), objectMapper());
-    }
-
-    @Bean
-    public QuestionService questionService() throws Exception {
-        return new QuestionServiceImpl(questionRepository());
+        return new ElasticsearchQuestionRepository(dataStore());
     }
 
     @Bean
@@ -113,7 +110,7 @@ public class Application {
 
     @Bean
     public UserRepository userRepository() throws UnknownHostException {
-        return new ElasticsearchUserRepository(transportClient(), objectMapper());
+        return new ElasticsearchUserRepository(dataStore());
     }
 
     @Bean
@@ -128,17 +125,17 @@ public class Application {
 
     @Bean
     public ObjectMapper objectMapper() {
+
+        SimpleModule module = new SimpleModule();
+        module.addSerializer(Id.class, new IdSerializer());
+        module.addDeserializer(Id.class, new IdDeserializer());
+
         ObjectMapper mapper = new ObjectMapper();
         mapper.registerModule(new ParameterNamesModule());
         mapper.setVisibility(FIELD, ANY);
+        mapper.registerModule(module);
 
         return mapper;
     }
-
-    @Bean
-    public ElasticsearchDataStore.Mappings elasticsearchDataStoreMappings() {
-        return new ElasticsearchDataStore.Mappings();
-    }
-
 
 }

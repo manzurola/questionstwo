@@ -1,14 +1,13 @@
-package com.prodigy.api.questions.controller;
+package com.prodigy.api;
 
 
 import com.prodigy.api.common.service.Result;
 import com.prodigy.api.common.service.ServiceExecutor;
-import com.prodigy.api.questions.service.Question;
-import com.prodigy.api.questions.service.QuestionService;
-import com.prodigy.api.questions.service.command.AddQuestionCommand;
-import com.prodigy.api.questions.service.command.GetAllQuestionsCommand;
-import com.prodigy.api.questions.service.request.AddQuestionRequest;
-import com.prodigy.api.questions.service.request.GetAllQuestionsRequest;
+import com.prodigy.api.questions.Question;
+import com.prodigy.api.questions.command.AddQuestionCommand;
+import com.prodigy.api.questions.command.GetAllQuestionsCommand;
+import com.prodigy.api.questions.request.AddQuestionRequest;
+import com.prodigy.api.questions.request.GetAllQuestionsRequest;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -20,7 +19,8 @@ import java.util.List;
 /**
  * Created by guym on 17/05/2017.
  */
-@RestController("/questions")
+@RestController
+@RequestMapping("/questions")
 public class QuestionController {
 
     private final ServiceExecutor serviceExecutor;
@@ -40,13 +40,13 @@ public class QuestionController {
 //    }
 
     @RequestMapping(method = RequestMethod.GET)
-    public List<Question> getAll() {
+    public List<Question> getAllQuestions() {
         Result<List<Question>> result = serviceExecutor.execute(GetAllQuestionsCommand.class, new GetAllQuestionsRequest());
         return result.payload();
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public Question add(@RequestBody AddQuestionRequest requestBody) {
+    public Question addQuestion(@RequestBody AddQuestionRequest requestBody) {
         Result<Question> result = serviceExecutor.execute(AddQuestionCommand.class, requestBody);
         return result.payload();
     }

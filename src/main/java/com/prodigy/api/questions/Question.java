@@ -1,7 +1,7 @@
-package com.prodigy.api.questions.service;
+package com.prodigy.api.questions;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.prodigy.api.common.EntityFactory;
+import com.prodigy.api.common.Id;
 
 import java.util.List;
 import java.util.Objects;
@@ -11,7 +11,7 @@ import java.util.Objects;
  */
 public class Question {
 
-    private final String id;
+    private final Id<Question> id;
     private final String body;
     private final List<String> answerKey;
     private final String instructions;
@@ -20,7 +20,7 @@ public class Question {
     private final String version; // to reference the parser version
 
     @JsonCreator
-    private Question(String id,
+    private Question(Id<Question> id,
                      String body,
                      List<String> answerKey,
                      String instructions,
@@ -36,7 +36,11 @@ public class Question {
         this.version = version;
     }
 
-    public String getId() {
+    public static Builder builder() {
+        return new Builder();
+    }
+
+    public Id<Question> getId() {
         return id;
     }
 
@@ -84,26 +88,9 @@ public class Question {
         return Objects.hash(id, body, answerKey, instructions, subject, source, version);
     }
 
-    @Override
-    public String toString() {
-        return "Question{" +
-                "id='" + id + '\'' +
-                ", body='" + body + '\'' +
-                ", answerKey=" + answerKey +
-                ", instructions='" + instructions + '\'' +
-                ", subject='" + subject + '\'' +
-                ", source='" + source + '\'' +
-                ", version='" + version + '\'' +
-                '}';
-    }
+    public static class Builder {
 
-    public static Builder builder() {
-        return new Builder();
-    }
-
-    public static class Builder implements EntityFactory<Question> {
-
-        private String id;
+        private Id<Question> id;
         private String body;
         private List<String> answerKey;
         private String instructions;
@@ -112,7 +99,7 @@ public class Question {
         private String version; // to reference the parser version
 
         public Builder() {
-            this.id = nextId();
+            this.id = Id.next();
         }
 
         public Builder(Question question) {
@@ -130,7 +117,7 @@ public class Question {
             return this;
         }
 
-        public Builder id(String id) {
+        public Builder id(Id<Question> id) {
             this.id = id;
             return this;
         }

@@ -1,10 +1,9 @@
-package com.prodigy.api.questions.service.command;
+package com.prodigy.api.questions.command;
 
 import com.prodigy.api.common.service.AbstractCommand;
-import com.prodigy.api.common.service.Command;
 import com.prodigy.api.questions.data.QuestionRepository;
-import com.prodigy.api.questions.service.request.AddQuestionRequest;
-import com.prodigy.api.questions.service.Question;
+import com.prodigy.api.questions.request.AddQuestionRequest;
+import com.prodigy.api.questions.Question;
 
 public class AddQuestionCommand extends AbstractCommand<Question, AddQuestionRequest> {
 

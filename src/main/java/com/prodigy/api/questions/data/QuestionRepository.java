@@ -1,7 +1,8 @@
 package com.prodigy.api.questions.data;
 
 
-import com.prodigy.api.questions.service.Question;
+import com.prodigy.api.common.Id;
+import com.prodigy.api.questions.Question;
 
 import java.util.List;
 
@@ -10,7 +11,7 @@ import java.util.List;
  */
 public interface QuestionRepository {
 
-    Question get(String id) throws Exception;
+    Question get(Id<Question> id) throws Exception;
 
     List<Question> getAll() throws Exception;
 
@@ -20,9 +21,7 @@ public interface QuestionRepository {
 
     void update(Question question) throws Exception;
 
-    void delete(String id) throws Exception;
-
-    void delete(List<String> ids) throws Exception;
+    void delete(Id<Question> id) throws Exception;
 
     List<Question> searchByAnswer(String termsInAnswer) throws Exception;
 

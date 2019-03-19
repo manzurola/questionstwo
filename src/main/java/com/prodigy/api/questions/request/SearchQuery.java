@@ -1,4 +1,4 @@
-package com.prodigy.api.questions;
+package com.prodigy.api.questions.request;
 
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilder;

@@ -1,6 +1,6 @@
-package com.prodigy.api.questions;
+package com.prodigy.api.questions.tools;
 
-import com.prodigy.api.questions.service.Question;
+import com.prodigy.api.questions.Question;
 
 import java.io.Closeable;
 import java.io.IOException;

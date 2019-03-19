@@ -1,14 +1,11 @@
 package com.prodigy.api.questions.data;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.prodigy.api.questions.service.Question;
-import org.elasticsearch.action.search.SearchResponse;
-import org.elasticsearch.client.transport.TransportClient;
-import org.elasticsearch.common.xcontent.XContentType;
+import com.prodigy.api.common.ElasticsearchDataStore;
+import com.prodigy.api.common.Id;
+import com.prodigy.api.questions.Question;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
-import org.elasticsearch.search.SearchHit;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -20,43 +17,26 @@ import java.util.List;
 public class ElasticsearchQuestionRepository implements QuestionRepository {
 
     public static final String index = "questions_en";
-    public static final String mappedType = "question";
-    private final TransportClient client;
-    private final ObjectMapper mapper;
+    public static final String type = "question";
+    private final ElasticsearchDataStore dataStore;
 
-    public ElasticsearchQuestionRepository(TransportClient client, ObjectMapper mapper) {
-        this.client = client;
-        this.mapper = mapper;
+    public ElasticsearchQuestionRepository(ElasticsearchDataStore dataStore) {
+        this.dataStore = dataStore;
     }
 
     @Override
-    public Question get(String id) throws Exception {
-        return mapper.readValue(
-                client.prepareGet(index, mappedType, id)
-                        .get()
-                        .getSourceAsBytes(),
-                Question.class
-        );
+    public Question get(Id<Question> id) throws Exception {
+        return dataStore.get(index, type, id, Question.class);
     }
 
     @Override
     public List<Question> getAll() throws Exception {
-        SearchResponse response = client.prepareSearch(index)
-                .setTypes(mappedType)
-                .get();
-        List<Question> results = new ArrayList<>();
-        for (SearchHit searchHit : response.getHits()) {
-            results.add(mapper.readValue(searchHit.getSourceAsString(), Question.class));
-        }
-
-        return results;
+        return dataStore.getAll(index, type, Question.class);
     }
 
     @Override
     public Question add(Question question) throws Exception {
-        client.prepareIndex(index, mappedType, question.getId())
-                .setSource(mapper.writeValueAsBytes(question), XContentType.JSON)
-                .get();
+        dataStore.add(index, type, question.getId(), question);
         return question;
     }
 
@@ -69,21 +49,12 @@ public class ElasticsearchQuestionRepository implements QuestionRepository {
 
     @Override
     public void update(Question question) throws Exception {
-        client.prepareUpdate(index, mappedType, question.getId())
-                .setDoc(mapper.writeValueAsBytes(question), XContentType.JSON)
-                .get();
+        dataStore.update(index, type, question.getId(), question);
     }
 
     @Override
-    public void delete(String id) throws Exception {
-        client.prepareDelete(index, mappedType, id).get();
-    }
-
-    @Override
-    public void delete(List<String> ids) throws Exception {
-        for (String id : ids) {
-            delete(id);
-        }
+    public void delete(Id<Question> id) throws Exception {
+        dataStore.delete(index, type, id, Question.class);
     }
 
     @Override
@@ -109,14 +80,14 @@ public class ElasticsearchQuestionRepository implements QuestionRepository {
 //    }
 
     private List<Question> search(QueryBuilder query) throws IOException {
-        SearchResponse response = client.prepareSearch(index)
-                .setTypes(mappedType)
-                .setQuery(query)
-                .get();
+//        SearchResponse response = client.prepareSearch(index)
+//                .setTypes(type)
+//                .setQuery(query)
+//                .get();
         List<Question> results = new ArrayList<>();
-        for (SearchHit searchHit : response.getHits()) {
-            results.add(mapper.readValue(searchHit.getSourceAsString(), Question.class));
-        }
+//        for (SearchHit searchHit : response.getHits()) {
+//            results.add(mapper.readValue(searchHit.getSourceAsString(), Question.class));
+//        }
 
         return results;
     }
