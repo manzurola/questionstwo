@@ -1,16 +1,16 @@
 package com.prodigy.api.questions;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.prodigy.api.common.Id;
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
 /**
  * Created by guym on 16/05/2017.
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Question {
 
     private final Id<Question> id;
@@ -89,6 +89,19 @@ public class Question {
         return Objects.hash(id, body, answerKey, instructions, subject, source, version);
     }
 
+    @Override
+    public String toString() {
+        return "Question{" +
+                "id=" + id +
+                ", body='" + body + '\'' +
+                ", answerKey=" + answerKey +
+                ", instructions='" + instructions + '\'' +
+                ", subject='" + subject + '\'' +
+                ", source='" + source + '\'' +
+                ", version='" + version + '\'' +
+                '}';
+    }
+
     public static class Builder {
 
         private Id<Question> id;
@@ -103,21 +116,6 @@ public class Question {
             this.id = Id.next();
         }
 
-        public Builder(Question question) {
-            this.id = question.getId();
-            merge(question);
-        }
-
-        public Builder merge(Question other) {
-            this.body = other.getBody();
-            this.answerKey = other.getAnswerKey();
-            this.instructions = other.getInstructions();
-            this.subject = other.getSubject();
-            this.source = other.getSource();
-            this.version = other.getVersion();
-            return this;
-        }
-
         public Builder id(Id<Question> id) {
             this.id = id;
             return this;
@@ -130,6 +128,11 @@ public class Question {
 
         public Builder answerKey(List<String> answerKey) {
             this.answerKey = answerKey;
+            return this;
+        }
+
+        public Builder answerKey(String... answerKey) {
+            this.answerKey = Arrays.asList(answerKey);
             return this;
         }
 

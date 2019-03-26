@@ -5,6 +5,7 @@ import com.prodigy.api.common.service.ServiceRequest;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.List;
+import java.util.Objects;
 
 public class AddQuestionRequest implements ServiceRequest {
 
@@ -50,5 +51,23 @@ public class AddQuestionRequest implements ServiceRequest {
 
     public String getVersion() {
         return version;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof AddQuestionRequest)) return false;
+        AddQuestionRequest that = (AddQuestionRequest) o;
+        return Objects.equals(body, that.body) &&
+                Objects.equals(answerKey, that.answerKey) &&
+                Objects.equals(instructions, that.instructions) &&
+                Objects.equals(subject, that.subject) &&
+                Objects.equals(source, that.source) &&
+                Objects.equals(version, that.version);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(body, answerKey, instructions, subject, source, version);
     }
 }

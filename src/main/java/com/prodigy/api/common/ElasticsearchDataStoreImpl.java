@@ -2,13 +2,16 @@ package com.prodigy.api.common;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.base.CaseFormat;
-import com.prodigy.api.questions.Question;
+import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.index.IndexRequestBuilder;
+import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.xcontent.XContentType;
+import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.rest.RestStatus;
 import org.elasticsearch.search.SearchHit;
+import org.elasticsearch.search.builder.SearchSourceBuilder;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -26,13 +29,13 @@ public class ElasticsearchDataStoreImpl implements ElasticsearchDataStore {
 
     @Override
     public <T> T get(String index, String type, Id<T> id, Class<T> clazz) {
-        byte[] sourceAsBytes = client.prepareGet(
-                index,
-                type,
-                id.getId()
-        ).get().getSourceAsBytes();
         try {
-            return mapper.readValue(sourceAsBytes, clazz);
+            GetResponse response = client.prepareGet(
+                    index,
+                    type,
+                    id.getId()
+            ).get();
+            return mapper.readValue(response.getSourceAsString(), clazz);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -63,7 +66,8 @@ public class ElasticsearchDataStoreImpl implements ElasticsearchDataStore {
                 id.getId()
         );
         try {
-            requestBuilder.setSource(mapper.writeValueAsBytes(data), XContentType.JSON).get();
+            IndexResponse indexResponse = requestBuilder.setSource(mapper.writeValueAsString(data)).get();
+            RestStatus status = indexResponse.status();
         } catch (JsonProcessingException e) {
             throw new RuntimeException("Failed to add data", e);
         }
@@ -77,6 +81,26 @@ public class ElasticsearchDataStoreImpl implements ElasticsearchDataStore {
     @Override
     public <T> void delete(String index, String type, Id<T> id, Class<T> clazz) {
         client.prepareDelete(index, type, id.getId()).get();
+    }
+
+    @Override
+    public <T> List<T> getByProperty(String index, String type, Class<T> clazz, String propName, Object propValue) {
+        SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
+        sourceBuilder.query(QueryBuilders.matchQuery(propName, propValue));
+
+        SearchResponse response = client.prepareSearch(index)
+                .setTypes(type)
+                .setSource(sourceBuilder)
+                .get();
+        List<T> results = new ArrayList<>();
+        for (SearchHit searchHit : response.getHits()) {
+            try {
+                results.add(mapper.readValue(searchHit.getSourceAsString(), clazz));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return results;
     }
 
 }

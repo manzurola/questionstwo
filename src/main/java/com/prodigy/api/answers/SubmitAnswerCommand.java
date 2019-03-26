@@ -15,9 +15,9 @@ public class SubmitAnswerCommand extends AbstractCommand<Answer, SubmitAnswerReq
     @Override
     protected Answer doExecute(SubmitAnswerRequest request) throws Exception {
         Answer answer = Answer.builder()
-                .setUserId(request.getUserId())
-                .setQuestionId(request.getQuestionId())
-                .setAnswer(request.getAnswer())
+                .userId(request.getUserId())
+                .questionId(request.getQuestionId())
+                .input(request.getAnswer())
                 .build();
         return repository.addAnswer(answer);
     }

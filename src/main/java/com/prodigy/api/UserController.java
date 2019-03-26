@@ -6,9 +6,9 @@ import com.prodigy.api.common.service.Result;
 import com.prodigy.api.common.service.ServiceExecutor;
 import com.prodigy.api.users.User;
 import com.prodigy.api.users.command.AddUserCommand;
-import com.prodigy.api.users.command.GetUserCommand;
 import com.prodigy.api.users.request.AddUserRequest;
 import com.prodigy.api.users.request.GetUserRequest;
+import com.prodigy.api.users.command.GetUserCommand;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,7 +33,6 @@ public class UserController {
         Result<User> result = serviceExecutor.execute(AddUserCommand.class, request);
         return result.payload();
     }
-
 
     @RequestMapping(value = "{userId}", method = RequestMethod.GET)
     public User getUser(@PathVariable Id<User> userId) {

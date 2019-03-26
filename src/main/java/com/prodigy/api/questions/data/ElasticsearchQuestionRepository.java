@@ -37,7 +37,7 @@ public class ElasticsearchQuestionRepository implements QuestionRepository {
     @Override
     public Question add(Question question) throws Exception {
         dataStore.add(index, type, question.getId(), question);
-        return question;
+        return dataStore.get(index, type, question.getId(), Question.class);
     }
 
     @Override
@@ -69,14 +69,14 @@ public class ElasticsearchQuestionRepository implements QuestionRepository {
 //        BoolQueryBuilder boolQuery = new BoolQueryBuilder();
 //        boolQuery.must(QueryBuilders.matchQuery("answerKey", termsInAnswer))
 //                .must(QueryBuilders.matchQuery("subject", termsInSubject));
-//        return search(boolQuery);
+//        return getByProperty(boolQuery);
 //    }
 //
 //    @Override
 //    public List<Question> searchQuestionsBySubject(String termsInSubject) throws Exception {
 //        BoolQueryBuilder boolQuery = new BoolQueryBuilder();
 //        boolQuery.must(QueryBuilders.matchQuery("subject", termsInSubject));
-//        return search(boolQuery);
+//        return getByProperty(boolQuery);
 //    }
 
     private List<Question> search(QueryBuilder query) throws IOException {

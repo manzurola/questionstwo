@@ -2,22 +2,24 @@ package com.prodigy.api.answers;
 
 import com.prodigy.api.common.Id;
 import com.prodigy.api.questions.Question;
+import com.prodigy.api.review.Review;
 import com.prodigy.api.users.User;
 
+import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 public class Answer {
 
-    private Id<Answer> id;
-    private Id<User> userId;
-    private Id<Question> questionId;
-    private String answer;
+    private final Id<Answer> id;
+    private final Id<User> userId;
+    private final Id<Question> questionId;
+    private final String input;
 
-    public Answer(Id<Answer> id, Id<User> userId, Id<Question> questionId, String answer) {
+    public Answer(Id<Answer> id, Id<User> userId, Id<Question> questionId, String input) {
         this.id = id;
         this.userId = userId;
         this.questionId = questionId;
-        this.answer = answer;
+        this.input = input;
     }
 
     public static Builder builder() {
@@ -36,54 +38,55 @@ public class Answer {
         return questionId;
     }
 
-    public String getAnswer() {
-        return answer;
+    public String getInput() {
+        return input;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Answer)) return false;
-        Answer answer1 = (Answer) o;
-        return Objects.equals(id, answer1.id) &&
-                Objects.equals(userId, answer1.userId) &&
-                Objects.equals(questionId, answer1.questionId) &&
-                Objects.equals(answer, answer1.answer);
+        Answer answer = (Answer) o;
+        return Objects.equals(id, answer.id) &&
+                Objects.equals(userId, answer.userId) &&
+                Objects.equals(questionId, answer.questionId) &&
+                Objects.equals(input, answer.input);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, userId, questionId, answer);
+        return Objects.hash(id, userId, questionId, input);
     }
 
     public static class Builder {
         private Id<Answer> id = Id.next();
         private Id<User> userId;
         private Id<Question> questionId;
-        private String answer;
+        private String input;
 
-        public Builder setId(Id<Answer> id) {
+        public Builder id(Id<Answer> id) {
             this.id = id;
             return this;
         }
 
-        public Builder setUserId(Id<User> userId) {
+        public Builder userId(Id<User> userId) {
             this.userId = userId;
             return this;
         }
 
-        public Builder setQuestionId(Id<Question> questionId) {
+        public Builder questionId(Id<Question> questionId) {
             this.questionId = questionId;
             return this;
         }
 
-        public Builder setAnswer(String answer) {
-            this.answer = answer;
+        public Builder input(String input) {
+            this.input = input;
             return this;
         }
 
         public Answer build() {
-            return new Answer(id, userId, questionId, answer);
+            return new Answer(id, userId, questionId, input);
         }
     }
+
 }

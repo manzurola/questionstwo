@@ -1,9 +1,9 @@
 package com.prodigy.api.users.command;
 
 import com.prodigy.api.common.service.AbstractCommand;
+import com.prodigy.api.users.data.UserRepository;
 import com.prodigy.api.users.request.AddUserRequest;
 import com.prodigy.api.users.User;
-import com.prodigy.api.users.data.UserRepository;
 import org.springframework.stereotype.Component;
 
 @Component

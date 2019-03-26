@@ -12,8 +12,6 @@ import com.prodigy.api.common.jackson.IdDeserializer;
 import com.prodigy.api.common.jackson.IdSerializer;
 import com.prodigy.api.common.service.ServiceExecutor;
 import com.prodigy.api.common.service.ServiceExecutorImpl;
-import com.prodigy.api.questions.command.AddQuestionCommand;
-import com.prodigy.api.questions.command.GetAllQuestionsCommand;
 import com.prodigy.api.questions.data.ElasticsearchQuestionRepository;
 import com.prodigy.api.questions.data.QuestionRepository;
 import com.prodigy.api.users.data.ElasticsearchUserRepository;

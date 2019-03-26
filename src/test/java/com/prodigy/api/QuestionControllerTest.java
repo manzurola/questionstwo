@@ -1,9 +1,12 @@
 package com.prodigy.api;
 
+import com.prodigy.api.test.AddQuestionApiCall;
+import com.prodigy.api.test.QuestionUtils;
 import com.prodigy.api.env.EndToEndTest;
 import com.prodigy.api.questions.Question;
 import com.prodigy.api.questions.request.AddQuestionRequest;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -15,6 +18,9 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 
 public class QuestionControllerTest extends EndToEndTest {
+
+    @Autowired
+    private QuestionUtils questionUtils;
 
     @Test
     public void getQuestionsReturnsEmptyList() {
@@ -30,33 +36,24 @@ public class QuestionControllerTest extends EndToEndTest {
 
     @Test
     public void addQuestion() {
-        AddQuestionRequest request = new AddQuestionRequest(
-                "this is the body",
-                Arrays.asList("answer1", "answer2"),
-                "do it",
-                "life",
-                "guyman",
-                "1"
-        );
-        ResponseEntity<Question> response = template.exchange(
-                baseUrl.toString() + "/questions",
-                HttpMethod.POST,
-                new HttpEntity<>(request),
-                new ParameterizedTypeReference<Question>() {
-                });
+
+        AddQuestionRequest request = questionUtils.randomAddQuestionRequest();
+
+        ResponseEntity<Question> response = new AddQuestionApiCall().run(request, template, baseUrl);
 
         Question actual = response.getBody();
 
-        Question expected = new Question.Builder()
-                .id(actual.getId())
-                .answerKey(request.getAnswerKey())
-                .body(request.getBody())
-                .instructions(request.getInstructions())
-                .source(request.getSource())
-                .subject(request.getSubject())
-                .version(request.getVersion())
-                .build();
+        Question expected = questionUtils.newQuestionFromRequest(request).id(actual.getId()).build();
 
-        assertEquals(actual, expected);
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void getQuestion() {
+
+        AddQuestionRequest request = questionUtils.randomAddQuestionRequest();
+        ResponseEntity<Question> response = new AddQuestionApiCall().run(request, template, baseUrl);
+        Question actual = response.getBody();
+
     }
 }

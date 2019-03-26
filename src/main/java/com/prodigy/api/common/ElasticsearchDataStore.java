@@ -13,4 +13,6 @@ public interface ElasticsearchDataStore {
     <T> void update(String index, String type, Id<T> id, T data);
 
     <T> void delete(String index, String type, Id<T> id, Class<T> clazz);
+
+    <T> List<T> getByProperty(String index, String type, Class<T> clazz, String propName, Object propValue);
 }
