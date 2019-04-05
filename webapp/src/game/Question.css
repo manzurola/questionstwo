@@ -1,6 +1,8 @@
 .question {
     /*background-color: red;*/
-    border: #61dafb;
+    /*box-sizing: content-box;*/
+    /*position: relative;*/
+    border: 4px solid rgba(140,58,58,1);
 }
 
 .question.title {
