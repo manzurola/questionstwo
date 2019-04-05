@@ -1,6 +1,5 @@
 package com.prodigy.api.exercises;
 
-import com.prodigy.api.common.Id;
 import com.prodigy.api.common.service.ServiceRequest;
 import com.prodigy.api.questions.Question;
 
@@ -15,12 +14,12 @@ public class AddExerciseRequest implements ServiceRequest {
     private final String title;
     private final String source;
     @NotNull
-    private final List<@NotNull Id<Question>> questionIds;
+    private final List<@NotNull Question> questions;
 
-    public AddExerciseRequest(@NotEmpty String title, String source, @NotNull List<@NotNull Id<Question>> questionIds) {
+    public AddExerciseRequest(@NotEmpty String title, String source, @NotNull List<@NotNull Question> questions) {
         this.title = title;
         this.source = source;
-        this.questionIds = questionIds;
+        this.questions = questions;
     }
 
     public String getTitle() {
@@ -31,8 +30,8 @@ public class AddExerciseRequest implements ServiceRequest {
         return source;
     }
 
-    public List<Id<Question>> getQuestionIds() {
-        return questionIds;
+    public List<Question> getQuestions() {
+        return questions;
     }
 
     @Override
@@ -42,11 +41,11 @@ public class AddExerciseRequest implements ServiceRequest {
         AddExerciseRequest that = (AddExerciseRequest) o;
         return Objects.equals(title, that.title) &&
                 Objects.equals(source, that.source) &&
-                Objects.equals(questionIds, that.questionIds);
+                Objects.equals(questions, that.questions);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(title, source, questionIds);
+        return Objects.hash(title, source, questions);
     }
 }

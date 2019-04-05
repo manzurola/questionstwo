@@ -1,7 +1,6 @@
 package com.prodigy.api.exercises;
 
 import com.prodigy.api.common.service.AbstractCommand;
-import com.prodigy.api.questions.Exercise;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

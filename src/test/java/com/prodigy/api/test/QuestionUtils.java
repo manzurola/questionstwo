@@ -26,10 +26,6 @@ public class QuestionUtils {
     public Question.Builder newQuestionFromRequest(AddQuestionRequest request) {
         return Question.builder()
                 .answerKey(request.getAnswerKey())
-                .body(request.getBody())
-                .instructions(request.getInstructions())
-                .source(request.getSource())
-                .subject(request.getSubject())
-                .version(request.getVersion());
+                .body(request.getBody());
     }
 }

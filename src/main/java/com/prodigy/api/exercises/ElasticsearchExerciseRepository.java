@@ -2,12 +2,10 @@ package com.prodigy.api.exercises;
 
 import com.prodigy.api.common.ElasticsearchDataStore;
 import com.prodigy.api.common.Id;
-import com.prodigy.api.questions.Exercise;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@Component
 public class ElasticsearchExerciseRepository implements ExerciseRepository {
 
     public static final String index = "exercises_en";

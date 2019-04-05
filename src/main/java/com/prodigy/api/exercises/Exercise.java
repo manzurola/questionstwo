@@ -1,6 +1,7 @@
-package com.prodigy.api.questions;
+package com.prodigy.api.exercises;
 
 import com.prodigy.api.common.Id;
+import com.prodigy.api.questions.Question;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,14 +11,12 @@ public class Exercise {
 
     private final Id<Exercise> id;
     private final String title;
-    private final String source;
-    private final List<Id<Question>> questionsIds;
+    private final List<Question> questions;
 
-    public Exercise(Id<Exercise> id, String title, String source, List<Id<Question>> questionsIds) {
+    public Exercise(Id<Exercise> id, String title, List<Question> questions) {
         this.id = id;
         this.title = title;
-        this.source = source;
-        this.questionsIds = questionsIds;
+        this.questions = questions;
     }
 
     public Id<Exercise> getId() {
@@ -28,12 +27,9 @@ public class Exercise {
         return title;
     }
 
-    public String getSource() {
-        return source;
-    }
 
-    public List<Id<Question>> getQuestionsIds() {
-        return questionsIds;
+    public List<Question> getQuestions() {
+        return questions;
     }
 
     @Override
@@ -43,13 +39,12 @@ public class Exercise {
         Exercise exercise = (Exercise) o;
         return Objects.equals(id, exercise.id) &&
                 Objects.equals(title, exercise.title) &&
-                Objects.equals(source, exercise.source) &&
-                Objects.equals(questionsIds, exercise.questionsIds);
+                Objects.equals(questions, exercise.questions);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, source, questionsIds);
+        return Objects.hash(id, title, questions);
     }
 
     @Override
@@ -57,8 +52,7 @@ public class Exercise {
         return "Exercise{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
-                ", source='" + source + '\'' +
-                ", questionsIds=" + questionsIds +
+                ", questions=" + questions +
                 '}';
     }
 
@@ -69,8 +63,7 @@ public class Exercise {
     public static class Builder {
         private Id<Exercise> id= Id.next();
         private String title;
-        private String source;
-        private List<Id<Question>> questionIds = new ArrayList<>();
+        private List<Question> questions = new ArrayList<>();
 
         public Builder id(Id<Exercise> id) {
             this.id = id;
@@ -82,23 +75,18 @@ public class Exercise {
             return this;
         }
 
-        public Builder source(String source) {
-            this.source = source;
+        public Builder questions(List<Question> questions) {
+            this.questions = questions;
             return this;
         }
 
-        public Builder addQuestion(Id<Question> questionId) {
-            questionIds.add(questionId);
-            return this;
-        }
-
-        public Builder questions(List<Id<Question>> questionIds) {
-            this.questionIds = questionIds;
+        public Builder addQuestion(Question question) {
+            this.questions.add(question);
             return this;
         }
 
         public Exercise build() {
-            return new Exercise(id, title, source, questionIds);
+            return new Exercise(id, title, questions);
         }
     }
 }

@@ -2,7 +2,7 @@ package com.prodigy.api;
 
 import com.prodigy.api.env.EndToEndTest;
 import com.prodigy.api.exercises.AddExerciseRequest;
-import com.prodigy.api.questions.Exercise;
+import com.prodigy.api.exercises.Exercise;
 import com.prodigy.api.questions.Question;
 import com.prodigy.api.questions.request.AddQuestionRequest;
 import com.prodigy.api.test.AddQuestionApiCall;
@@ -53,7 +53,7 @@ public class ExerciseControllerTest extends EndToEndTest {
         AddExerciseRequest addExerciseRequest = new AddExerciseRequest(
                 "Put the sentences into the plural",
                 "no source",
-                questions.stream().map(question -> question.getId()).collect(Collectors.toList())
+                questions
         );
         ResponseEntity<Exercise> response = template.exchange(
                 baseUrl.toString() + "/exercises",
@@ -71,7 +71,7 @@ public class ExerciseControllerTest extends EndToEndTest {
     }
 
     @Test
-    public void getQuestion() {
+    public void getAllExercises() {
 
         AddQuestionRequest request = questionUtils.randomAddQuestionRequest();
         ResponseEntity<Question> response = new AddQuestionApiCall().run(request, template, baseUrl);

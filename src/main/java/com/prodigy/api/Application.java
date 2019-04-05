@@ -12,7 +12,12 @@ import com.prodigy.api.common.jackson.IdDeserializer;
 import com.prodigy.api.common.jackson.IdSerializer;
 import com.prodigy.api.common.service.ServiceExecutor;
 import com.prodigy.api.common.service.ServiceExecutorImpl;
+import com.prodigy.api.exercises.ExerciseRepository;
+import com.prodigy.api.exercises.InMemoryExerciseRepository;
+import com.prodigy.api.exercises.utils.CSVExerciseReader;
+import com.prodigy.api.exercises.utils.ExerciseReader;
 import com.prodigy.api.questions.data.ElasticsearchQuestionRepository;
+import com.prodigy.api.questions.data.InMemoryQuestionRepository;
 import com.prodigy.api.questions.data.QuestionRepository;
 import com.prodigy.api.users.data.ElasticsearchUserRepository;
 import com.prodigy.api.users.data.UserRepository;
@@ -29,8 +34,11 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.env.Environment;
 
+import java.io.File;
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import static com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility.ANY;
@@ -90,7 +98,20 @@ public class Application {
 
     @Bean
     public QuestionRepository questionRepository() throws Exception {
-        return new ElasticsearchQuestionRepository(dataStore());
+        return new InMemoryQuestionRepository(new ArrayList<>());
+    }
+
+    @Bean
+    public ExerciseRepository exerciseRepository(ExerciseReader reader) throws Exception {
+        return new InMemoryExerciseRepository(reader.readAll());
+    }
+
+    @Bean
+    public ExerciseReader exerciseReader() throws IOException {
+        return new CSVExerciseReader(
+                new File(this.getClass().getClassLoader().getResource("en-data-exercises.csv").getFile()),
+                new File(this.getClass().getClassLoader().getResource("en-data-questions.csv").getFile())
+        );
     }
 
     @Bean

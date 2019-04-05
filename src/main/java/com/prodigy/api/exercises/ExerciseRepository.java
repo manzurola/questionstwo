@@ -2,8 +2,6 @@ package com.prodigy.api.exercises;
 
 
 import com.prodigy.api.common.Id;
-import com.prodigy.api.questions.Exercise;
-import com.prodigy.api.questions.Question;
 
 import java.util.List;
 
