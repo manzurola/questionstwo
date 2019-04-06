@@ -4,7 +4,7 @@ import "./ExerciseTitleBar.css";
 export class ExerciseTitleBar extends Component {
     render() {
         return (
-            <div className={"bar"}>
+            <div className={"ExerciseTitleBar"}>
                 <p>{this.props.text}</p>
             </div>
         );

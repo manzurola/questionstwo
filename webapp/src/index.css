@@ -1,19 +1,22 @@
 body {
   margin: 0;
   padding: 0;
+  transition: all .301s cubic-bezier(0.42,0,.58,1) 10ms;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
     "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  /*top:0;*/
-  /*bottom:0;*/
-  /*left:0;*/
-  /*right:0;*/
-  /*position: absolute;*/
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+}
+
+html {
+  overflow-x: hidden;
+  width: 100%;
 }

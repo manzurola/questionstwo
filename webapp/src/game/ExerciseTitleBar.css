@@ -1,4 +1,7 @@
-.bar {
-    display: inline-block;
-    position: relative;
+.ExerciseTitleBar {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    text-align: center;
+
+    margin: auto;
+    /*margin: 0 10px;*/
 }

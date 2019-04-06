@@ -3,6 +3,8 @@ import React, {Component} from 'react';
 import axios from "axios";
 import {Question} from "./Question";
 import {ExerciseTitleBar} from "./ExerciseTitleBar";
+import Input from "./Input";
+import diff from "./diff";
 
 const baseUrl = 'http://localhost:3000';
 
@@ -15,9 +17,12 @@ class Game extends Component {
             exercises: [],
             exerciseIndex: 0,
             questionIndex: 0,
+            rows: [],
             input: '',
-            loadingData: true
-        }
+            loadingData: true,
+        };
+
+        this.onSubmit = this.onSubmit.bind(this);
     }
 
     componentDidMount() {
@@ -25,24 +30,43 @@ class Game extends Component {
     }
 
     render() {
-        return <div className={"game"}>
-            {this.getExerciseTitle()}
-            {this.getQuestion()}
+        return <div className={"Game"}>
+            <div className={"Game-row-wrapper"}>
+                <div className={"Game-row"}>
+                    {this.renderExerciseTitle()}
+                </div>
+                <div className={"Game-row"}>
+                    {this.renderQuestion()}
+                </div>
+            </div>
+            <Input onSubmit={this.onSubmit}/>
         </div>
     }
 
-    getExerciseTitle() {
+    renderExerciseTitle() {
         if (this.state.loadingData) {
             return <ExerciseTitleBar/>;
         }
         return <ExerciseTitleBar text={this.state.exercises[this.state.exerciseIndex].title}/>
     }
 
-    getQuestion() {
+    renderQuestion() {
         if (this.state.loadingData) {
             return <Question/>;
         }
         return <Question {...this.state.exercises[this.state.exerciseIndex].questions[this.state.questionIndex]}/>
+    }
+
+    renderRows() {
+        if (this.state.loadingData) return [];
+        return ([
+            <div className={"Game-row"}>
+                <ExerciseTitleBar text={this.state.exercises[this.state.exerciseIndex].title}/>
+            </div>,
+            <div className={"Game-row"}>
+                <Question {...this.state.exercises[this.state.exerciseIndex].questions[this.state.questionIndex]}/>
+            </div>
+        ])
     }
 
     fetchExercises() {
@@ -55,15 +79,28 @@ class Game extends Component {
             .catch(error => console.log(error));
     }
 
+    loadNextExercise() {
+        this.setState({
+            rows: this.state.rows.push(this.renderExerciseTitle())
+        })
+    }
+
     onAnswerChange(txt) {
         this.setState({
             answer: txt
         }, console.log(txt))
     }
 
-    onSubmit() {
-        console.log(this.state.answer);
-        // post(baseUrl + '/review')
+    onSubmit(input) {
+        console.log('submitted ' + input);
+        this.reviewAnswer(input);
+    }
+
+    reviewAnswer(input) {
+        let question = this.state.exercises[this.state.exerciseIndex].questions[this.state.questionIndex];
+        for (let answer of question.answerKey) {
+            console.log(diff(input, answer));
+        }
     }
 
 }
@@ -71,14 +108,6 @@ class Game extends Component {
 class Answer extends Component {
     render() {
         return <div className={"answer"}>
-            <p>{this.state.input}</p>
-        </div>
-    }
-}
-
-class Input extends Component {
-    render() {
-        return <div className={"input"}>
             <p>{this.state.input}</p>
         </div>
     }
