@@ -1,0 +1,25 @@
+.question {
+    position: relative;
+    height: 250pt;
+    width: 400pt;
+    border-radius: 40pt;
+    box-shadow: 0 1pt 2pt 0 rgba(0,0,0,0.5) ;
+}
+
+.question-title {
+    position: absolute;
+    top: 50pt;
+    left: 75pt;
+    font-size: 24pt;
+    font-weight: bold;
+}
+
+.question-input {
+    position: absolute;
+    /*margin: 50pt 25pt 50pt 75pt;*/
+    bottom: 50pt;
+    left: 75pt;
+    font-size: 24pt;
+    font-weight: bold;
+    width: 250pt;
+}

@@ -3,7 +3,6 @@ import React, {Component} from 'react';
 import axios from "axios";
 import {Question} from "./Question";
 import {ExerciseTitleBar} from "./ExerciseTitleBar";
-import Input from "./Input";
 import diff from "./diff";
 
 const baseUrl = 'http://localhost:3000';
@@ -39,7 +38,6 @@ class Game extends Component {
                     {this.renderQuestion()}
                 </div>
             </div>
-            <Input onSubmit={this.onSubmit}/>
         </div>
     }
 

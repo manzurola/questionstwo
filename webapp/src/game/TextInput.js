@@ -5,7 +5,9 @@ export class TextInput extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {value: ''};
+        this.state = {
+            value: '',
+        };
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -22,9 +24,16 @@ export class TextInput extends Component {
 
     render() {
         return (
-            <form onSubmit={this.handleSubmit}>
-                <input autoFocus type="text" value={this.state.value} onChange={this.handleChange} />
-                <input type="submit" value="Submit" />
+            <form className={'TextInput'} onSubmit={this.handleSubmit}>
+                <input className={'TextInput-input'}
+                       autoFocus
+                       type="text"
+                       value={this.props.value}
+                       placeholder={this.props.placeholder}
+                       onChange={this.handleChange} />
+                <input className={'TextInput-submit'}
+                       type="submit"
+                       value="Submit" />
             </form>
         );
     }
