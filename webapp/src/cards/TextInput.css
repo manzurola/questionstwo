@@ -1,5 +1,22 @@
 .textinput {
+    font-size: 14pt;
     position: relative;
     border-bottom: 2pt solid rgba(128,122,127,0.94);
     width: 100%;
+}
+
+.textinput-label {
+    color: black;
+}
+
+.textinput-label.focus {
+    transform: translate(0, -1rem);
+    transform-origin: top left;
+    color: gray;
+}
+
+.textinput-label.disabled {
+    transform: translate(0, -1rem);
+    transform-origin: top left;
+    color: yellow;
 }

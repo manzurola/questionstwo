@@ -9,6 +9,7 @@ export class Question extends Component {
         this.state = {
             answer: '',
             submitted: false,
+            reviewed: false
         };
     }
 
@@ -44,7 +45,8 @@ export class Question extends Component {
 
     answerWasSubmitted = (event) => {
         this.setState({submitted: true}, () => {
-            if(this.props.onSubmit) this.props.onSubmit(event);
+            if(this.props.onSubmit) this.props.onSubmit({answer: this.state.answer});
+            this.setState({reviewed: true});
         });
     };
 

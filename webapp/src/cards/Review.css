@@ -1,0 +1,47 @@
+.question {
+    position: relative;
+    height: 250pt;
+    width: 400pt;
+    border-radius: 40pt;
+    box-shadow: 0 1pt 2pt 0 rgba(0,0,0,0.5) ;
+}
+
+.question-title {
+    position: absolute;
+    top: 50pt;
+    left: 75pt;
+    font-size: 24pt;
+    font-weight: bold;
+}
+
+.question-input {
+    position: absolute;
+    /*margin: 50pt 25pt 50pt 75pt;*/
+    bottom: 50pt;
+    left: 75pt;
+    font-size: 12pt;
+    font-weight: bold;
+    width: 250pt;
+}
+
+.question-input-label {
+    transform: translate(0, -1rem);
+    transform-origin: top left;
+    color: gray;
+}
+
+.question-input-reviewed-correct {
+    line-height: 2;
+    border-bottom: 2px solid green;
+}
+
+.question-input-reviewed-correct-icon {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    color: green;
+}
+
+.question-input-reviewed-mistake {
+    border-bottom: 2px solid red;
+}

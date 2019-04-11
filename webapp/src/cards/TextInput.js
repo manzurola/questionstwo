@@ -28,6 +28,7 @@ export class TextInput extends Component {
             isAccepting: true,
             value: '',
             disabled: false,
+            focused: false,
         };
 
     }
@@ -37,17 +38,44 @@ export class TextInput extends Component {
         return <TextField
             id="standard-textarea"
             label="Put the sentence into the plural"
-            placeholder="Type something"
             multiline
             autoFocus={this.props.autoFocus}
             className={"textinput"}
             onChange={(event) => this.onChange(event)}
             value={this.state.value}
             disabled={this.state.disabled}
+            onFocus={this.onFocus}
+            onBlur={this.onBlur}
+            InputLabelProps={{
+                classes: {
+                    root: "textinput-label",
+                    focused: "focus",
+                    disabled: "disabled",
+                    // shrink: "textinput-label-focus",
+                },
+                FormLabelClasses: {
+                    // root: "textinput-label-focus",
+                    // shrink: "textinput-label-focus",
+                }
+            }}
 
             // margin="normal"
         />
     }
+
+    onFocus = (event) => {
+        console.log(event);
+        this.setState({
+            focused: true,
+        })
+    };
+
+    onBlur = (event) => {
+        console.log(event);
+        this.setState({
+            focused: false,
+        })
+    };
 
     onChange(event) {
         console.log(event);
