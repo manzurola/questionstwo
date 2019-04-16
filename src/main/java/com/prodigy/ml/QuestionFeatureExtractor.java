@@ -35,8 +35,8 @@ public class QuestionFeatureExtractor implements FeatureExtractor<Question> {
         );
 
         List<TaggedWord> taggedDiff = tagDiff(wordDiff, sourceWords, targetWords);
-        System.out.println(wordDiff);
-        System.out.println(taggedDiff);
+//        System.out.println(wordDiff);
+//        System.out.println(taggedDiff);
 
         return new FeatureVector<>(calcVector(wordDiff, taggedDiff), question);
     }

@@ -1,6 +1,5 @@
 package com.prodigy.api;
 
-import com.google.common.io.Files;
 import com.opencsv.CSVWriter;
 import com.prodigy.api.questions.Question;
 import com.prodigy.api.questions.request.AddQuestionRequest;
@@ -9,25 +8,39 @@ import com.prodigy.api.test.AddQuestionRequestReader;
 import com.prodigy.api.test.QuestionUtils;
 import com.prodigy.ml.FeatureVector;
 import com.prodigy.ml.QuestionFeatureExtractor;
-import com.prodigy.ml.QuestionParse;
-import com.prodigy.nlp.*;
+import com.prodigy.nlp.POS;
+import com.prodigy.nlp.StanfordSentenceParser;
 import com.prodigy.nlp.diff.DMPTextDiffCalculator;
 import edu.stanford.nlp.ling.HasWord;
 import edu.stanford.nlp.ling.TaggedWord;
 import edu.stanford.nlp.parser.nndep.DependencyParser;
-import edu.stanford.nlp.pipeline.CoreDocument;
 import edu.stanford.nlp.process.DocumentPreprocessor;
 import edu.stanford.nlp.tagger.maxent.MaxentTagger;
 import edu.stanford.nlp.trees.GrammaticalStructure;
 import edu.stanford.nlp.trees.TypedDependency;
 import name.fraser.neil.plaintext.diff_match_patch;
+import org.apache.commons.math3.ml.clustering.CentroidCluster;
+import org.apache.commons.math3.ml.clustering.Clusterable;
+import org.apache.commons.math3.ml.clustering.KMeansPlusPlusClusterer;
+import org.apache.commons.math3.ml.distance.DistanceMeasure;
+import org.apache.commons.math3.ml.distance.EuclideanDistance;
+import org.apache.commons.math3.ml.distance.ManhattanDistance;
+import org.apache.commons.math3.random.RandomGenerator;
+import org.apache.spark.SparkConf;
+import org.apache.spark.api.java.JavaRDD;
+import org.apache.spark.api.java.JavaSparkContext;
+import org.apache.spark.mllib.clustering.KMeans;
+import org.apache.spark.mllib.clustering.KMeansModel;
+import org.apache.spark.mllib.linalg.Vector;
+import org.apache.spark.mllib.linalg.Vectors;
 import org.junit.Test;
 
-import java.io.*;
-import java.nio.charset.Charset;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.StringReader;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import java.util.stream.IntStream;
 
 public class SentenceParseTest {
 
@@ -96,6 +109,8 @@ public class SentenceParseTest {
         }
 
         writer.close();
+
+
     }
 
     //    private Clusterable clusterable(Question question, MaxentTagger tagger, DependencyParser parser, diff_match_patch dmp) {
@@ -117,6 +132,184 @@ public class SentenceParseTest {
 //
 //    }
 
+    @Test
+    public void testSpark() throws IOException {
+        SparkConf conf = new SparkConf().setAppName("JavaKMeansExample")
+                .setMaster("local[2]")
+                .set("spark.executor.memory", "3g")
+                .set("spark.driver.memory", "3g");
+
+        JavaSparkContext jsc = new JavaSparkContext(conf);
+
+        // Load and parse data
+        String path = "data_features.csv";
+        JavaRDD<String> data = jsc.textFile(path);
+        JavaRDD parsedData = data.map(s -> {
+            String[] sarray = s.split(",");
+            double[] values = new double[sarray.length];
+            for (int i = 0; i < sarray.length; i++) {
+                values[i] = Double.parseDouble(sarray[i].replaceAll("^\"|\"$", ""));
+            }
+            return Vectors.dense(values);
+        });
+        parsedData.cache();
+
+
+        // Cluster the data into three classes using KMeans
+        int numClusters = 10;
+        int numIterations = 10000;
+        KMeansModel clusters = KMeans.train(parsedData.rdd(), numClusters, numIterations);
+
+        System.out.println("\n*****Training*****");
+        int clusterNumber = 0;
+        for (Vector center : clusters.clusterCenters()) {
+            System.out.println("Cluster center for Clsuter " + (clusterNumber++) + " : " + center);
+        }
+        double cost = clusters.computeCost(parsedData.rdd());
+        System.out.println("\nCost: " + cost);
+
+        // Evaluate clustering by computing Within Set Sum of Squared Errors
+        double WSSSE = clusters.computeCost(parsedData.rdd());
+        System.out.println("Within Set Sum of Squared Errors = " + WSSSE);
+
+//        try {
+//            FileUtils.forceDelete(new File("KMeansModel"));
+//            System.out.println("\nDeleting old model completed.");
+//        } catch (FileNotFoundException e1) {
+//        } catch (IOException e) {
+//        }
+//
+//        // Save and load model
+//        clusters.save(jsc.sc(), "KMeansModel");
+//        System.out.println("\rModel saved to KMeansModel/");
+//        KMeansModel sameModel = KMeansModel.load(jsc.sc(),
+//                "KMeansModel");
+//
+//        // prediction for test vectors
+
+        String modelPath = DependencyParser.DEFAULT_MODEL;
+        String taggerPath = "edu/stanford/nlp/models/pos-tagger/english-left3words/english-left3words-distsim.tagger";
+        MaxentTagger tagger = new MaxentTagger(taggerPath);
+        DependencyParser parser = DependencyParser.loadFromModelFile(modelPath);
+
+        QuestionFeatureExtractor featureExtractor = new QuestionFeatureExtractor(
+                new StanfordSentenceParser(tagger, parser),
+                new DMPTextDiffCalculator()
+        );
+
+
+        QuestionUtils questionUtils = new QuestionUtils();
+        List<AddQuestionRequest> requests = reader.readAll();
+        for (AddQuestionRequest request : requests) {
+            Question.Builder builder = questionUtils.newQuestionFromRequest(request);
+            Question question = builder.build();
+            FeatureVector<Question> features = featureExtractor.extract(question);
+            clusters.predict(Vectors.dense(features.getPoint()));
+        }
+
+        jsc.stop();
+    }
+
+    private static class ClusterableWrapper<T> implements Clusterable {
+
+        private final FeatureVector<T> vector;
+
+        private ClusterableWrapper(FeatureVector<T> vector) {
+            this.vector = vector;
+        }
+
+        public FeatureVector<T> getVector() {
+            return vector;
+        }
+
+        @Override
+        public double[] getPoint() {
+            return vector.getPoint();
+        }
+    }
+
+    @Test
+    public void testCommonsCluster() throws IOException {
+        // initialize a new clustering algorithm.
+// we use KMeans++ with 10 clusters and 10000 iterations maximum.
+// we did not specify a distance measure; the default (euclidean distance) is used.
+
+        String modelPath = DependencyParser.DEFAULT_MODEL;
+        String taggerPath = "edu/stanford/nlp/models/pos-tagger/english-left3words/english-left3words-distsim.tagger";
+        MaxentTagger tagger = new MaxentTagger(taggerPath);
+        DependencyParser parser = DependencyParser.loadFromModelFile(modelPath);
+
+        QuestionFeatureExtractor featureExtractor = new QuestionFeatureExtractor(
+                new StanfordSentenceParser(tagger, parser),
+                new DMPTextDiffCalculator()
+        );
+
+
+        QuestionUtils questionUtils = new QuestionUtils();
+        LinkedList<AddQuestionRequest> requests = new LinkedList<>(reader.readAll());
+        requests.poll();
+
+        List<FeatureVector<Question>> vectors = new ArrayList<>();
+        for (AddQuestionRequest request : requests) {
+            Question.Builder builder = questionUtils.newQuestionFromRequest(request);
+            Question question = builder.build();
+            FeatureVector<Question> features = featureExtractor.extract(question);
+            vectors.add(features);
+        }
+
+        DistanceMeasure distance = new ManhattanDistance();
+        KMeansPlusPlusClusterer<ClusterableWrapper> clusterer = new KMeansPlusPlusClusterer<>(20, 10000, distance);
+        List<CentroidCluster<ClusterableWrapper>> clusterResults = clusterer.cluster(vectors
+                .stream()
+                .map(ClusterableWrapper::new)
+                .collect(Collectors.toList()));
+        for (int i = 0; i < clusterResults.size(); i++) {
+            CentroidCluster<ClusterableWrapper> cluster = clusterResults.get(i);
+            System.out.println("Cluster " + i + ": " + Arrays.toString(cluster.getCenter().getPoint()));
+        }
+
+        List<Question> realAnswers = vectors.stream().map(FeatureVector::getData).collect(Collectors.toList());
+
+        for (Question realAnswer : realAnswers) {
+            FeatureVector<Question> vector = featureExtractor.extract(realAnswer);
+            ClusterableWrapper<Question> input = new ClusterableWrapper<>(vector);
+            double topScore = Integer.MAX_VALUE;
+            int closest = 0;
+            for (int i = 0; i <  clusterResults.size(); i++) {
+                CentroidCluster<ClusterableWrapper> cluster = clusterResults.get(i);
+                Clusterable center = cluster.getCenter();
+                if (center.getPoint().length > 0) {
+                    double compute = distance.compute(input.getVector().getPoint(), center.getPoint());
+                    if (compute < topScore) {
+                        topScore = compute;
+                        closest = i;
+                    }
+//                    System.out.println("Distance from center " + i + " is " + compute);
+                } else {
+                    System.out.println("Empty cluster " + i);
+                }
+            }
+
+            CentroidCluster<ClusterableWrapper> clusterMatch = clusterResults.get(closest);
+            IntStream ints = new Random().ints(0, clusterMatch.getPoints().size());
+            List<Question> matches = clusterMatch.getPoints()
+                    .stream()
+                    .map(clusterableWrapper -> (Question)clusterableWrapper.getVector().getData())
+                    .collect(Collectors.toList());
+            Question match1 = matches.get(0);
+//            Question match2 = (Question)clusterMatch.getPoints().get(ints.findAny().getAsInt()).getVector().getData();
+//            Question match3 = (Question)clusterMatch.getPoints().get(ints.findAny().getAsInt()).getVector().getData();
+
+
+            System.out.println(String.format("Actual: source: '%s', target: '%s'", realAnswer.getBody(), realAnswer.getAnswerKey().get(0)));
+            System.out.println(String.format("  Best match with score of [%4.3f]", topScore));
+            System.out.println(String.format("  Match 1: source: '%s', target: '%s'", match1.getBody(), match1.getAnswerKey().get(0)));
+//            System.out.println(String.format("  Match 2: source: '%s', target: '%s'", match2.getBody(), match2.getAnswerKey().get(0)));
+//            System.out.println(String.format("  Match 3: source: '%s', target: '%s'", match3.getBody(), match3.getAnswerKey().get(0)));
+        }
+
+
+    }
 
     @Test
     public void cluster() {
@@ -226,58 +419,58 @@ public class SentenceParseTest {
 
     }
 
-    @Test
-    public void parse() throws IOException {
-        BufferedWriter writer = Files.newWriter(new File("parsed_questions.txt"), Charset.defaultCharset());
-        List<AddQuestionRequest> requests = reader.readAll();
-        StanfordNlpClient nlpClient = nlpClientFactory.create();
-        CoreDocument document;
-        AddQuestionRequest request;
-        for (int i = 0; i < requests.size(); i++) {
-            request = requests.get(i);
-            document = nlpClient.annotate(request.getBody());
-
-
-            writer.write(String.format("[%d] --- %s", i, request.getInstructions()));
-            writer.newLine();
-            writer.write("-body");
-            writer.newLine();
-            writer.write(request.getBody());
-            writer.newLine();
-            writer.write("-body.postags");
-            writer.newLine();
-            writer.write(Arrays.toString(nlpClient.posTags(document).toArray()));
-            writer.newLine();
-            writer.write("-body.dependencies");
-            writer.newLine();
-            writer.write(nlpClient.dependencyGraph(document).toString());
-            writer.newLine();
-
-            for (int j = 0; j < request.getAnswerKey().size(); j++) {
-                String answer = request.getAnswerKey().get(j);
-                document = nlpClient.annotate(answer);
-
-                String key = "--answer_" + j;
-
-                writer.write(key);
-                writer.newLine();
-                writer.write(answer);
-                writer.newLine();
-                writer.write(key + ".postags");
-                writer.newLine();
-                writer.write(Arrays.toString(nlpClient.posTags(document).toArray()));
-                writer.newLine();
-                writer.write(key + ".dependencies");
-                writer.newLine();
-                writer.write(nlpClient.dependencyGraph(document).toString());
-                writer.newLine();
-            }
-
-            writer.newLine();
-            writer.newLine();
-        }
-
-        writer.close();
-    }
+//    @Test
+//    public void parse() throws IOException {
+//        BufferedWriter writer = Files.newWriter(new File("parsed_questions.txt"), Charset.defaultCharset());
+//        List<AddQuestionRequest> requests = reader.readAll();
+//        StanfordNlpClient nlpClient = nlpClientFactory.create();
+//        CoreDocument document;
+//        AddQuestionRequest request;
+//        for (int i = 0; i < requests.size(); i++) {
+//            request = requests.get(i);
+//            document = nlpClient.annotate(request.getBody());
+//
+//
+//            writer.write(String.format("[%d] --- %s", i, request.getInstructions()));
+//            writer.newLine();
+//            writer.write("-body");
+//            writer.newLine();
+//            writer.write(request.getBody());
+//            writer.newLine();
+//            writer.write("-body.postags");
+//            writer.newLine();
+//            writer.write(Arrays.toString(nlpClient.posTags(document).toArray()));
+//            writer.newLine();
+//            writer.write("-body.dependencies");
+//            writer.newLine();
+//            writer.write(nlpClient.dependencyGraph(document).toString());
+//            writer.newLine();
+//
+//            for (int j = 0; j < request.getAnswerKey().size(); j++) {
+//                String answer = request.getAnswerKey().get(j);
+//                document = nlpClient.annotate(answer);
+//
+//                String key = "--answer_" + j;
+//
+//                writer.write(key);
+//                writer.newLine();
+//                writer.write(answer);
+//                writer.newLine();
+//                writer.write(key + ".postags");
+//                writer.newLine();
+//                writer.write(Arrays.toString(nlpClient.posTags(document).toArray()));
+//                writer.newLine();
+//                writer.write(key + ".dependencies");
+//                writer.newLine();
+//                writer.write(nlpClient.dependencyGraph(document).toString());
+//                writer.newLine();
+//            }
+//
+//            writer.newLine();
+//            writer.newLine();
+//        }
+//
+//        writer.close();
+//    }
 
 }
