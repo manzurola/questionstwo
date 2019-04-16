@@ -5,14 +5,20 @@ import java.util.Objects;
 
 public class Sentence {
 
-    private final List<Word> words;
+    private final List<TaggedWord> words;
+    private final List<GrammaticalRelation> relations;
 
-    public Sentence(List<Word> words) {
+    public Sentence(List<TaggedWord> words, List<GrammaticalRelation> relations) {
         this.words = words;
+        this.relations = relations;
     }
 
-    public List<Word> getWords() {
+    public List<TaggedWord> getWords() {
         return words;
+    }
+
+    public List<GrammaticalRelation> getRelations() {
+        return relations;
     }
 
     @Override
@@ -26,5 +32,13 @@ public class Sentence {
     @Override
     public int hashCode() {
         return Objects.hash(words);
+    }
+
+    @Override
+    public String toString() {
+        return "Sentence{" +
+                "words=" + words +
+                ", relations=" + relations +
+                '}';
     }
 }

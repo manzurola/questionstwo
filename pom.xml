@@ -71,9 +71,9 @@
             <version>25.1-jre</version>
         </dependency>
         <dependency>
-            <groupId>google-diff-match-patch</groupId>
-            <artifactId>google-diff-match-patch</artifactId>
-            <version>0.1</version>
+            <groupId>diff_match_patch</groupId>
+            <artifactId>diff_match_patch</artifactId>
+            <version>current</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/edu.stanford.nlp/stanford-corenlp -->
         <dependency>
@@ -86,6 +86,11 @@
             <artifactId>stanford-corenlp</artifactId>
             <version>3.9.2</version>
             <classifier>models</classifier>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-math3</artifactId>
+            <version>3.6</version>
         </dependency>
 
         <dependency>

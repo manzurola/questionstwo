@@ -4,5 +4,5 @@ import java.util.List;
 
 public interface POSTagger {
 
-    List<TaggedWord> tagSentence(List<Word> sentence);
+    List<TaggedWord> tagSentence(String text);
 }

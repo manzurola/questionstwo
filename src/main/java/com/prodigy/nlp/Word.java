@@ -10,7 +10,7 @@ public class Word {
         this.value = value;
     }
 
-    public String getWord() {
+    public String word() {
         return value;
     }
 
@@ -25,5 +25,12 @@ public class Word {
     @Override
     public int hashCode() {
         return Objects.hash(value);
+    }
+
+    @Override
+    public String toString() {
+        return "Word{" +
+                "value='" + value + '\'' +
+                '}';
     }
 }

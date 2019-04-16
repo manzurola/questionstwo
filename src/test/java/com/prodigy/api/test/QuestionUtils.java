@@ -14,9 +14,17 @@ public class QuestionUtils {
     private final AddQuestionRequestReader reader;
     private final List<AddQuestionRequest> requests;
 
+    public QuestionUtils() throws IOException {
+        this(new AddQuestionRequestCSVReader());
+    }
+
     public QuestionUtils(AddQuestionRequestReader reader) throws IOException {
         this.reader = reader;
         requests = reader.readAll();
+    }
+
+    public List<AddQuestionRequest> getQuestions() {
+        return requests;
     }
 
     public AddQuestionRequest randomAddQuestionRequest() {
