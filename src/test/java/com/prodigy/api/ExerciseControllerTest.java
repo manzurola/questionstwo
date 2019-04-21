@@ -7,7 +7,7 @@ import com.prodigy.api.questions.Question;
 import com.prodigy.api.questions.request.AddQuestionRequest;
 import com.prodigy.api.test.AddQuestionApiCall;
 import com.prodigy.api.test.ExerciseUtils;
-import com.prodigy.api.test.QuestionUtils;
+import com.prodigy.api.questions.utils.QuestionUtils;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
@@ -18,7 +18,6 @@ import org.springframework.http.ResponseEntity;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static org.junit.Assert.assertEquals;
 

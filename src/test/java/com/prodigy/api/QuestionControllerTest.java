@@ -1,7 +1,7 @@
 package com.prodigy.api;
 
 import com.prodigy.api.test.AddQuestionApiCall;
-import com.prodigy.api.test.QuestionUtils;
+import com.prodigy.api.questions.utils.QuestionUtils;
 import com.prodigy.api.env.EndToEndTest;
 import com.prodigy.api.questions.Question;
 import com.prodigy.api.questions.request.AddQuestionRequest;

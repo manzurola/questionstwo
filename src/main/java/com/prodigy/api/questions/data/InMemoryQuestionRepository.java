@@ -52,6 +52,7 @@ public class InMemoryQuestionRepository implements QuestionRepository {
     @Override
     public void update(Question question) throws Exception {
         Question target = get(question.getId());
+        // TODO fix bug
         data.put(question.getId(), question);
     }
 

@@ -9,6 +9,7 @@ import edu.stanford.nlp.trees.TypedDependency;
 
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class StanfordSentenceParser implements SentenceParser {
@@ -23,8 +24,12 @@ public class StanfordSentenceParser implements SentenceParser {
 
     @Override
     public Sentence parse(String sentence) {
-        List<HasWord> sourceWords = new DocumentPreprocessor(new StringReader(sentence)).iterator().next();
-        List<edu.stanford.nlp.ling.TaggedWord> sourceTagged = tagger.tagSentence(sourceWords);
+        DocumentPreprocessor doc = new DocumentPreprocessor(new StringReader(sentence));
+        Iterator<List<HasWord>> iterator = doc.iterator();
+        if (!iterator.hasNext()) {
+            return new Sentence(new ArrayList<>(), new ArrayList<>());
+        }
+        List<edu.stanford.nlp.ling.TaggedWord> sourceTagged = tagger.tagSentence(iterator.next());
         List<TaggedWord> collected = new ArrayList<>();
         for (int i = 0; i < sourceTagged.size(); i++) {
             edu.stanford.nlp.ling.TaggedWord word = sourceTagged.get(i);

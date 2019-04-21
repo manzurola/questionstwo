@@ -1,4 +1,4 @@
-package com.prodigy.api.test;
+package com.prodigy.api.questions.utils;
 
 import com.prodigy.api.questions.Question;
 import com.prodigy.api.questions.request.AddQuestionRequest;
@@ -34,6 +34,7 @@ public class QuestionUtils {
     public Question.Builder newQuestionFromRequest(AddQuestionRequest request) {
         return Question.builder()
                 .answerKey(request.getAnswerKey())
+                .instructions(request.getInstructions())
                 .body(request.getBody());
     }
 }

@@ -58,6 +58,16 @@ public class Answer {
         return Objects.hash(id, userId, questionId, input);
     }
 
+    @Override
+    public String toString() {
+        return "Answer{" +
+                "id=" + id +
+                ", userId=" + userId +
+                ", questionId=" + questionId +
+                ", input='" + input + '\'' +
+                '}';
+    }
+
     public static class Builder {
         private Id<Answer> id = Id.next();
         private Id<User> userId;

@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import TextField from '@material-ui/core/TextField';
 import "./TextInput.css";
+import autocorrect from 'autocorrect';
 
 const styles = theme => ({
     container: {
@@ -37,7 +38,7 @@ export class TextInput extends Component {
         // const { classes } = this.props;
         return <TextField
             id="standard-textarea"
-            label="Put the sentence into the plural"
+            label={this.props.label}
             multiline
             autoFocus={this.props.autoFocus}
             className={"textinput"}
@@ -56,6 +57,11 @@ export class TextInput extends Component {
                 FormLabelClasses: {
                     // root: "textinput-label-focus",
                     // shrink: "textinput-label-focus",
+                }
+            }}
+            InputProps={{
+                classes: {
+                    root: "textinput-input"
                 }
             }}
 
@@ -80,10 +86,20 @@ export class TextInput extends Component {
     onChange(event) {
         console.log(event);
         let value = event.target.value;
-        let lastChar = value.slice(-1);
-        if (lastChar === '\n') {
-            this.setState({disabled: true}, () => this.props.onSubmit());
+        // let lastChar = value.slice(-1);
+        // if (lastChar === '\n') {
+        //     this.setState({disabled: true}, () => this.props.onSubmit());
+        //     // console.log(autocorrect(value));
+        //
+        // } else {
+        //     this.setState({value: value}, ((event) => this.props.onChange(event))(event));
+        // }
 
+
+        const regex = /\n/;
+        const noNewLine = value.replace(regex, "");
+        if (value.localeCompare(noNewLine) !== 0) {
+            this.setState({disabled: true}, () => this.props.onSubmit());
         } else {
             this.setState({value: value}, ((event) => this.props.onChange(event))(event));
         }

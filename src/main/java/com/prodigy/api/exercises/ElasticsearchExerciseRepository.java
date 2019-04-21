@@ -1,8 +1,7 @@
 package com.prodigy.api.exercises;
 
-import com.prodigy.api.common.ElasticsearchDataStore;
+import com.prodigy.api.common.DataStore;
 import com.prodigy.api.common.Id;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 
@@ -10,9 +9,9 @@ public class ElasticsearchExerciseRepository implements ExerciseRepository {
 
     public static final String index = "exercises_en";
     public static final String type = "exercise";
-    private final ElasticsearchDataStore dataStore;
+    private final DataStore dataStore;
 
-    public ElasticsearchExerciseRepository(ElasticsearchDataStore dataStore) {
+    public ElasticsearchExerciseRepository(DataStore dataStore) {
         this.dataStore = dataStore;
     }
 

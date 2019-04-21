@@ -5,8 +5,8 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
+import com.prodigy.api.common.DataStore;
 import com.prodigy.api.common.ElasticsearchDataStore;
-import com.prodigy.api.common.ElasticsearchDataStoreImpl;
 import com.prodigy.api.common.Id;
 import com.prodigy.api.common.jackson.IdDeserializer;
 import com.prodigy.api.common.jackson.IdSerializer;
@@ -16,11 +16,24 @@ import com.prodigy.api.exercises.ExerciseRepository;
 import com.prodigy.api.exercises.InMemoryExerciseRepository;
 import com.prodigy.api.exercises.utils.CSVExerciseReader;
 import com.prodigy.api.exercises.utils.ExerciseReader;
-import com.prodigy.api.questions.data.ElasticsearchQuestionRepository;
+import com.prodigy.api.questions.Question;
 import com.prodigy.api.questions.data.InMemoryQuestionRepository;
 import com.prodigy.api.questions.data.QuestionRepository;
+import com.prodigy.api.questions.request.AddQuestionRequest;
+import com.prodigy.api.questions.utils.AddQuestionRequestCSVReader;
+import com.prodigy.api.questions.utils.AddQuestionRequestReader;
+import com.prodigy.api.questions.utils.QuestionUtils;
 import com.prodigy.api.users.data.ElasticsearchUserRepository;
 import com.prodigy.api.users.data.UserRepository;
+import com.prodigy.nlp.SentenceParser;
+import com.prodigy.nlp.StanfordSentenceParser;
+import com.prodigy.nlp.diff.DMPTextDiffCalculator;
+import com.prodigy.nlp.diff.SentenceDiffCheck;
+import com.prodigy.nlp.diff.SentenceDiffCheckImpl;
+import com.prodigy.nlp.diff.TextDiffCalculator;
+import edu.stanford.nlp.parser.nndep.DependencyParser;
+import edu.stanford.nlp.tagger.maxent.MaxentTagger;
+import name.fraser.neil.plaintext.diff_match_patch;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
@@ -40,6 +53,8 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility.ANY;
 import static com.fasterxml.jackson.annotation.PropertyAccessor.FIELD;
@@ -92,13 +107,18 @@ public class Application {
     }
 
     @Bean
-    public ElasticsearchDataStore dataStore() throws UnknownHostException {
-        return new ElasticsearchDataStoreImpl(transportClient(), objectMapper());
+    public DataStore dataStore() throws UnknownHostException {
+        return new ElasticsearchDataStore(transportClient(), objectMapper());
     }
 
     @Bean
     public QuestionRepository questionRepository() throws Exception {
-        return new InMemoryQuestionRepository(new ArrayList<>());
+        QuestionUtils utils = new QuestionUtils();
+        List<Question> data = utils.getQuestions()
+                .stream()
+                .map(request -> utils.newQuestionFromRequest(request).build())
+                .collect(Collectors.toList());
+        return new InMemoryQuestionRepository(data);
     }
 
     @Bean
@@ -115,6 +135,11 @@ public class Application {
     }
 
     @Bean
+    public TextDiffCalculator diffCalculator() {
+        return new DMPTextDiffCalculator(new diff_match_patch());
+    }
+
+    @Bean
     public ServiceExecutor serviceExecutor() {
         return new ServiceExecutorImpl(applicationContext::getBean);
     }
@@ -122,6 +147,20 @@ public class Application {
     @Bean
     public UserRepository userRepository() throws UnknownHostException {
         return new ElasticsearchUserRepository(dataStore());
+    }
+
+    @Bean
+    public SentenceParser sentenceParser() {
+        String modelPath = DependencyParser.DEFAULT_MODEL;
+        String taggerPath = "edu/stanford/nlp/models/pos-tagger/english-left3words/english-left3words-distsim.tagger";
+        MaxentTagger tagger = new MaxentTagger(taggerPath);
+        DependencyParser parser = DependencyParser.loadFromModelFile(modelPath);
+        return new StanfordSentenceParser(tagger, parser);
+    }
+
+    @Bean
+    public SentenceDiffCheck diffCheck() {
+        return new SentenceDiffCheckImpl(diffCalculator());
     }
 
     @Bean

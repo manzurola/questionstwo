@@ -1,25 +1,30 @@
 .question {
     position: relative;
-    height: 250pt;
+    height: 280pt;
     width: 400pt;
     border-radius: 40pt;
-    box-shadow: 0 1pt 2pt 0 rgba(0,0,0,0.5) ;
+    box-sizing: border-box;
+    margin: auto;
+    box-shadow: 0 10px 20px 0 rgba(0,0,0,0.5) ;
+    background-color: white;
+    padding: 60pt 50pt 50pt 50pt;
 }
 
 .question-title {
-    position: absolute;
-    top: 50pt;
-    left: 75pt;
-    font-size: 24pt;
-    font-weight: bold;
+    /*position: absolute;*/
+    /*top: 50pt;*/
+
+    font-size: 20pt;
+    font-weight: 300;
 }
 
 .question-input {
     position: absolute;
     /*margin: 50pt 25pt 50pt 75pt;*/
-    bottom: 50pt;
-    left: 75pt;
-    font-size: 24pt;
+    bottom: 60pt;
+    /*left: 75pt;*/
+    /*font-size: 24pt;*/
     font-weight: bold;
-    width: 250pt;
+    width: 300pt;
+    /*width: 250pt;*/
 }

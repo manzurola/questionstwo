@@ -1,23 +1,21 @@
 package com.prodigy.api.review.data;
 
 import com.prodigy.api.answers.Answer;
-import com.prodigy.api.common.ElasticsearchDataStore;
+import com.prodigy.api.common.DataStore;
 import com.prodigy.api.common.Id;
 import com.prodigy.api.common.NotFoundException;
-import com.prodigy.api.common.SearchProperty;
 import com.prodigy.api.review.Review;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@Component
 public class ReviewRepositoryImpl implements ReviewRepository {
 
     private static final String index = "reviews";
     private static final String type = "review";
-    private final ElasticsearchDataStore dataStore;
+    private final DataStore dataStore;
 
-    public ReviewRepositoryImpl(ElasticsearchDataStore dataStore) {
+    public ReviewRepositoryImpl(DataStore dataStore) {
         this.dataStore = dataStore;
     }
 

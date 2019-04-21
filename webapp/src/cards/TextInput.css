@@ -1,16 +1,30 @@
 .textinput {
-    font-size: 14pt;
+    /*font-size: 18pt !important;*/
     position: relative;
     border-bottom: 2pt solid rgba(128,122,127,0.94);
     width: 100%;
+    /*font-family: Myriad Pro, sans-serif !important;*/
+    /*font-weight: 600;*/
+
+}
+
+.textinput-input {
+    /*font-size: 18pt !important;*/
+    font-family: Myriad Pro, sans-serif !important;
+    font-weight: 400;
+    font-size: 16pt !important;
+
 }
 
 .textinput-label {
-    color: black;
+    /*color: black !important;*/
+    font-size: 16pt !important;
+    font-family: Myriad Pro, sans-serif !important;
+    font-weight: 300;
 }
 
 .textinput-label.focus {
-    transform: translate(0, -1rem);
+    transform: translate(0, -1rem) scale(0.8);
     transform-origin: top left;
     color: gray;
 }

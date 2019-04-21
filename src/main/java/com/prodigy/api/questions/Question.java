@@ -16,11 +16,13 @@ public class Question {
     private final Id<Question> id;
     private final String body;
     private final List<String> answerKey;
+    private final String instructions;
 
-    public Question(Id<Question> id, String body, List<String> answerKey) {
+    public Question(Id<Question> id, String body, List<String> answerKey, String instructions) {
         this.id = id;
         this.body = body;
         this.answerKey = answerKey;
+        this.instructions = instructions;
     }
 
     public Id<Question> getId() {
@@ -33,6 +35,10 @@ public class Question {
 
     public List<String> getAnswerKey() {
         return answerKey;
+    }
+
+    public String getInstructions() {
+        return instructions;
     }
 
     @Override
@@ -68,6 +74,7 @@ public class Question {
         private Id<Question> id = Id.next();
         private String body;
         private List<String> answerKey;
+        private String instructions;
 
         public Builder id(Id<Question> id) {
             this.id = id;
@@ -79,9 +86,17 @@ public class Question {
             return this;
         }
 
+        public String body() {
+            return this.body;
+        }
+
         public Builder answerKey(List<String> answerKey) {
             this.answerKey = answerKey;
             return this;
+        }
+
+        public List<String> answerKey() {
+            return this.answerKey;
         }
 
         public Builder answerKey(String... answerKey) {
@@ -89,9 +104,14 @@ public class Question {
             return this;
         }
 
+        public Builder instructions(String instructions){
+            this.instructions = instructions;
+            return this;
+        }
+
 
         public Question build() {
-            return new Question(id, body, answerKey);
+            return new Question(id, body, answerKey, instructions);
         }
 
     }

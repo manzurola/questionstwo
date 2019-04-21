@@ -3,8 +3,11 @@ package com.prodigy.api.review;
 import com.prodigy.api.answers.Answer;
 import com.prodigy.api.common.Id;
 import com.prodigy.api.users.User;
+import com.prodigy.nlp.diff.SentenceDiff;
+import com.prodigy.nlp.diff.TextDiff;
 
 import javax.validation.constraints.NotNull;
+import java.util.List;
 import java.util.Objects;
 
 public class Review {
@@ -17,13 +20,15 @@ public class Review {
     private final Score score;
     private final Comment comment;
     private final Id<User> reviewerId;
+    private final SentenceDiff answerDiff;
 
-    public Review(Id<Review> id, Id<Answer> answerId, Score score, Comment comment, Id<User> reviewerId) {
+    public Review(Id<Review> id, Id<Answer> answerId, Score score, Comment comment, Id<User> reviewerId, SentenceDiff answerDiff) {
         this.id = id;
         this.answerId = answerId;
         this.score = score;
         this.comment = comment;
         this.reviewerId = reviewerId;
+        this.answerDiff = answerDiff;
     }
 
     public Id<Review> getId() {
@@ -44,6 +49,10 @@ public class Review {
 
     public Id<User> getReviewerId() {
         return reviewerId;
+    }
+
+    public SentenceDiff getAnswerDiff() {
+        return answerDiff;
     }
 
     @Override
@@ -73,6 +82,7 @@ public class Review {
         private Score score;
         private Comment comment;
         private Id<User> reviewerId;
+        private SentenceDiff sentenceDiff;
 
         public Builder id(Id<Review> id) {
             this.id = id;
@@ -99,8 +109,13 @@ public class Review {
             return this;
         }
 
+        public Builder sentenceDiff(SentenceDiff sentenceDiff) {
+            this.sentenceDiff = sentenceDiff;
+            return this;
+        }
+
         public Review build() {
-            return new Review(id, answerId, score, comment, reviewerId);
+            return new Review(id, answerId, score, comment, reviewerId, sentenceDiff);
         }
     }
 }

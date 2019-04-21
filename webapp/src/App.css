@@ -1,12 +1,24 @@
 .App {
     box-sizing: content-box;
     display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
     /*position: relative;*/
-    max-width: 100%;
+    width: 100%;
+    height: 100%;
+    /*max-width: 100%;*/
     overflow-x: hidden;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+
+    font-family: Myriad Pro, sans-serif !important;
+
+    /*background-image: url("./attractive-backdrop-background-988872.jpg");*/
+    /*background-image: radial-gradient(circle, #051937, #274f63, #67888a, #b3c2bb, #fefffc);*/
+
+    /*background-image: linear-gradient(to right top, #d16ba5, #c777b9, #ba83ca, #aa8fd8, #9a9ae1, #8aa7ec, #79b3f4, #69bff8, #52cffe, #41dfff, #46eefa, #5ffbf1);*/
 }
 
 /*.App-logo {*/
@@ -18,7 +30,7 @@
 .App-game {
     display: block;
     /*padding: 0 20% 0 20%;*/
-    height: 600px;
+    height: 50%;
     /*width: 400px;*/
     margin: auto;
     flex-direction: column;
@@ -28,7 +40,8 @@
 }
 
 .App-header {
-    min-height: 5em;
+    /*min-height: 10em;*/
+    height: 20%;
     display: block;
     flex-direction: column;
     align-items: center;
@@ -36,7 +49,8 @@
 }
 
 .App-footer {
-    min-height: 5em;
+    height: 20%;
+    /*min-height: 5em;*/
     display: block;
     flex-direction: column;
     align-items: center;

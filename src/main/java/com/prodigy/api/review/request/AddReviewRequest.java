@@ -6,6 +6,7 @@ import com.prodigy.api.common.service.ServiceRequest;
 import com.prodigy.api.review.Comment;
 import com.prodigy.api.review.Score;
 import com.prodigy.api.users.User;
+import com.prodigy.nlp.diff.SentenceDiff;
 
 import java.util.Objects;
 
@@ -15,12 +16,14 @@ public class AddReviewRequest implements ServiceRequest {
     private final Score score;
     private final Comment comment;
     private final Id<User> reviewerId;
+    private final SentenceDiff diff;
 
-    public AddReviewRequest(Id<Answer> answerId, Score score, Comment comment, Id<User> reviewerId) {
+    public AddReviewRequest(Id<Answer> answerId, Score score, Comment comment, Id<User> reviewerId, SentenceDiff diff) {
         this.answerId = answerId;
         this.score = score;
         this.comment = comment;
         this.reviewerId = reviewerId;
+        this.diff = diff;
     }
 
     public Id<Answer> getAnswerId() {
@@ -39,6 +42,9 @@ public class AddReviewRequest implements ServiceRequest {
         return reviewerId;
     }
 
+    public SentenceDiff getDiff() {
+        return diff;
+    }
 
     @Override
     public boolean equals(Object o) {

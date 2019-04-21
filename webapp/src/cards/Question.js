@@ -1,17 +1,20 @@
 import React, {Component} from "react";
 import './Question.css';
 import {TextInput} from "../cards/TextInput";
+import axios from 'axios';
 
 export class Question extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
+            id: props.id,
+            body: props.body,
             answer: '',
             submitted: false,
-            reviewed: false
-        };
-    }
+            reviewed: false,
+        }
+    };
 
     render() {
         return <div className={'question'}>
@@ -21,14 +24,15 @@ export class Question extends Component {
     }
 
     renderTitle() {
-        return <div className={'question-title'}>{'A dog is cute.'}</div>;
+        return <div className={'question-title'}>{this.props.body}</div>;
     }
+
 
     renderInput() {
         return <div className={'question-input'}>
             <TextInput
                 autoFocus
-                label="Put the sentence into the plural"
+                label={this.props.instructions}
                 onChange={this.answerDidChange}
                 onSubmit={this.answerWasSubmitted}
                 disabled={this.state.submitted}
@@ -39,14 +43,18 @@ export class Question extends Component {
     answerDidChange = (event) => {
         console.log(event);
         this.setState({answer: event.target.value}, () => {
-            if(this.props.onInputChange) this.props.onInputChange(event);
+            if (this.props.onInputChange) this.props.onInputChange(event);
         });
     };
 
     answerWasSubmitted = (event) => {
         this.setState({submitted: true}, () => {
-            if(this.props.onSubmit) this.props.onSubmit({answer: this.state.answer});
-            this.setState({reviewed: true});
+            if (this.props.onSubmit) {
+                this.props.onSubmit({
+                    id: this.state.id,
+                    answer: this.state.answer,
+                });
+            }
         });
     };
 

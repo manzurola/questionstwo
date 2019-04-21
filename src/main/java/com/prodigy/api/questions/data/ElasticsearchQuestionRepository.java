@@ -1,6 +1,6 @@
 package com.prodigy.api.questions.data;
 
-import com.prodigy.api.common.ElasticsearchDataStore;
+import com.prodigy.api.common.DataStore;
 import com.prodigy.api.common.Id;
 import com.prodigy.api.questions.Question;
 import org.elasticsearch.index.query.BoolQueryBuilder;
@@ -18,9 +18,9 @@ public class ElasticsearchQuestionRepository implements QuestionRepository {
 
     public static final String index = "questions_en";
     public static final String type = "question";
-    private final ElasticsearchDataStore dataStore;
+    private final DataStore dataStore;
 
-    public ElasticsearchQuestionRepository(ElasticsearchDataStore dataStore) {
+    public ElasticsearchQuestionRepository(DataStore dataStore) {
         this.dataStore = dataStore;
     }
 

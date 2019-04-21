@@ -1,32 +1,26 @@
-.question {
-    position: relative;
-    height: 250pt;
-    width: 400pt;
-    border-radius: 40pt;
-    box-shadow: 0 1pt 2pt 0 rgba(0,0,0,0.5) ;
-}
+/*.question {*/
+    /*position: relative;*/
+    /*height: 250pt;*/
+    /*width: 400pt;*/
+    /*border-radius: 40pt;*/
+    /*box-shadow: 0 1pt 2pt 0 rgba(0,0,0,0.5) ;*/
+/*}*/
 
-.question-title {
-    position: absolute;
-    top: 50pt;
-    left: 75pt;
-    font-size: 24pt;
-    font-weight: bold;
-}
-
-.question-input {
-    position: absolute;
-    /*margin: 50pt 25pt 50pt 75pt;*/
-    bottom: 50pt;
-    left: 75pt;
-    font-size: 12pt;
-    font-weight: bold;
-    width: 250pt;
-}
+/*.question-input {*/
+    /*position: absolute;*/
+    /*bottom: 50pt;*/
+    /*left: 75pt;*/
+    /*font-size: 12pt;*/
+    /*font-weight: bold;*/
+    /*width: 250pt;*/
+/*}*/
 
 .question-input-label {
-    transform: translate(0, -1rem);
+    transform: translate(0, -2pt) scale(0.8);
     transform-origin: top left;
+    font-size: 16pt !important;
+    font-family: Myriad Pro, sans-serif !important;
+    font-weight: 300;
     color: gray;
 }
 
@@ -43,5 +37,24 @@
 }
 
 .question-input-reviewed-mistake {
+    line-height: 2;
     border-bottom: 2px solid red;
+}
+
+.input-text {
+    font-family: Myriad Pro, sans-serif !important;
+    font-size: 16pt !important;
+    font-weight: 400;
+}
+
+.input-delete {
+    text-decoration: line-through;
+}
+
+.input-insert {
+    color: red;
+}
+
+.input-equal {
+
 }
