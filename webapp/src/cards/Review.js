@@ -9,7 +9,7 @@ export class Review extends Component {
         super(props);
         this.state = {
             question: props.question,
-            diff: props.answerDiff.diff,
+            diff: props.answerDiff.textDiffs,
             score: props.score.value,
             scale: props.scale,
         };
@@ -54,7 +54,7 @@ export class Review extends Component {
     renderReviewedWords() {
         let words = [];
         for (let i = 0; i < this.state.diff.length; i++) {
-            let diff = this.state.diff[i].diff;
+            let diff = this.state.diff[i];
             console.log(diff);
             switch (diff.operation) {
                 case 'DELETE':

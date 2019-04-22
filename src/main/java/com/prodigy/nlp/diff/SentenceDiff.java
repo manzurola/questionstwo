@@ -9,6 +9,7 @@ public class SentenceDiff {
     private final Sentence source;
     private final Sentence target;
     private final List<WordDiff> diff;
+    private List<TextDiff> textDiffs;
 
     public SentenceDiff(Sentence source, Sentence target, List<WordDiff> diff) {
         this.source = source;
@@ -29,4 +30,11 @@ public class SentenceDiff {
     }
 
 
+    public List<TextDiff> getTextDiffs() {
+        return textDiffs;
+    }
+
+    public void setTextDiffs(List<TextDiff> textDiffs) {
+        this.textDiffs = textDiffs;
+    }
 }

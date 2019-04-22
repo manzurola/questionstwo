@@ -51,7 +51,7 @@ export class TextInput extends Component {
                 classes: {
                     root: "textinput-label",
                     focused: "focus",
-                    disabled: "disabled",
+                    disabled: "textinput-label.disabled",
                     // shrink: "textinput-label-focus",
                 },
                 FormLabelClasses: {

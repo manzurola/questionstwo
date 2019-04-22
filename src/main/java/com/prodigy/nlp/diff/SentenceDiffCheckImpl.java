@@ -20,6 +20,16 @@ public class SentenceDiffCheckImpl implements SentenceDiffCheck {
     }
 
     @Override
+    public SentenceDiff check(String source, String target) {
+
+        List<TextDiff> diff = diffCalculator.diff(source, target);
+
+        SentenceDiff sentenceDiff = new SentenceDiff(null, null, null);
+        sentenceDiff.setTextDiffs(diff);
+        return sentenceDiff;
+    }
+
+    @Override
     public SentenceDiff check(Sentence source, Sentence target) {
 
         List<TaggedWord> sourceWords = source.getWords();
@@ -32,12 +42,6 @@ public class SentenceDiffCheckImpl implements SentenceDiffCheck {
 
         List<WordDiff> taggedDiff = tagDiff(wordDiff, sourceWords, targetWords);
 
-
-        for (int i = 0; i < taggedDiff.size(); i++) {
-
-
-        }
-
         return new SentenceDiff(source, target, taggedDiff);
 
     }
@@ -47,10 +51,7 @@ public class SentenceDiffCheckImpl implements SentenceDiffCheck {
         LinkedList<TaggedWord> targetQueue = new LinkedList<>(target);
         List<WordDiff> taggedDiff = new ArrayList<>();
 
-        for (int i=0; i< diffs.size(); i++) {
-
-            TextDiff diff = diffs.get(i);
-
+        for (TextDiff diff : diffs) {
             switch (diff.getOperation()) {
                 case EQUAL:
                 case INSERT:

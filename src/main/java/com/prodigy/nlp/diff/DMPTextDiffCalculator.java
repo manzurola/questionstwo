@@ -1,11 +1,15 @@
 package com.prodigy.nlp.diff;
 
+import edu.stanford.nlp.ling.CoreLabel;
+import edu.stanford.nlp.ling.Word;
+import edu.stanford.nlp.process.CoreLabelTokenFactory;
+import edu.stanford.nlp.process.PTBTokenizer;
+import edu.stanford.nlp.process.TokenizerFactory;
 import name.fraser.neil.plaintext.diff_match_patch;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.io.FileReader;
+import java.io.StringReader;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class DMPTextDiffCalculator implements TextDiffCalculator {
@@ -22,7 +26,25 @@ public class DMPTextDiffCalculator implements TextDiffCalculator {
 
     @Override
     public List<TextDiff> diff(String origin, String target) {
-        return toTextDiffs(doDiff(origin, target));
+
+        List<String> originTokens = tokenize(origin);
+        List<String> targetTokens = tokenize(target);
+
+        return diff(originTokens, targetTokens);
+    }
+
+    private List<String> tokenize(String value) {
+        PTBTokenizer<CoreLabel> ptbt = new PTBTokenizer<>(
+                new StringReader(value),
+                new CoreLabelTokenFactory(),
+                ""
+        );
+
+        List<String> tokens = new ArrayList<>();
+        while (ptbt.hasNext()) {
+            tokens.add(ptbt.next().word());
+        }
+        return tokens;
     }
 
     @Override

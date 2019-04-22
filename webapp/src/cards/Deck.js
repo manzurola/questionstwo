@@ -4,6 +4,7 @@ import Question from "./Question";
 import {Review} from "./Review";
 import axios from 'axios';
 import {Button} from "@material-ui/core";
+import {Stars} from "./Stars";
 
 export class Deck extends Component {
 
@@ -29,6 +30,7 @@ export class Deck extends Component {
 
     render() {
         return <div className={'Deck'}>
+            <Stars/>
             <div className={'card-wrapper'}>
                 {this.hasReview() ? this.renderReview() : this.renderQuestion()}
             </div>
