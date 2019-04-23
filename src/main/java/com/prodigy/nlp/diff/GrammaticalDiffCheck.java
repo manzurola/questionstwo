@@ -1,39 +1,33 @@
 package com.prodigy.nlp.diff;
 
 import com.prodigy.nlp.Sentence;
+import com.prodigy.nlp.SentenceParser;
 import com.prodigy.nlp.TaggedWord;
 import com.prodigy.nlp.Word;
-import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Component
-public class SentenceDiffCheckImpl implements SentenceDiffCheck {
+public class GrammaticalDiffCheck implements SentenceDiffCheck<GrammaticalSentenceDiff> {
 
     private final TextDiffCalculator diffCalculator;
+    private final SentenceParser sentenceParser;
 
-    public SentenceDiffCheckImpl(TextDiffCalculator diffCalculator) {
+    public GrammaticalDiffCheck(TextDiffCalculator diffCalculator, SentenceParser sentenceParser) {
         this.diffCalculator = diffCalculator;
+        this.sentenceParser = sentenceParser;
     }
 
     @Override
-    public SentenceDiff check(String source, String target) {
+    public GrammaticalSentenceDiff check(String source, String target) {
 
-        List<TextDiff> diff = diffCalculator.diff(source, target);
+        Sentence sourceParse = sentenceParser.parse(source);
+        Sentence targetParse = sentenceParser.parse(target);
 
-        SentenceDiff sentenceDiff = new SentenceDiff(null, null, null);
-        sentenceDiff.setTextDiffs(diff);
-        return sentenceDiff;
-    }
-
-    @Override
-    public SentenceDiff check(Sentence source, Sentence target) {
-
-        List<TaggedWord> sourceWords = source.getWords();
-        List<TaggedWord> targetWords = target.getWords();
+        List<TaggedWord> sourceWords = sourceParse.getWords();
+        List<TaggedWord> targetWords = targetParse.getWords();
 
         List<TextDiff> wordDiff = diffCalculator.diff(
                 sourceWords.stream().map(Word::word).collect(Collectors.toList()),
@@ -42,8 +36,7 @@ public class SentenceDiffCheckImpl implements SentenceDiffCheck {
 
         List<WordDiff> taggedDiff = tagDiff(wordDiff, sourceWords, targetWords);
 
-        return new SentenceDiff(source, target, taggedDiff);
-
+        return new GrammaticalSentenceDiff(sourceParse, targetParse, taggedDiff, wordDiff);
     }
 
     private List<WordDiff> tagDiff(List<TextDiff> diffs, List<TaggedWord> source, List<TaggedWord> target) {

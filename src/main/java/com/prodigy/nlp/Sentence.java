@@ -5,10 +5,12 @@ import java.util.Objects;
 
 public class Sentence {
 
+    private final String value;
     private final List<TaggedWord> words;
     private final List<GrammaticalRelation> relations;
 
-    public Sentence(List<TaggedWord> words, List<GrammaticalRelation> relations) {
+    public Sentence(String value, List<TaggedWord> words, List<GrammaticalRelation> relations) {
+        this.value = value;
         this.words = words;
         this.relations = relations;
     }
@@ -19,6 +21,10 @@ public class Sentence {
 
     public List<GrammaticalRelation> getRelations() {
         return relations;
+    }
+
+    public String getValue() {
+        return value;
     }
 
     @Override

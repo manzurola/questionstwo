@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import './Question.css';
-import {TextInput} from "../cards/TextInput";
+import {TextInput} from "../input/TextInput";
 import axios from 'axios';
 
 export class Question extends Component {

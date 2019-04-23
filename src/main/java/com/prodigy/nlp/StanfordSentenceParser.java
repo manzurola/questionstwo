@@ -27,9 +27,10 @@ public class StanfordSentenceParser implements SentenceParser {
         DocumentPreprocessor doc = new DocumentPreprocessor(new StringReader(sentence));
         Iterator<List<HasWord>> iterator = doc.iterator();
         if (!iterator.hasNext()) {
-            return new Sentence(new ArrayList<>(), new ArrayList<>());
+            return new Sentence(sentence, new ArrayList<>(), new ArrayList<>());
         }
         List<edu.stanford.nlp.ling.TaggedWord> sourceTagged = tagger.tagSentence(iterator.next());
+
         List<TaggedWord> collected = new ArrayList<>();
         for (int i = 0; i < sourceTagged.size(); i++) {
             edu.stanford.nlp.ling.TaggedWord word = sourceTagged.get(i);
@@ -57,6 +58,6 @@ public class StanfordSentenceParser implements SentenceParser {
             );
         }
 
-        return new Sentence(collected, relations);
+        return new Sentence(sentence, collected, relations);
     }
 }

@@ -14,7 +14,7 @@ import com.prodigy.ml.clustering.Clusterer;
 import com.prodigy.nlp.POS;
 import com.prodigy.nlp.StanfordSentenceParser;
 import com.prodigy.nlp.diff.DMPTextDiffCalculator;
-import com.prodigy.nlp.diff.SentenceDiffCheckImpl;
+import com.prodigy.nlp.diff.GrammaticalDiffCheck;
 import edu.stanford.nlp.ling.HasWord;
 import edu.stanford.nlp.ling.TaggedWord;
 import edu.stanford.nlp.parser.nndep.DependencyParser;
@@ -72,8 +72,7 @@ public class SentenceParseTest {
         DependencyParser parser = DependencyParser.loadFromModelFile(modelPath);
 
         QuestionFeatureExtractor featureExtractor = new QuestionFeatureExtractor(
-                new StanfordSentenceParser(tagger, parser),
-                new SentenceDiffCheckImpl(new DMPTextDiffCalculator())
+                new GrammaticalDiffCheck(new DMPTextDiffCalculator(), new StanfordSentenceParser(tagger, parser))
         );
 
         CSVWriter writer = new CSVWriter(new FileWriter("data_features.csv"));
@@ -155,8 +154,7 @@ public class SentenceParseTest {
         DependencyParser parser = DependencyParser.loadFromModelFile(modelPath);
 
         QuestionFeatureExtractor featureExtractor = new QuestionFeatureExtractor(
-                new StanfordSentenceParser(tagger, parser),
-                new SentenceDiffCheckImpl(new DMPTextDiffCalculator())
+                new GrammaticalDiffCheck(new DMPTextDiffCalculator(), new StanfordSentenceParser(tagger, parser))
         );
 
 

@@ -19,18 +19,12 @@ import com.prodigy.api.exercises.utils.ExerciseReader;
 import com.prodigy.api.questions.Question;
 import com.prodigy.api.questions.data.InMemoryQuestionRepository;
 import com.prodigy.api.questions.data.QuestionRepository;
-import com.prodigy.api.questions.request.AddQuestionRequest;
-import com.prodigy.api.questions.utils.AddQuestionRequestCSVReader;
-import com.prodigy.api.questions.utils.AddQuestionRequestReader;
 import com.prodigy.api.questions.utils.QuestionUtils;
 import com.prodigy.api.users.data.ElasticsearchUserRepository;
 import com.prodigy.api.users.data.UserRepository;
 import com.prodigy.nlp.SentenceParser;
 import com.prodigy.nlp.StanfordSentenceParser;
-import com.prodigy.nlp.diff.DMPTextDiffCalculator;
-import com.prodigy.nlp.diff.SentenceDiffCheck;
-import com.prodigy.nlp.diff.SentenceDiffCheckImpl;
-import com.prodigy.nlp.diff.TextDiffCalculator;
+import com.prodigy.nlp.diff.*;
 import edu.stanford.nlp.parser.nndep.DependencyParser;
 import edu.stanford.nlp.tagger.maxent.MaxentTagger;
 import name.fraser.neil.plaintext.diff_match_patch;
@@ -51,7 +45,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -160,7 +153,7 @@ public class Application {
 
     @Bean
     public SentenceDiffCheck diffCheck() {
-        return new SentenceDiffCheckImpl(diffCalculator());
+        return new SimpleSentenceDiffCheck(diffCalculator());
     }
 
     @Bean

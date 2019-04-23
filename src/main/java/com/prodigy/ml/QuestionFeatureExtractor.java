@@ -4,9 +4,7 @@ import com.prodigy.api.questions.Question;
 import com.prodigy.nlp.POS;
 import com.prodigy.nlp.SentenceParser;
 import com.prodigy.nlp.TaggedWord;
-import com.prodigy.nlp.diff.SentenceDiff;
-import com.prodigy.nlp.diff.SentenceDiffCheck;
-import com.prodigy.nlp.diff.TextDiff;
+import com.prodigy.nlp.diff.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -15,22 +13,20 @@ import java.util.List;
 
 public class QuestionFeatureExtractor implements FeatureExtractor<Question> {
 
-    private final SentenceParser sentenceParser;
-    private final SentenceDiffCheck diffCheck;
+    private final SentenceDiffCheck<GrammaticalSentenceDiff> diffCheck;
 
-    public QuestionFeatureExtractor(SentenceParser sentenceParser, SentenceDiffCheck diffCheck) {
-        this.sentenceParser = sentenceParser;
+    public QuestionFeatureExtractor(SentenceDiffCheck<GrammaticalSentenceDiff> diffCheck) {
         this.diffCheck = diffCheck;
     }
 
     public FeatureVector<Question> extract(Question question) {
 
-        SentenceDiff diff = diffCheck.check(sentenceParser.parse(question.getBody()), sentenceParser.parse(question.getAnswerKey().get(0)));
+        GrammaticalSentenceDiff diff = diffCheck.check(question.getBody(), question.getAnswerKey().get(0));
 
-        return new FeatureVector<>(calcVector(diff), question);
+        return new FeatureVector<>(calcVector(diff.getWordDiff()), question);
     }
 
-    private double[] calcVector(SentenceDiff diff) {
+    private double[] calcVector(List<WordDiff> diff) {
 
         double[] vector = new double[POS.values().length];
         Arrays.fill(vector, 0);
@@ -40,10 +36,10 @@ public class QuestionFeatureExtractor implements FeatureExtractor<Question> {
 
             // for each diff in wordDiff
 
-            for (int j = 0; j < diff.getDiff().size(); j++) {
+            for (int j = 0; j < diff.size(); j++) {
 
-                TextDiff textDiff = diff.getDiff().get(j).diff();
-                TaggedWord tagged = diff.getDiff().get(j).target();
+                TextDiff textDiff = diff.get(j).diff();
+                TaggedWord tagged = diff.get(j).target();
 
                 // if diff.pos equals current pos
 

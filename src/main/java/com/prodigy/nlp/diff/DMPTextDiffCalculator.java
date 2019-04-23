@@ -1,15 +1,11 @@
 package com.prodigy.nlp.diff;
 
-import edu.stanford.nlp.ling.CoreLabel;
-import edu.stanford.nlp.ling.Word;
-import edu.stanford.nlp.process.CoreLabelTokenFactory;
-import edu.stanford.nlp.process.PTBTokenizer;
-import edu.stanford.nlp.process.TokenizerFactory;
 import name.fraser.neil.plaintext.diff_match_patch;
 
-import java.io.FileReader;
-import java.io.StringReader;
-import java.util.*;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class DMPTextDiffCalculator implements TextDiffCalculator {
@@ -26,25 +22,7 @@ public class DMPTextDiffCalculator implements TextDiffCalculator {
 
     @Override
     public List<TextDiff> diff(String origin, String target) {
-
-        List<String> originTokens = tokenize(origin);
-        List<String> targetTokens = tokenize(target);
-
-        return diff(originTokens, targetTokens);
-    }
-
-    private List<String> tokenize(String value) {
-        PTBTokenizer<CoreLabel> ptbt = new PTBTokenizer<>(
-                new StringReader(value),
-                new CoreLabelTokenFactory(),
-                ""
-        );
-
-        List<String> tokens = new ArrayList<>();
-        while (ptbt.hasNext()) {
-            tokens.add(ptbt.next().word());
-        }
-        return tokens;
+        return toTextDiffs(doDiff(origin, target));
     }
 
     @Override
@@ -102,11 +80,22 @@ public class DMPTextDiffCalculator implements TextDiffCalculator {
         return toTextDiffs(expanded);
     }
 
-    private List<TextDiff> toTextDiffs(List<diff_match_patch.Diff> diffs) {
+    @Override
+    public double distance(List<TextDiff> diffs) {
+        return dmp.diff_levenshtein(toDiffs(diffs));
+    }
+
+    private List<TextDiff> toTextDiffs(LinkedList<diff_match_patch.Diff> diffs) {
         return diffs
                 .stream()
                 .map(d -> new TextDiff(d.text, getOperation(d.operation)))
                 .collect(Collectors.toList());
+    }
+
+    private LinkedList<diff_match_patch.Diff> toDiffs(List<TextDiff> diffs) {
+        LinkedList<diff_match_patch.Diff> linked = new LinkedList<>();
+        diffs.forEach(d -> linked.add(new diff_match_patch.Diff(getOperation(d.getOperation()), d.getText())));
+        return linked;
     }
 
     private TextDiff.Operation getOperation(diff_match_patch.Operation source) {
@@ -122,7 +111,20 @@ public class DMPTextDiffCalculator implements TextDiffCalculator {
         }
     }
 
-    private List<diff_match_patch.Diff> doDiff(String actual, String expected) {
+    private diff_match_patch.Operation getOperation(TextDiff.Operation source) {
+        switch (source) {
+            case EQUAL:
+                return diff_match_patch.Operation.EQUAL;
+            case DELETE:
+                return diff_match_patch.Operation.DELETE;
+            case INSERT:
+                return diff_match_patch.Operation.INSERT;
+            default:
+                throw new RuntimeException("Invalid operation mapping " + source);
+        }
+    }
+
+    private LinkedList<diff_match_patch.Diff> doDiff(String actual, String expected) {
         LinkedList<diff_match_patch.Diff> diffs = dmp.diff_main(actual, expected);
         dmp.diff_cleanupMerge(diffs);
         return diffs;

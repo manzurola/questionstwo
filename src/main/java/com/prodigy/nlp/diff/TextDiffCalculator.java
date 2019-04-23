@@ -7,4 +7,6 @@ public interface TextDiffCalculator {
     List<TextDiff> diff(String origin, String target);
 
     List<TextDiff> diff(List<String> origin, List<String> target);
+
+    double distance(List<TextDiff> diffs);
 }

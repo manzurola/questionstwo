@@ -7,17 +7,16 @@ import com.prodigy.api.review.request.SuggestReviewRequest;
 import com.prodigy.nlp.SentenceParser;
 import com.prodigy.nlp.diff.SentenceDiff;
 import com.prodigy.nlp.diff.SentenceDiffCheck;
+import com.prodigy.nlp.diff.SimpleSentenceDiff;
 import com.prodigy.nlp.diff.TextDiff;
 import org.springframework.stereotype.Component;
 
 @Component
 public class SuggestReviewCommand extends AbstractCommand<AddReviewRequest, SuggestReviewRequest> {
 
-    private final SentenceParser parser;
     private final SentenceDiffCheck diffCheck;
 
-    public SuggestReviewCommand(SentenceParser parser, SentenceDiffCheck diffCheck) {
-        this.parser = parser;
+    public SuggestReviewCommand(SentenceDiffCheck diffCheck) {
         this.diffCheck = diffCheck;
     }
 

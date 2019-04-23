@@ -1,0 +1,7 @@
+[contentEditable]:focus {
+    outline: none;
+}
+
+.textarea {
+    border-bottom: black solid 2px;
+}
