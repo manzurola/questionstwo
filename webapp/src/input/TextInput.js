@@ -10,33 +10,26 @@ export class TextInput extends Component {
         this.contentEditable = React.createRef();
         this.state = {
             disabled: false,
+            focused: false,
             text: '',
             words: [],
             html: '',
+            empty: true,
             suggestion: ''
         };
     }
 
     componentDidMount() {
-        // document.addEventListener("keypress", this.handleKeyPress);
-        // document.addEventListener("keydown", this.handleKeyDown);
-        console.log(this.contentEditable);
-        ReactDom.findDOMNode(this.contentEditable).focus();
-        // this.contentEditable.focus();
-    }
-
-    componentWillUnmount() {
-
-        // document.removeEventListener("keypress", this.handleKeyPress);
-        // document.removeEventListener("keydown", this.handleKeyDown);
+        this.focus();
     }
 
     render() {
-        return <div>
+        return <div className={'textarea'} onClick={this.focus}>
             <ContentEditable
                 className={'textarea-contenteditable'}
                 ref={(node) => { this.contentEditable = node }}
                 disabled={this.state.disabled}
+                onFocus={this.handleFocus}
                 onBlur={this.handleBlur}
                 onInput={this.handleInput}
                 onKeyDown={this.onKeyDown}
@@ -44,9 +37,18 @@ export class TextInput extends Component {
                 onChange={this.handleChange} // handle innerHTML change
                 html={this.state.html}>
             </ContentEditable>
-            <span contentEditable={false}>suggestion</span>
+            {this.renderAutoSuggest()}
+            {this.renderLabel()}
         </div>
     }
+
+    renderLabel = () => {
+        return <div className={['textarea-label', this.state.empty ? 'textarea-label-withoutcontent' : 'textarea-label-withcontent'].join(' ')}>{this.props.label}</div>
+    };
+
+    renderAutoSuggest = () => {
+        return this.state.focused && !this.state.empty ? <span contentEditable={false} className={'textarea-autosuggest'}>suggestion</span> : null;
+    };
 
     handleChange = (event) => {
         console.log("on change in content editable");
@@ -57,7 +59,8 @@ export class TextInput extends Component {
         } else if (value.includes('\t')) {
             console.log("should auto suggest");
         } else {
-            this.setState({html: value}, () => this.props.onChange(event));
+            console.log("value " + value + ", " + !value);
+            this.setState({html: value, empty: !value}, () => this.props.onChange(event));
         }
     };
 
@@ -81,9 +84,27 @@ export class TextInput extends Component {
         this.setState({disabled: true}, () => this.props.onSubmit(value));
     };
 
+    focus = () => {
+        let findDOMNode = ReactDom.findDOMNode(this.contentEditable);
+        console.log(findDOMNode);
+        findDOMNode.focus();
+    };
+
+    handleFocus = (event) => {
+        console.log("focusing...")
+        this.setState({
+            focused: true
+        });
+    };
+
     handleBlur = (event) => {
         console.log("on blur");
+        // event.preventDefault();
         console.log(event);
+        // this.focus();
+        this.setState({
+            focused: false
+        });
     };
 
     handleInput = (event) => {
