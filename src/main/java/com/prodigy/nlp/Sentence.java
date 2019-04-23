@@ -6,17 +6,19 @@ import java.util.Objects;
 public class Sentence {
 
     private final String value;
-    private final List<TaggedWord> words;
+    private final List<Word> words;
+    private final List<TaggedWord> taggedWords;
     private final List<GrammaticalRelation> relations;
 
-    public Sentence(String value, List<TaggedWord> words, List<GrammaticalRelation> relations) {
+    public Sentence(String value, List<Word> words, List<TaggedWord> taggedWords, List<GrammaticalRelation> relations) {
         this.value = value;
         this.words = words;
+        this.taggedWords = taggedWords;
         this.relations = relations;
     }
 
-    public List<TaggedWord> getWords() {
-        return words;
+    public List<TaggedWord> getTaggedWords() {
+        return taggedWords;
     }
 
     public List<GrammaticalRelation> getRelations() {
@@ -27,24 +29,20 @@ public class Sentence {
         return value;
     }
 
+    public List<Word> getWords() {
+        return words;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Sentence)) return false;
         Sentence sentence = (Sentence) o;
-        return Objects.equals(words, sentence.words);
+        return Objects.equals(value, sentence.value);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(words);
-    }
-
-    @Override
-    public String toString() {
-        return "Sentence{" +
-                "words=" + words +
-                ", relations=" + relations +
-                '}';
+        return Objects.hash(value);
     }
 }

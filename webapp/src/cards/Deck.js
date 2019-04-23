@@ -13,6 +13,7 @@ export class Deck extends Component {
         super(props);
         this.state = {
             index: 0,
+            data: [],
             questions: [],
             reviews: {},
         }
@@ -21,10 +22,15 @@ export class Deck extends Component {
     componentWillMount() {
         let data = this.getData();
         data.then(res => {
-            const questions = res.data;
+            const data = res.data;
             console.log("got response:");
-            console.log(questions);
-            this.setState({questions: questions});
+            console.log(data);
+            this.setState({
+                    data: data,
+                    questions: data.map(q =>
+                        <Question key={q.id} {...q} onSubmit={this.onAnswerSubmitted}/>)
+                }
+            );
         });
     }
 
@@ -45,9 +51,7 @@ export class Deck extends Component {
         console.log(this.getQuestion());
 
 
-        return <Question {...this.getQuestion()}
-                         onSubmit={this.onAnswerSubmitted}
-        />
+        return this.state.questions[this.state.index];
         // return this.state.data.map((question) => {
         //     return <Question {...question}/>
         // });
@@ -62,7 +66,7 @@ export class Deck extends Component {
     }
 
     getQuestion() {
-        return this.state.questions[this.state.index]
+        return this.state.data[this.state.index]
     }
 
     renderReview() {
@@ -102,7 +106,7 @@ export class Deck extends Component {
     }
 
     loadNextQuestion = () => {
-        let next = this.state.index + 1 < this.state.questions.length ? this.state.index + 1 : 0;
+        let next = this.state.index + 1 < this.state.data.length ? this.state.index + 1 : 0;
         this.setState({
             index: next,
         });

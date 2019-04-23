@@ -22,8 +22,7 @@ import com.prodigy.api.questions.data.QuestionRepository;
 import com.prodigy.api.questions.utils.QuestionUtils;
 import com.prodigy.api.users.data.ElasticsearchUserRepository;
 import com.prodigy.api.users.data.UserRepository;
-import com.prodigy.nlp.SentenceParser;
-import com.prodigy.nlp.StanfordSentenceParser;
+import com.prodigy.nlp.*;
 import com.prodigy.nlp.diff.*;
 import edu.stanford.nlp.parser.nndep.DependencyParser;
 import edu.stanford.nlp.tagger.maxent.MaxentTagger;
@@ -42,6 +41,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.core.env.Environment;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -144,11 +145,19 @@ public class Application {
 
     @Bean
     public SentenceParser sentenceParser() {
-        String modelPath = DependencyParser.DEFAULT_MODEL;
-        String taggerPath = "edu/stanford/nlp/models/pos-tagger/english-left3words/english-left3words-distsim.tagger";
-        MaxentTagger tagger = new MaxentTagger(taggerPath);
-        DependencyParser parser = DependencyParser.loadFromModelFile(modelPath);
-        return new StanfordSentenceParser(tagger, parser);
+//        String modelPath = DependencyParser.DEFAULT_MODEL;
+//        String taggerPath = "edu/stanford/nlp/models/pos-tagger/english-left3words/english-left3words-distsim.tagger";
+//        MaxentTagger tagger = new MaxentTagger(taggerPath);
+//        DependencyParser parser = DependencyParser.loadFromModelFile(modelPath);
+//        return new StanfordSentenceParser(tagger, parser);
+
+        return new BasicSentenceParser();
+    }
+
+    @Bean
+    public ContractionResolver contractionResolver() throws FileNotFoundException {
+        String file = this.getClass().getClassLoader().getResource("en-data-exercises.csv").getFile();
+        return new ContractionResolverImpl(new FileReader(file));
     }
 
     @Bean

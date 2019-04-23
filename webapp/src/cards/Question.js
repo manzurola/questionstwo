@@ -31,6 +31,7 @@ export class Question extends Component {
     renderInput() {
         return <div className={'question-input'}>
             <TextInput
+                key={this.state.id}
                 autoFocus
                 label={this.props.instructions}
                 onChange={this.answerDidChange}

@@ -11,8 +11,6 @@ export class TextInput extends Component {
         this.state = {
             disabled: false,
             focused: false,
-            text: '',
-            words: [],
             html: '',
             empty: true,
             suggestion: ''

@@ -11,6 +11,7 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class StanfordSentenceParser implements SentenceParser {
 
@@ -27,7 +28,7 @@ public class StanfordSentenceParser implements SentenceParser {
         DocumentPreprocessor doc = new DocumentPreprocessor(new StringReader(sentence));
         Iterator<List<HasWord>> iterator = doc.iterator();
         if (!iterator.hasNext()) {
-            return new Sentence(sentence, new ArrayList<>(), new ArrayList<>());
+            return new Sentence(sentence, new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
         }
         List<edu.stanford.nlp.ling.TaggedWord> sourceTagged = tagger.tagSentence(iterator.next());
 
@@ -58,6 +59,6 @@ public class StanfordSentenceParser implements SentenceParser {
             );
         }
 
-        return new Sentence(sentence, collected, relations);
+        return new Sentence(sentence, collected.stream().map(w->new Word(w.word())).collect(Collectors.toList()), collected, relations);
     }
 }
