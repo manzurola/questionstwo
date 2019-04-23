@@ -2,12 +2,11 @@ package com.prodigy.api.review;
 
 import com.prodigy.api.answers.Answer;
 import com.prodigy.api.common.Id;
+import com.prodigy.api.review.reviewer.Breakdown;
 import com.prodigy.api.users.User;
 import com.prodigy.nlp.diff.SentenceDiff;
-import com.prodigy.nlp.diff.TextDiff;
 
 import javax.validation.constraints.NotNull;
-import java.util.List;
 import java.util.Objects;
 
 public class Review {
@@ -20,15 +19,15 @@ public class Review {
     private final Score score;
     private final Comment comment;
     private final Id<User> reviewerId;
-    private final SentenceDiff answerDiff;
+    private final Breakdown breakdown;
 
-    public Review(Id<Review> id, Id<Answer> answerId, Score score, Comment comment, Id<User> reviewerId, SentenceDiff answerDiff) {
+    public Review(Id<Review> id, Id<Answer> answerId, Score score, Comment comment, Id<User> reviewerId, Breakdown breakdown) {
         this.id = id;
         this.answerId = answerId;
         this.score = score;
         this.comment = comment;
         this.reviewerId = reviewerId;
-        this.answerDiff = answerDiff;
+        this.breakdown = breakdown;
     }
 
     public Id<Review> getId() {
@@ -51,8 +50,8 @@ public class Review {
         return reviewerId;
     }
 
-    public SentenceDiff getAnswerDiff() {
-        return answerDiff;
+    public Breakdown getBreakdown() {
+        return breakdown;
     }
 
     @Override
@@ -82,7 +81,7 @@ public class Review {
         private Score score;
         private Comment comment;
         private Id<User> reviewerId;
-        private SentenceDiff sentenceDiff;
+        private Breakdown breakdown;
 
         public Builder id(Id<Review> id) {
             this.id = id;
@@ -109,13 +108,13 @@ public class Review {
             return this;
         }
 
-        public Builder sentenceDiff(SentenceDiff sentenceDiff) {
-            this.sentenceDiff = sentenceDiff;
+        public Builder breakdown(Breakdown breakdown) {
+            this.breakdown = breakdown;
             return this;
         }
 
         public Review build() {
-            return new Review(id, answerId, score, comment, reviewerId, sentenceDiff);
+            return new Review(id, answerId, score, comment, reviewerId, breakdown);
         }
     }
 }

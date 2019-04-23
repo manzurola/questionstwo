@@ -1,7 +1,5 @@
 package com.prodigy.api.review.reviewer;
 
-import com.prodigy.nlp.Word;
-
 public class ReviewStep {
 
     public enum Result {
@@ -12,10 +10,18 @@ public class ReviewStep {
     }
 
     private final Result result;
-    private final Word word;
+    private final String value;
 
-    public ReviewStep(Result result, Word word) {
+    public ReviewStep(Result result, String value) {
         this.result = result;
-        this.word = word;
+        this.value = value;
+    }
+
+    public Result getResult() {
+        return result;
+    }
+
+    public String getValue() {
+        return value;
     }
 }

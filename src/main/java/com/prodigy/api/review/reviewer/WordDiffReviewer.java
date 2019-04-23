@@ -3,6 +3,7 @@ package com.prodigy.api.review.reviewer;
 import com.prodigy.api.answers.Answer;
 import com.prodigy.api.questions.Question;
 import com.prodigy.api.questions.data.QuestionRepository;
+import com.prodigy.api.review.Score;
 import com.prodigy.api.review.request.AddReviewRequest;
 import com.prodigy.nlp.BasicSentenceParser;
 import com.prodigy.nlp.Sentence;
@@ -11,7 +12,6 @@ import com.prodigy.nlp.Word;
 import com.prodigy.nlp.diff.DMPTextDiffCalculator;
 import com.prodigy.nlp.diff.TextDiff;
 import com.prodigy.nlp.diff.TextDiffCalculator;
-import name.fraser.neil.plaintext.diff_match_patch;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -47,14 +47,15 @@ public class WordDiffReviewer implements Reviewer {
                 .map(parser::parse)
                 .collect(Collectors.toList());
 
+        Breakdown breakdown = null;
         for (Sentence target : answerKey) {
-            List<ReviewStep> steps = diff(input, target);
+            breakdown = breakdown(input, target);
+            break;
         }
-
-        return null;
+        return new AddReviewRequest(answer.getId(), score(breakdown), null, null, null, breakdown);
     }
 
-    private List<ReviewStep> diff(Sentence source, Sentence target) {
+    private Breakdown breakdown(Sentence source, Sentence target) {
         List<TextDiff> diff = diffCalculator.diff(
                 source.getWords().stream()
                         .map(Word::word)
@@ -64,9 +65,14 @@ public class WordDiffReviewer implements Reviewer {
                         .collect(Collectors.toList())
         );
 
-        return diff.stream()
-                .map(s-> new ReviewStep(getResult(s.getOperation()), new Word(s.getText())))
-                .collect(Collectors.toList());
+        return new Breakdown(source.getValue(), target.getValue(), diff.stream()
+                .map(s -> new ReviewStep(getResult(s.getOperation()), s.getText()))
+                .collect(Collectors.toList())
+        );
+    }
+
+    private Score score(Breakdown breakdown) {
+        return new Score(1);
     }
 
     private ReviewStep.Result getResult(TextDiff.Operation source) {

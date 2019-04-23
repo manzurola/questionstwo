@@ -9,7 +9,7 @@ export class Review extends Component {
         super(props);
         this.state = {
             question: props.question,
-            diff: props.answerDiff.textDiffs,
+            diff: props.breakdown.steps,
             score: props.score.value,
             scale: props.scale,
         };
@@ -54,17 +54,17 @@ export class Review extends Component {
     renderReviewedWords() {
         let words = [];
         for (let i = 0; i < this.state.diff.length; i++) {
-            let diff = this.state.diff[i];
-            console.log(diff);
-            switch (diff.operation) {
+            let step = this.state.diff[i];
+            console.log(step);
+            switch (step.result) {
                 case 'DELETE':
-                    words.push(<span className={'input-delete input-text'}>{diff.text}</span>);
+                    words.push(<span className={'input-delete input-text'}>{step.value}</span>);
                     break;
                 case 'INSERT':
-                    words.push(<span className={'input-insert input-text'}>{diff.text}</span>);
+                    words.push(<span className={'input-insert input-text'}>{step.value}</span>);
                     break;
                 case 'EQUAL':
-                    words.push(<span className={'input-equal input-text'}>{diff.text}</span>);
+                    words.push(<span className={'input-equal input-text'}>{step.value}</span>);
                     break;
             }
 

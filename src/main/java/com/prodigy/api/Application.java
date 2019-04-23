@@ -20,6 +20,8 @@ import com.prodigy.api.questions.Question;
 import com.prodigy.api.questions.data.InMemoryQuestionRepository;
 import com.prodigy.api.questions.data.QuestionRepository;
 import com.prodigy.api.questions.utils.QuestionUtils;
+import com.prodigy.api.review.reviewer.Reviewer;
+import com.prodigy.api.review.reviewer.WordDiffReviewer;
 import com.prodigy.api.users.data.ElasticsearchUserRepository;
 import com.prodigy.api.users.data.UserRepository;
 import com.prodigy.nlp.*;
@@ -158,6 +160,11 @@ public class Application {
     public ContractionResolver contractionResolver() throws FileNotFoundException {
         String file = this.getClass().getClassLoader().getResource("en-data-exercises.csv").getFile();
         return new ContractionResolverImpl(new FileReader(file));
+    }
+
+    @Bean
+    public Reviewer reviewer() throws Exception {
+        return new WordDiffReviewer(questionRepository());
     }
 
     @Bean

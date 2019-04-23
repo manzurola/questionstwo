@@ -5,6 +5,7 @@ import com.prodigy.api.common.Id;
 import com.prodigy.api.common.service.ServiceRequest;
 import com.prodigy.api.review.Comment;
 import com.prodigy.api.review.Score;
+import com.prodigy.api.review.reviewer.Breakdown;
 import com.prodigy.api.users.User;
 import com.prodigy.nlp.diff.SentenceDiff;
 
@@ -17,13 +18,15 @@ public class AddReviewRequest implements ServiceRequest {
     private final Comment comment;
     private final Id<User> reviewerId;
     private final SentenceDiff diff;
+    private final Breakdown breakdown;
 
-    public AddReviewRequest(Id<Answer> answerId, Score score, Comment comment, Id<User> reviewerId, SentenceDiff diff) {
+    public AddReviewRequest(Id<Answer> answerId, Score score, Comment comment, Id<User> reviewerId, SentenceDiff diff, Breakdown breakdown) {
         this.answerId = answerId;
         this.score = score;
         this.comment = comment;
         this.reviewerId = reviewerId;
         this.diff = diff;
+        this.breakdown = breakdown;
     }
 
     public Id<Answer> getAnswerId() {
@@ -44,6 +47,10 @@ public class AddReviewRequest implements ServiceRequest {
 
     public SentenceDiff getDiff() {
         return diff;
+    }
+
+    public Breakdown getBreakdown() {
+        return breakdown;
     }
 
     @Override

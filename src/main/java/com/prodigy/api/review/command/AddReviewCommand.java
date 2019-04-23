@@ -23,7 +23,7 @@ public class AddReviewCommand extends AbstractCommand<Review, AddReviewRequest> 
                 .score(request.getScore())
                 .comment(request.getComment())
                 .reviewerId(request.getReviewerId())
-                .sentenceDiff(request.getDiff())
+                .breakdown(request.getBreakdown())
                 .build();
         return repository.add(review);
     }
