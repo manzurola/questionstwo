@@ -5,3 +5,10 @@
 .textarea {
     border-bottom: black solid 2px;
 }
+
+.textarea-contenteditable {
+    position: relative;
+    display: inline;
+    min-width: 200px;
+    background-color: #512da8;
+}

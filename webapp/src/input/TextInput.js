@@ -12,7 +12,7 @@ export class TextInput extends Component {
             disabled: false,
             text: '',
             words: [],
-            html: 'd',
+            html: '',
             suggestion: ''
         };
     }
@@ -34,12 +34,13 @@ export class TextInput extends Component {
     render() {
         return <div>
             <ContentEditable
+                className={'textarea-contenteditable'}
                 ref={(node) => { this.contentEditable = node }}
                 disabled={this.state.disabled}
                 onBlur={this.handleBlur}
                 onInput={this.handleInput}
                 onKeyDown={this.onKeyDown}
-                tagName={'span'}
+                tagName={'div'}
                 onChange={this.handleChange} // handle innerHTML change
                 html={this.state.html}>
             </ContentEditable>
