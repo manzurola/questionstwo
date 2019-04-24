@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import "./TextInput.css";
 import ContentEditable from "react-contenteditable";
 import * as ReactDom from "react-dom";
+import sanitizeHtml from 'sanitize-html';
 
 export class TextInput extends Component {
 
@@ -24,9 +25,23 @@ export class TextInput extends Component {
 
     render() {
         return <div className={'textarea'} onClick={this.focus}>
+            {this.renderLabel()}
+            {this.renderContent()}
+        </div>
+    }
+
+    renderLabel = () => {
+        return <div
+            className={['textarea-label', this.state.empty ? 'withoutcontent' : 'withcontent'].join(' ')}>{this.props.label}</div>
+    };
+
+    renderContent =() => {
+        return <div className={'content-wrapper'}>
             <ContentEditable
                 className={'textarea-contenteditable'}
-                ref={(node) => { this.contentEditable = node }}
+                ref={(node) => {
+                    this.contentEditable = node
+                }}
                 disabled={this.state.disabled}
                 onFocus={this.handleFocus}
                 onBlur={this.handleBlur}
@@ -37,22 +52,19 @@ export class TextInput extends Component {
                 html={this.state.html}>
             </ContentEditable>
             {this.renderAutoSuggest()}
-            {this.renderLabel()}
         </div>
-    }
-
-    renderLabel = () => {
-        return <div className={['textarea-label', this.state.empty ? 'textarea-label-withoutcontent' : 'textarea-label-withcontent'].join(' ')}>{this.props.label}</div>
     };
 
     renderAutoSuggest = () => {
-        return this.state.focused && !this.state.empty ? <span contentEditable={false} className={'textarea-autosuggest'}>suggestion</span> : null;
+        return this.state.focused && !this.state.empty ?
+            <span contentEditable={false} className={'textarea-autosuggest'}>suggestion</span> : null;
     };
 
     handleChange = (event) => {
         console.log("on change in content editable");
         console.log(event);
-        let value = event.target.value;
+        let value = sanitizeHtml(event.target.value);
+        event.target.value = value;
         if (value.includes('<br>')) {
             // this.handleSubmit(event);
         } else if (value.includes('\t')) {

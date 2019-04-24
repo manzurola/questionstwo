@@ -81,8 +81,8 @@ public class WordDiffReviewer implements Reviewer {
         for (TextDiff diff : diffs) {
             switch (diff.getOperation()) {
                 case EQUAL:
-                    result.add(new TextDiff(targetQueue.remove().value(), EQUAL));
-                    sourceQueue.remove();
+                    result.add(new TextDiff(sourceQueue.remove().value(), EQUAL));
+                    targetQueue.remove();
                     break;
                 case INSERT:
                     result.add(new TextDiff(targetQueue.remove().value(), INSERT));

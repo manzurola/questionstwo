@@ -1,6 +1,5 @@
 import React, {Component} from "react";
 import './Review.css';
-import './Question.css';
 
 export class Review extends Component {
 
@@ -19,32 +18,34 @@ export class Review extends Component {
     }
 
     render() {
-        return <div className={'question'}>
+        return <div className={'review'}>
             {this.renderTitle()}
-            <div className={'question-input'}>
-                <div className={'question-input-label'}>{this.state.question.instructions}</div>
-                {this.state.score > 0 ? this.renderTrue() : this.renderFalse()}
+            <div className={'review-input'}>
+                <div className={'review-input-label'}>{this.state.question.instructions}</div>
+                <div className={'review-input-answer'}>
+                    {this.state.score > 0 ? this.renderTrue() : this.renderFalse()}
+                </div>
             </div>
         </div>
     }
 
     renderTitle() {
-        return <div className={'question-title'}>{this.state.question.body}</div>;
+        return <div className={'review-title'}>{this.state.question.body}</div>;
     }
 
     renderTrue() {
         return [
-            <div key={0} className={'question-input-reviewed-correct'}>
+            <div key={0} className={'review-input-answer-correct'}>
                 {this.renderReviewedWords()}
             </div>,
-            <div key={1} className={'question-input-reviewed-correct-icon'}>
+            <div key={1} className={'review-input-answer-correct-icon slide-top'}>
                 <i className="material-icons">done</i>
             </div>
         ]
     }
 
     renderFalse() {
-        return <div className={'question-input-reviewed-mistake'}>
+        return <div className={'review-input-answer-mistake'}>
             {this.renderReviewedWords()}
         </div>
     }
@@ -57,13 +58,13 @@ export class Review extends Component {
             console.log(step);
             switch (step.result) {
                 case 'DELETE':
-                    words.push(<span className={'input-delete input-text'}>{step.value}</span>);
+                    words.push(<span className={'answer-text answer-delete '}>{step.value}</span>);
                     break;
                 case 'INSERT':
-                    words.push(<span className={'input-insert input-text'}>{step.value}</span>);
+                    words.push(<span className={'answer-text answer-insert '}>{step.value}</span>);
                     break;
                 case 'EQUAL':
-                    words.push(<span className={'input-equal input-text'}>{step.value}</span>);
+                    words.push(<span className={'answer-text answer-equal '}>{step.value}</span>);
                     break;
             }
 
@@ -71,7 +72,6 @@ export class Review extends Component {
         }
         return words;
     }
-
 
 
 }

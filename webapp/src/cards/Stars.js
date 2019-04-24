@@ -5,8 +5,8 @@ import "./Stars.css";
 export class Stars extends Component {
 
     render() {
-        return <div >
-            <img className={'stars'} src={coin} alt="Coin" />
+        return <div className={'stars'} >
+            <img src={coin} alt="Coin" />
         </div>
     }
 }

@@ -36,7 +36,6 @@ export class Deck extends Component {
 
     render() {
         return <div className={'Deck'}>
-            <Stars/>
             <div className={'card-wrapper'}>
                 {this.hasReview() ? this.renderReview() : this.renderQuestion()}
             </div>
