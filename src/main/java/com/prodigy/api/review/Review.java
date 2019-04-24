@@ -2,9 +2,8 @@ package com.prodigy.api.review;
 
 import com.prodigy.api.answers.Answer;
 import com.prodigy.api.common.Id;
-import com.prodigy.api.review.reviewer.Breakdown;
+import com.prodigy.api.review.reviewer.Explain;
 import com.prodigy.api.users.User;
-import com.prodigy.nlp.diff.SentenceDiff;
 
 import javax.validation.constraints.NotNull;
 import java.util.Objects;
@@ -19,15 +18,15 @@ public class Review {
     private final Score score;
     private final Comment comment;
     private final Id<User> reviewerId;
-    private final Breakdown breakdown;
+    private final Explain explain;
 
-    public Review(Id<Review> id, Id<Answer> answerId, Score score, Comment comment, Id<User> reviewerId, Breakdown breakdown) {
+    public Review(Id<Review> id, Id<Answer> answerId, Score score, Comment comment, Id<User> reviewerId, Explain explain) {
         this.id = id;
         this.answerId = answerId;
         this.score = score;
         this.comment = comment;
         this.reviewerId = reviewerId;
-        this.breakdown = breakdown;
+        this.explain = explain;
     }
 
     public Id<Review> getId() {
@@ -50,8 +49,8 @@ public class Review {
         return reviewerId;
     }
 
-    public Breakdown getBreakdown() {
-        return breakdown;
+    public Explain getExplain() {
+        return explain;
     }
 
     @Override
@@ -81,7 +80,7 @@ public class Review {
         private Score score;
         private Comment comment;
         private Id<User> reviewerId;
-        private Breakdown breakdown;
+        private Explain breakdown;
 
         public Builder id(Id<Review> id) {
             this.id = id;
@@ -108,7 +107,7 @@ public class Review {
             return this;
         }
 
-        public Builder breakdown(Breakdown breakdown) {
+        public Builder breakdown(Explain breakdown) {
             this.breakdown = breakdown;
             return this;
         }

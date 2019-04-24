@@ -38,27 +38,26 @@ public class StanfordSentenceParser implements SentenceParser {
             collected.add(new com.prodigy.nlp.TaggedWord(word.word(), POS.ofValue(word.tag()).orElse(null), i));
         }
         GrammaticalStructure sourceGrammar = parser.predict(sourceTagged);
-        List<GrammaticalRelation> relations = new ArrayList<>();
-        for (TypedDependency dependency : sourceGrammar.typedDependencies()) {
-            edu.stanford.nlp.ling.IndexedWord gov = dependency.gov();
-            edu.stanford.nlp.ling.IndexedWord dep = dependency.dep();
-            String relationName = dependency.reln().getShortName();
+        List<GrammaticalRelation> relations = sourceGrammar.typedDependencies().stream()
+                .map(this::toGrammaticalRelation)
+                .collect(Collectors.toList());
 
-            relations.add(
-                    GrammaticalRelation.builder()
-                            .withName(relationName)
-                            .withGovernor(new IndexedWord(
-                                    gov.index(),
-                                    new TaggedWord(gov.word(), POS.ofValue(gov.tag()).orElse(null), gov.index())
-                            ))
-                            .withDependant(new IndexedWord(
-                                    dep.index(),
-                                    new TaggedWord(dep.word(), POS.ofValue(dep.tag()).orElse(null), dep.index())
-                            ))
-                            .build()
-            );
-        }
+        return new Sentence(sentence, collected.stream().map(w -> new Word(w.value())).collect(Collectors.toList()), collected, relations);
+    }
 
-        return new Sentence(sentence, collected.stream().map(w->new Word(w.word())).collect(Collectors.toList()), collected, relations);
+    private GrammaticalRelation toGrammaticalRelation(TypedDependency dependency) {
+        edu.stanford.nlp.ling.IndexedWord gov = dependency.gov();
+        edu.stanford.nlp.ling.IndexedWord dep = dependency.dep();
+        return GrammaticalRelation.builder()
+                .withName(dependency.reln().getShortName())
+                .withGovernor(new IndexedWord(
+                        gov.index(),
+                        new TaggedWord(gov.word(), POS.ofValue(gov.tag()).orElse(null), gov.index())
+                ))
+                .withDependant(new IndexedWord(
+                        dep.index(),
+                        new TaggedWord(dep.word(), POS.ofValue(dep.tag()).orElse(null), dep.index())
+                ))
+                .build();
     }
 }

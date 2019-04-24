@@ -1,7 +1,6 @@
 import React, {Component} from "react";
 import './Review.css';
 import './Question.css';
-import axios from "axios";
 
 export class Review extends Component {
 
@@ -9,7 +8,7 @@ export class Review extends Component {
         super(props);
         this.state = {
             question: props.question,
-            diff: props.breakdown.steps,
+            diff: props.explain.steps,
             score: props.score.value,
             scale: props.scale,
         };

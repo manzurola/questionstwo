@@ -30,8 +30,8 @@ public class GrammaticalDiffCheck implements SentenceDiffCheck<GrammaticalSenten
         List<TaggedWord> targetWords = targetParse.getTaggedWords();
 
         List<TextDiff> wordDiff = diffCalculator.diff(
-                sourceWords.stream().map(Word::word).collect(Collectors.toList()),
-                targetWords.stream().map(Word::word).collect(Collectors.toList())
+                sourceWords.stream().map(Word::value).collect(Collectors.toList()),
+                targetWords.stream().map(Word::value).collect(Collectors.toList())
         );
 
         List<WordDiff> taggedDiff = tagDiff(wordDiff, sourceWords, targetWords);

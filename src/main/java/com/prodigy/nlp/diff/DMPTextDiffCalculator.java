@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 public class DMPTextDiffCalculator implements TextDiffCalculator {
 
     private final diff_match_patch dmp;
+    private boolean ignoreCase;
 
     public DMPTextDiffCalculator() {
         this.dmp = new diff_match_patch();

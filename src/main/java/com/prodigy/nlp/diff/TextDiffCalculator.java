@@ -9,4 +9,6 @@ public interface TextDiffCalculator {
     List<TextDiff> diff(List<String> origin, List<String> target);
 
     double distance(List<TextDiff> diffs);
+
+    enum Level {CHARS,WORDS}
 }

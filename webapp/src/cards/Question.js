@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import './Question.css';
 import {TextInput} from "../input/TextInput";
-import axios from 'axios';
+import sanitizeHtml from 'sanitize-html';
 
 export class Question extends Component {
 
@@ -43,7 +43,7 @@ export class Question extends Component {
 
     answerDidChange = (event) => {
         console.log(event);
-        this.setState({answer: event.target.value}, () => {
+        this.setState({answer: sanitizeHtml(event.target.value.trim())}, () => {
             if (this.props.onInputChange) this.props.onInputChange(event);
         });
     };
@@ -53,7 +53,7 @@ export class Question extends Component {
             if (this.props.onSubmit) {
                 this.props.onSubmit({
                     id: this.state.id,
-                    answer: this.state.answer,
+                    answer: this.state.answer.trim(),
                 });
             }
         });

@@ -18,6 +18,10 @@ public class TextDiff {
         this.operation = operation;
     }
 
+    public TextDiff(TextDiff other) {
+        this(other.getText(), other.getOperation());
+    }
+
     public String getText() {
         return text;
     }

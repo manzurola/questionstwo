@@ -13,7 +13,8 @@ export class TextInput extends Component {
             focused: false,
             html: '',
             empty: true,
-            suggestion: ''
+            suggestion: '',
+            previousKey: '',
         };
     }
 
@@ -66,12 +67,18 @@ export class TextInput extends Component {
         event.persist();
         console.log("onKeyDown");
         console.log(event);
-        if (event.keyCode === 13) { // capture Enter
+        let nextKey = event.keyCode;
+        if (nextKey === 13) { // capture Enter
             this.handleSubmit(event);
-        } else if (event.keyCode === 9) { //capture Tab
+        } else if (nextKey === 9) { //capture Tab
             event.preventDefault();
             console.log("pressed tab for auto complete");
+        } else if (nextKey === 32 && nextKey === this.state.previousKey) {
+            event.preventDefault();
+            console.log("preventing second spacebar");
         }
+
+        this.setState({previousKey: nextKey});
     };
 
     handleSubmit = (event) => {

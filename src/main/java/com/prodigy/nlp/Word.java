@@ -10,7 +10,7 @@ public class Word {
         this.value = value;
     }
 
-    public String word() {
+    public String value() {
         return value;
     }
 

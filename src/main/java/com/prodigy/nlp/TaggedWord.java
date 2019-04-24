@@ -38,6 +38,6 @@ public class TaggedWord extends Word {
 
     @Override
     public String toString() {
-        return String.format("[%s-%d/%s]", word(), index, tag != null ? tag.name() : "");
+        return String.format("[%s-%d/%s]", value(), index, tag != null ? tag.name() : "");
     }
 }
