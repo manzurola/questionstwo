@@ -1,0 +1,108 @@
+/*.question {*/
+    /*position: relative;*/
+    /*height: 250pt;*/
+    /*width: 400pt;*/
+    /*border-radius: 40pt;*/
+    /*box-shadow: 0 1pt 2pt 0 rgba(0,0,0,0.5) ;*/
+/*}*/
+
+/*.question-input {*/
+    /*position: absolute;*/
+    /*bottom: 50pt;*/
+    /*left: 75pt;*/
+    /*font-size: 12pt;*/
+    /*font-weight: bold;*/
+    /*width: 250pt;*/
+/*}*/
+
+.question-input-label {
+    transform: translate(0, -8pt);
+    /*transform-origin: top left;*/
+    font-size: 14pt !important;
+    font-family: Myriad Pro, sans-serif !important;
+    font-weight: 300;
+    color: gray;
+}
+
+.question-input-reviewed-correct {
+    line-height: 2;
+    border-bottom: 2px solid green;
+}
+
+.question-input-reviewed-correct-icon {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    color: green;
+}
+
+.question-input-reviewed-mistake {
+    line-height: 2;
+    border-bottom: 2px solid red;
+}
+
+.input-text {
+    position: relative;
+    display: inline-block;
+    font-family: Myriad Pro, sans-serif !important;
+    font-size: 14pt !important;
+    font-weight: 400;
+
+    -webkit-animation-name: blow-up;
+    -webkit-animation-iteration-count: 1;
+    -webkit-animation-duration: 350ms;
+    -webkit-animation-direction: normal;
+    -webkit-animation-timing-function: cubic-bezier(0, 0.5, 0.5, 1);
+
+    /*-webkit-transition: background steps(1, end);*/
+    /*transition: background steps(1, end);*/
+
+}
+
+.input-delete {
+    color: gray;
+    text-decoration-line: line-through;
+    text-decoration-color: black;
+}
+
+.input-insert {
+    color: red;
+}
+
+.input-equal {
+
+}
+
+@-webkit-keyframes blow-up {
+    0% {
+        -webkit-transform: translate3d(0,-0.5em,0) rotate(0deg) scale(1.3);
+    }
+    100% {
+        -webkit-transform: translate3d(0,-0.75em,0) rotate(-10deg) scale(1);
+    }
+}
+
+@-webkit-keyframes flatTo3d {
+    0% {
+        -webkit-transform: translate3d(0, 8px, 0);
+        -webkit-box-shadow: inset 0 0 0.5em rgba(0, 0, 0, 0.35),
+        inset 0 0 2px black,
+        0 0 2px black;
+    }
+    100% {
+        -webkit-transform: translate3d(0, 0, 0);
+        -webkit-box-shadow: inset 0 0 0.5em rgba(0, 0, 0, 0.35),
+        inset 0 0 2px black,
+        0 0 2px black,
+        0 1px 0 rgba(170, 170, 170, 1),
+        0 2px 0 rgba(170, 170, 170, 1),
+        0 3px 0 rgba(170, 170, 170, 1),
+        0 4px 0 rgba(170, 170, 170, 1),
+        0 5px 0 rgba(170, 170, 170, 1),
+        0 6px 0 rgba(170, 170, 170, 1),
+        0 7px 0 rgba(170, 170, 170, 1),
+        0 8px 0 rgba(170, 170, 170, 1),
+        0 0.25em 0.25em rgba(56, 50, 50, 0.65),
+        0 0.5em 0.5em rgba(156, 150, 150, 0.65);
+    }
+}

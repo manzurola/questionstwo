@@ -1,0 +1,79 @@
+.TextInput {
+    position: absolute;
+    bottom: 50pt;
+    left: 75pt;
+    font-size: 14pt;
+    /*min-height: 60px;*/
+    /*width: 200px;*/
+}
+
+.TextInput-input{
+    border: none;
+    border-bottom: 2pt solid rgba(128,122,127,0.94);
+    width: 100%;
+    position: relative;
+    padding: 0px 16px;
+    font-family: 'Gotham SSm A', 'Gotham SSm B', sans-serif;
+    font-size: 14pt;
+    font-weight: 400;
+    line-height: normal;
+    background-color: transparent;
+    color: #282828;
+    outline: none;
+    box-shadow: 0px 4px 20px 0px transparent;
+    transition: 0.3s background-color ease-in-out, 0.3s box-shadow ease-in-out, 0.1s padding ease-in-out;
+}
+
+.TextInput-input:focus{
+    width: 100%;
+    border-bottom: 2pt solid rgba(128,122,127,0.94);
+}
+
+.TextInput-input:focus + label{
+    width: 100%;
+    border-bottom: 5pt solid rgba(128,122,127,0.94);
+    line-height: 14pt;
+}
+
+.TextInput-input-submit{
+    visibility: hidden;
+}
+
+.TextInput-input-label{
+    color: rgba(128,122,127,0.94);
+}
+
+.TextInput-char {
+    /*transition: all 200ms cubic-bezier(0.42, 0, 0.58, 1) 10ms;*/
+    display: inline-block;
+    min-width: 5px;
+    animation-name: charPop;
+    animation-duration: 300ms;
+    animation-play-state: running;
+    animation-direction: normal;
+    animation-iteration-count: 1;
+    animation-timing-function: ease;
+}
+
+
+@keyframes charPop {
+    0% {
+        -webkit-transform: scale(1.2);
+        transform: scale(1.2);
+    }
+    60% {
+        -webkit-transform: translate3d(-0.015em, 0.01em, 0) rotate(0deg);
+    }
+    70% {
+        -webkit-transform: translate3d(0.02em, 0.01em, 0) rotate(-2deg);
+    }
+    80% {
+        -webkit-transform: translate3d(-0.01em, -0.01em, 0) rotate(1deg);
+    }
+    90% {
+        -webkit-transform: translate3d(0.02em, 0.02em, 0) rotate(0deg);
+    }
+    100% {
+        -webkit-transform: translate3d(0.01em, -0.02em, 0) rotate(-2deg) scale(1);
+    }
+}

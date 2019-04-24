@@ -1,0 +1,40 @@
+[contentEditable]:focus {
+    outline: none;
+}
+
+.textarea {
+    border-bottom: black solid 2px;
+    font-family: Myriad Pro, sans-serif;
+    font-size: 14pt;
+    padding-bottom: 10px;
+    min-height: 14pt;
+}
+
+.textarea-autosuggest {
+    color: gray;
+}
+
+.textarea-label {
+    z-index: 0;
+    position: absolute;
+    bottom: 10px;
+    left: 0;
+    color: gray;
+    font-weight: 300;
+}
+
+.textarea-label-withcontent {
+    transform: translate(0, -2em);
+}
+
+.textarea-label-withoutcontent {
+}
+
+.textarea-contenteditable {
+    z-index: 1;
+    position: relative;
+    display: inline;
+    font-weight: 400;
+    outline: none;
+
+}

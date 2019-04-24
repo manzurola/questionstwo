@@ -4,7 +4,7 @@ import com.prodigy.api.answers.Answer;
 import com.prodigy.api.answers.SubmitAnswerRequest;
 import com.prodigy.api.test.AddQuestionApiCall;
 import com.prodigy.api.test.AddUserApiCall;
-import com.prodigy.api.test.QuestionUtils;
+import com.prodigy.api.questions.utils.QuestionUtils;
 import com.prodigy.api.test.SubmitAnswerApiCall;
 import com.prodigy.api.env.EndToEndTest;
 import com.prodigy.api.questions.Question;

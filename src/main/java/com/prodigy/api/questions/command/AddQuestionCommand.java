@@ -21,9 +21,6 @@ public class AddQuestionCommand extends AbstractCommand<Question, AddQuestionReq
                 .body(request.getBody())
                 .answerKey(request.getAnswerKey())
                 .instructions(request.getInstructions())
-                .subject(request.getSubject())
-                .source(request.getSource())
-                .version(request.getVersion())
                 .build();
         return repository.add(question);
     }

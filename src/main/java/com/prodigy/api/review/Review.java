@@ -2,6 +2,7 @@ package com.prodigy.api.review;
 
 import com.prodigy.api.answers.Answer;
 import com.prodigy.api.common.Id;
+import com.prodigy.api.review.reviewer.Explain;
 import com.prodigy.api.users.User;
 
 import javax.validation.constraints.NotNull;
@@ -17,13 +18,15 @@ public class Review {
     private final Score score;
     private final Comment comment;
     private final Id<User> reviewerId;
+    private final Explain explain;
 
-    public Review(Id<Review> id, Id<Answer> answerId, Score score, Comment comment, Id<User> reviewerId) {
+    public Review(Id<Review> id, Id<Answer> answerId, Score score, Comment comment, Id<User> reviewerId, Explain explain) {
         this.id = id;
         this.answerId = answerId;
         this.score = score;
         this.comment = comment;
         this.reviewerId = reviewerId;
+        this.explain = explain;
     }
 
     public Id<Review> getId() {
@@ -44,6 +47,10 @@ public class Review {
 
     public Id<User> getReviewerId() {
         return reviewerId;
+    }
+
+    public Explain getExplain() {
+        return explain;
     }
 
     @Override
@@ -73,6 +80,7 @@ public class Review {
         private Score score;
         private Comment comment;
         private Id<User> reviewerId;
+        private Explain breakdown;
 
         public Builder id(Id<Review> id) {
             this.id = id;
@@ -99,8 +107,13 @@ public class Review {
             return this;
         }
 
+        public Builder breakdown(Explain breakdown) {
+            this.breakdown = breakdown;
+            return this;
+        }
+
         public Review build() {
-            return new Review(id, answerId, score, comment, reviewerId);
+            return new Review(id, answerId, score, comment, reviewerId, breakdown);
         }
     }
 }

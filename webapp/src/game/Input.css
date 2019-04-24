@@ -1,0 +1,49 @@
+.Input {
+    display: block;
+    position: absolute;
+    font-size: 14pt;
+    width: 500px;
+    bottom: 0;
+    /*min-height: 60px;*/
+    /*width: 100%;*/
+}
+
+.Input-textarea-box {
+    display: inline-block;
+    width: 600px;
+
+    animation-name: charPop;
+    animation-duration: 300ms;
+    animation-play-state: running;
+    animation-direction: normal;
+    animation-iteration-count: 1;
+    animation-timing-function: ease;
+}
+
+.Input-submit-box {
+    display: inline-block;
+    width: 20%;
+}
+
+@keyframes charPop {
+    0% {
+        -webkit-transform: scale(1.2);
+        transform: scale(1.2);
+    }
+    60% {
+        -webkit-transform: translate3d(-0.015em, 0.01em, 0) rotate(0deg);
+    }
+    70% {
+        -webkit-transform: translate3d(0.02em, 0.01em, 0) rotate(-2deg);
+    }
+    80% {
+        -webkit-transform: translate3d(-0.01em, -0.01em, 0) rotate(1deg);
+    }
+    90% {
+        -webkit-transform: translate3d(0.02em, 0.02em, 0) rotate(0deg);
+    }
+    100% {
+        -webkit-transform: translate3d(0.01em, -0.02em, 0) rotate(-2deg) scale(1);
+    }
+}
+

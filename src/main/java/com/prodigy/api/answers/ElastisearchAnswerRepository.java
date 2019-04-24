@@ -1,16 +1,15 @@
 package com.prodigy.api.answers;
 
-import com.prodigy.api.common.ElasticsearchDataStore;
+import com.prodigy.api.common.DataStore;
 import org.springframework.stereotype.Component;
 
-@Component
 public class ElastisearchAnswerRepository implements AnswerRepository {
 
     private static final String index = "answers";
     private static final String type = "answer";
-    private final ElasticsearchDataStore dataStore;
+    private final DataStore dataStore;
 
-    public ElastisearchAnswerRepository(ElasticsearchDataStore dataStore) {
+    public ElastisearchAnswerRepository(DataStore dataStore) {
         this.dataStore = dataStore;
     }
 

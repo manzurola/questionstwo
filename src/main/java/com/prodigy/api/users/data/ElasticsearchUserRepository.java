@@ -1,6 +1,6 @@
 package com.prodigy.api.users.data;
 
-import com.prodigy.api.common.ElasticsearchDataStore;
+import com.prodigy.api.common.DataStore;
 import com.prodigy.api.common.Id;
 import com.prodigy.api.users.User;
 
@@ -8,10 +8,10 @@ public class ElasticsearchUserRepository implements UserRepository {
 
     private final String index = "users";
     private final String mappedType = "user";
-    private final ElasticsearchDataStore dataStore;
+    private final DataStore dataStore;
 
 
-    public ElasticsearchUserRepository(ElasticsearchDataStore dataStore) {
+    public ElasticsearchUserRepository(DataStore dataStore) {
         this.dataStore = dataStore;
     }
 

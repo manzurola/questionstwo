@@ -15,6 +15,8 @@ public interface Result<T> {
     static <RESULT> Result<RESULT> error(Throwable exception) {
         return new ServiceResultError<>(exception);
     }
+
+
 }
 
 class ServiceResultOk<T> implements Result<T> {
@@ -39,6 +41,15 @@ class ServiceResultOk<T> implements Result<T> {
     public Throwable exception() {
         return null;
     }
+
+    @Override
+    public String toString() {
+        return "ServiceResultOk{" +
+                "payload=" + payload +
+                ", ok=" + isOk() +
+                ", exception=" + exception() +
+                '}';
+    }
 }
 
 class ServiceResultError<T> implements Result<T> {
@@ -62,5 +73,14 @@ class ServiceResultError<T> implements Result<T> {
     @Override
     public Throwable exception() {
         return exception;
+    }
+
+    @Override
+    public String toString() {
+        return "ServiceResultError{" +
+                "exception=" + exception +
+                ", ok=" + isOk() +
+                ", payload=" + payload() +
+                '}';
     }
 }

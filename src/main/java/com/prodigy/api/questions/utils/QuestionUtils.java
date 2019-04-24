@@ -1,4 +1,4 @@
-package com.prodigy.api.test;
+package com.prodigy.api.questions.utils;
 
 import com.prodigy.api.questions.Question;
 import com.prodigy.api.questions.request.AddQuestionRequest;
@@ -14,9 +14,17 @@ public class QuestionUtils {
     private final AddQuestionRequestReader reader;
     private final List<AddQuestionRequest> requests;
 
+    public QuestionUtils() throws IOException {
+        this(new AddQuestionRequestCSVReader());
+    }
+
     public QuestionUtils(AddQuestionRequestReader reader) throws IOException {
         this.reader = reader;
         requests = reader.readAll();
+    }
+
+    public List<AddQuestionRequest> getQuestions() {
+        return requests;
     }
 
     public AddQuestionRequest randomAddQuestionRequest() {
@@ -26,10 +34,7 @@ public class QuestionUtils {
     public Question.Builder newQuestionFromRequest(AddQuestionRequest request) {
         return Question.builder()
                 .answerKey(request.getAnswerKey())
-                .body(request.getBody())
                 .instructions(request.getInstructions())
-                .source(request.getSource())
-                .subject(request.getSubject())
-                .version(request.getVersion());
+                .body(request.getBody());
     }
 }
