@@ -43,7 +43,7 @@ export class Question extends Component {
 
     answerDidChange = (event) => {
         console.log(event);
-        this.setState({answer: sanitizeHtml(event.target.value.trim())}, () => {
+        this.setState({answer: event.target.value.trim()}, () => {
             if (this.props.onInputChange) this.props.onInputChange(event);
         });
     };
