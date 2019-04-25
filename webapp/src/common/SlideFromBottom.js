@@ -4,8 +4,8 @@ import './SlideFromBottom.css';
 export default class SlideFromBottom extends Component {
 
     render() {
-        return <span className={'slide-from-bottom'}>
+        return <div className={'slide-from-bottom'}>
             {this.props.children}
-        </span>
+        </div>
     }
 }

@@ -24,7 +24,7 @@ export class Review extends Component {
         return <div className={'review'}>
             {this.renderTitle()}
             <div className={'review-input'}>
-                <div className={'review-input-label'}>{this.state.question.instructions}</div>
+                <div className={'review-input-label'}><Text>{this.state.question.instructions}</Text></div>
                 <div className={'review-input-answer'}>
                     {this.state.score > 0 ? this.renderTrue() : this.renderFalse()}
                 </div>
@@ -61,17 +61,17 @@ export class Review extends Component {
             console.log(step);
             switch (step.result) {
                 case 'DELETE':
-                    words.push(<Strikethrough><Text color={'#cccccc'}>{step.value}</Text></Strikethrough>);
+                    words.push(<Strikethrough key={i}><Text color={'#cccccc'}>{step.value}</Text></Strikethrough>);
                     break;
                 case 'INSERT':
-                    words.push(<SlideFromBottom><Text color={'#ff0000'}>{step.value}</Text></SlideFromBottom>);
+                    words.push(<SlideFromBottom key={i}><Text color={'#ff0000'}>{step.value}</Text></SlideFromBottom>);
                     break;
                 case 'EQUAL':
-                    words.push(<Text>{step.value}</Text>);
+                    words.push(<Text key={i}>{step.value}</Text>);
                     break;
             }
 
-            words.push(<span> </span>);
+            words.push(<Text key={i + 333}> </Text>);
         }
         return words;
     }

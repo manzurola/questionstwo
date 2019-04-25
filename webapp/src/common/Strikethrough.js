@@ -4,8 +4,8 @@ import './Strikethrough.css';
 export default class Strikethrough extends Component {
 
     render() {
-        return <span className={'strikethrough'}>
+        return <div className={'strikethrough'}>
             {this.props.children}
-        </span>
+        </div>
     }
 }

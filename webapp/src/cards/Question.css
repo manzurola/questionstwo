@@ -3,8 +3,6 @@
 }
 
 .question-title {
-    font-size: 20pt;
-    font-weight: 300;
 }
 
 .question-input {
@@ -14,6 +12,8 @@
     /*left: 75pt;*/
     /*font-size: 24pt;*/
     font-weight: bold;
-    width: 300pt;
+    /*width: 300pt;*/
     /*width: 250pt;*/
+    width: 100%;
+
 }

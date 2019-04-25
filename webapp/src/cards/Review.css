@@ -10,10 +10,8 @@
     position: absolute;
     bottom: 60pt;
     font-weight: bold;
-    width: 300pt;
-    font-size: 14pt;
-    min-height: 14pt;
-    /*min-height: 14pt;*/
+    width: 100%;
+    min-height: 12pt;
 }
 
 .review-input-label {
