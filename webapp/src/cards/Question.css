@@ -1,26 +1,8 @@
 .question {
-    position: relative;
-    height: 280pt;
-    width: 400pt;
-    border-left: 1px solid gainsboro;
-    border-right: 1px solid gainsboro;
-    border-radius: 60pt;
-    box-sizing: border-box;
-    margin: auto;
-    /*box-shadow: 0 10px 15px 0 rgba(0,0,0,0.5) ;*/
-    background-color: white;
-    padding: 60pt 50pt 50pt 50pt;
-
-
-    /*box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.35);*/
-
 
 }
 
 .question-title {
-    /*position: absolute;*/
-    /*top: 50pt;*/
-
     font-size: 20pt;
     font-weight: 300;
 }

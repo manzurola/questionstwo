@@ -1,14 +1,4 @@
 .review {
-    position: relative;
-    height: 280pt;
-    width: 400pt;
-    border-left: 1px solid gainsboro;
-    border-right: 1px solid gainsboro;
-    border-radius: 60pt;
-    box-sizing: border-box;
-    margin: auto;
-    background-color: white;
-    padding: 60pt 50pt 50pt 50pt;
 }
 
 .review-title {

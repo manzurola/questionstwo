@@ -17,7 +17,7 @@ export class Question extends Component {
     };
 
     render() {
-        return <div className={'question'}>
+        return <div>
             {this.renderTitle()}
             {this.renderInput()}
         </div>
@@ -26,7 +26,6 @@ export class Question extends Component {
     renderTitle() {
         return <div className={'question-title'}>{this.props.body}</div>;
     }
-
 
     renderInput() {
         return <div className={'question-input'}>
