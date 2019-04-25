@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import './Question.css';
 import {TextInput} from "../input/TextInput";
-import sanitizeHtml from 'sanitize-html';
+import Text from "../common/Text";
 
 export class Question extends Component {
 
@@ -24,7 +24,7 @@ export class Question extends Component {
     }
 
     renderTitle() {
-        return <div className={'question-title'}>{this.props.body}</div>;
+        return <Text fontSize={'2em'}>{this.props.body}</Text>;
     }
 
     renderInput() {

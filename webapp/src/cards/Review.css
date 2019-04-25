@@ -50,9 +50,6 @@
 .answer-text {
     position: relative;
     display: inline-block;
-    font-family: Myriad Pro, sans-serif !important;
-    font-size: 14pt !important;
-    font-weight: 400;
 
     /*-webkit-transition: background steps(1, end);*/
     /*transition: background steps(1, end);*/
