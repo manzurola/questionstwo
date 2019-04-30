@@ -1,7 +1,8 @@
 import React, {Component} from "react";
 import './Question.css';
 import {TextInput} from "../input/TextInput";
-import sanitizeHtml from 'sanitize-html';
+import Text from "../common/Text";
+import EditableText from "../common/EditableText";
 
 export class Question extends Component {
 
@@ -17,19 +18,20 @@ export class Question extends Component {
     };
 
     render() {
-        return <div className={'question'}>
+        return <div>
             {this.renderTitle()}
             {this.renderInput()}
+            <EditableText/>
         </div>
     }
 
     renderTitle() {
-        return <div className={'question-title'}>{this.props.body}</div>;
+        return <div className={'question-title'}><Text fontSize={'2em'}>{this.props.body}</Text></div>;
     }
-
 
     renderInput() {
         return <div className={'question-input'}>
+            <Text>
             <TextInput
                 key={this.state.id}
                 autoFocus
@@ -38,6 +40,7 @@ export class Question extends Component {
                 onSubmit={this.answerWasSubmitted}
                 disabled={this.state.submitted}
             />
+            </Text>
         </div>
     }
 

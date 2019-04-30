@@ -1,0 +1,16 @@
+.card {
+    position: relative;
+    height: 200pt;
+    width: 350pt;
+    /*border-left: 1px solid gainsboro;*/
+    /*border-right: 1px solid gainsboro;*/
+    /*border-radius: 60pt;*/
+    box-sizing: border-box;
+    margin: auto;
+    background-color: white;
+    /*padding: 60pt 50pt 50pt 50pt;*/
+}
+
+
+.card-child-wrapper {
+}

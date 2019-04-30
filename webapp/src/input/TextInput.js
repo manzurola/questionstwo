@@ -3,6 +3,7 @@ import "./TextInput.css";
 import ContentEditable from "react-contenteditable";
 import * as ReactDom from "react-dom";
 import sanitizeHtml from 'sanitize-html';
+import Text from "../common/Text";
 
 export class TextInput extends Component {
 
@@ -32,7 +33,7 @@ export class TextInput extends Component {
 
     renderLabel = () => {
         return <div
-            className={['textarea-label', this.state.empty ? 'withoutcontent' : 'withcontent'].join(' ')}>{this.props.label}</div>
+            className={['textarea-label', this.state.empty ? 'withoutcontent' : 'withcontent'].join(' ')}><Text>{this.props.label}</Text></div>
     };
 
     renderContent =() => {

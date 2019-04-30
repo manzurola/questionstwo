@@ -1,5 +1,8 @@
 import React, {Component} from "react";
 import './Review.css';
+import Text from "../common/Text";
+import SlideFromBottom from "../common/SlideFromBottom";
+import Strikethrough from "../common/Strikethrough";
 
 export class Review extends Component {
 
@@ -21,7 +24,7 @@ export class Review extends Component {
         return <div className={'review'}>
             {this.renderTitle()}
             <div className={'review-input'}>
-                <div className={'review-input-label'}>{this.state.question.instructions}</div>
+                <div className={'review-input-label'}><Text>{this.state.question.instructions}</Text></div>
                 <div className={'review-input-answer'}>
                     {this.state.score > 0 ? this.renderTrue() : this.renderFalse()}
                 </div>
@@ -30,7 +33,7 @@ export class Review extends Component {
     }
 
     renderTitle() {
-        return <div className={'review-title'}>{this.state.question.body}</div>;
+        return <Text fontSize={'2em'}>{this.props.question.body}</Text>;
     }
 
     renderTrue() {
@@ -58,17 +61,17 @@ export class Review extends Component {
             console.log(step);
             switch (step.result) {
                 case 'DELETE':
-                    words.push(<span className={'answer-text answer-delete '}>{step.value}</span>);
+                    words.push(<Strikethrough key={i}><Text color={'#cccccc'}>{step.value}</Text></Strikethrough>);
                     break;
                 case 'INSERT':
-                    words.push(<span className={'answer-text answer-insert '}>{step.value}</span>);
+                    words.push(<SlideFromBottom key={i}><Text color={'#ff0000'}>{step.value}</Text></SlideFromBottom>);
                     break;
                 case 'EQUAL':
-                    words.push(<span className={'answer-text answer-equal '}>{step.value}</span>);
+                    words.push(<Text key={i}>{step.value}</Text>);
                     break;
             }
 
-            words.push(<span> </span>);
+            words.push(<Text key={i + 333}> </Text>);
         }
         return words;
     }

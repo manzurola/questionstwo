@@ -11,7 +11,6 @@ class App extends Component {
             <div className="App">
                 <div className="App-header"/>
                 <div className="App-game">
-                    {/*<Game/>*/}
                     <Deck {...baseUrl}/>
                 </div>
                 <div className="App-footer"/>
