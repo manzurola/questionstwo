@@ -5,22 +5,25 @@ import com.prodigy.api.questions.request.AddQuestionRequest;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
 @Component
 public class QuestionUtils {
 
-    private final AddQuestionRequestReader reader;
-    private final List<AddQuestionRequest> requests;
+    private final List<AddQuestionRequest> requests = new ArrayList<>();
 
     public QuestionUtils() throws IOException {
-        this(new AddQuestionRequestCSVReader());
+
     }
 
-    public QuestionUtils(AddQuestionRequestReader reader) throws IOException {
-        this.reader = reader;
-        requests = reader.readAll();
+    public QuestionUtils(List<AddQuestionRequestReader> readers) throws IOException {
+        for (AddQuestionRequestReader reader : readers) {
+            requests.addAll(reader.readAll());
+            reader.close();
+        }
     }
 
     public List<AddQuestionRequest> getQuestions() {

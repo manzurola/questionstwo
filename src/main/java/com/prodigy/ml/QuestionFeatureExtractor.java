@@ -56,24 +56,4 @@ public class QuestionFeatureExtractor implements FeatureExtractor<Question> {
         return vector;
     }
 
-    private List<TaggedWord> tagDiff(List<TextDiff> diffs, List<TaggedWord> source, List<TaggedWord> target) {
-        LinkedList<TaggedWord> sourceQueue = new LinkedList<>(source);
-        LinkedList<TaggedWord> targetQueue = new LinkedList<>(target);
-        List<TaggedWord> taggedDiff = new ArrayList<>();
-
-        for (TextDiff diff : diffs) {
-            switch (diff.getOperation()) {
-                case EQUAL:
-                case INSERT:
-                    taggedDiff.add(targetQueue.remove());
-                    break;
-                case DELETE:
-                    taggedDiff.add(sourceQueue.remove());
-                    break;
-            }
-        }
-
-        return taggedDiff;
-    }
-
 }
