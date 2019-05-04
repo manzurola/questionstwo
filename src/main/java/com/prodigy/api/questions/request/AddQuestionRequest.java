@@ -4,6 +4,7 @@ import com.prodigy.api.common.service.ServiceRequest;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -18,15 +19,21 @@ public class AddQuestionRequest implements ServiceRequest {
     @NotEmpty
     private final String subject;
     private final String source;
-    private final String version; // to reference the parser version
 
-    public AddQuestionRequest(String body, List<String> answerKey, String instructions, String subject, String source, String version) {
+    public AddQuestionRequest(String body, List<String> answerKey, String instructions, String subject, String source) {
         this.body = body;
         this.answerKey = answerKey;
         this.instructions = instructions;
         this.subject = subject;
         this.source = source;
-        this.version = version;
+    }
+
+    private AddQuestionRequest(AddQuestionRequest.Builder builder) {
+        this.body = builder.body;
+        this.answerKey = builder.answerKey;
+        this.instructions = builder.instructions;
+        this.subject = builder.subject;
+        this.source = builder.source;
     }
 
     public String getBody() {
@@ -49,10 +56,6 @@ public class AddQuestionRequest implements ServiceRequest {
         return source;
     }
 
-    public String getVersion() {
-        return version;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -62,12 +65,55 @@ public class AddQuestionRequest implements ServiceRequest {
                 Objects.equals(answerKey, that.answerKey) &&
                 Objects.equals(instructions, that.instructions) &&
                 Objects.equals(subject, that.subject) &&
-                Objects.equals(source, that.source) &&
-                Objects.equals(version, that.version);
+                Objects.equals(source, that.source);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(body, answerKey, instructions, subject, source, version);
+        return Objects.hash(body, answerKey, instructions, subject, source);
+    }
+
+    public static Builder builder() {return new Builder();}
+
+    public static class Builder {
+        private String body;
+        private List<String> answerKey;
+        private String instructions;
+        private String subject;
+        private String source;
+
+        public Builder body(String body) {
+            this.body = body;
+            return this;
+        }
+
+        public Builder answerKey(List<String> answerKey) {
+            this.answerKey = answerKey;
+            return this;
+        }
+
+        public Builder answerKey(String... answers) {
+            this.answerKey = Arrays.asList(answers);
+            return this;
+        }
+
+        public Builder instructions(String instructions) {
+            this.instructions = instructions;
+            return this;
+        }
+
+        public Builder subject(String subject) {
+            this.subject = subject;
+            return this;
+        }
+
+        public Builder source(String source) {
+            this.source = source;
+            return this;
+        }
+
+        public AddQuestionRequest build() {
+            return new AddQuestionRequest(this);
+        }
     }
 }

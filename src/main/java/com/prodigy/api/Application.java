@@ -19,6 +19,8 @@ import com.prodigy.api.exercises.utils.ExerciseReader;
 import com.prodigy.api.questions.Question;
 import com.prodigy.api.questions.data.InMemoryQuestionRepository;
 import com.prodigy.api.questions.data.QuestionRepository;
+import com.prodigy.api.questions.utils.AddQuestionRequestCSVReader;
+import com.prodigy.api.questions.utils.MissingTextAddQuestionRequestCSVReader;
 import com.prodigy.api.questions.utils.QuestionUtils;
 import com.prodigy.api.review.reviewer.Reviewer;
 import com.prodigy.api.review.reviewer.WordDiffReviewer;
@@ -109,7 +111,10 @@ public class Application {
 
     @Bean
     public QuestionRepository questionRepository() throws Exception {
-        QuestionUtils utils = new QuestionUtils();
+        QuestionUtils utils = new QuestionUtils(Arrays.asList(
+                new AddQuestionRequestCSVReader(new File(this.getClass().getClassLoader().getResource("questions-en-shortanswer.csv").getFile())),
+                new MissingTextAddQuestionRequestCSVReader(new File(this.getClass().getClassLoader().getResource("questions-en-fill-in-the-blanks.csv").getFile()))
+        ));
         List<Question> data = utils.getQuestions()
                 .stream()
                 .map(request -> utils.newQuestionFromRequest(request).build())

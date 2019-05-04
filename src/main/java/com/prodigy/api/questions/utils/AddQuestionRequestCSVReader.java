@@ -14,19 +14,24 @@ import java.util.List;
 /**
  * Created by guym on 21/05/2017.
  */
-@Component
+
 public class AddQuestionRequestCSVReader implements AddQuestionRequestReader {
 
-    private final CSVReader reader;
+    private CSVReader reader;
 
     public AddQuestionRequestCSVReader() throws IOException {
-        this.reader = new CSVReader(Files.newBufferedReader(new File(this.getClass().getClassLoader().getResource("questions_en.csv").getFile()).toPath()));
+        System.out.println("AddQuestionRequestCSVReader");
+    }
+
+    public AddQuestionRequestCSVReader(File file) throws IOException {
+        System.out.println("AddQuestionRequestCSVReader: " + file);
+        this.reader = new CSVReader(Files.newBufferedReader(file.toPath()));
     }
 
     public List<AddQuestionRequest> readAll() throws IOException {
         List<AddQuestionRequest> requests = new ArrayList<>();
         for (String[] values : reader) {
-            AddQuestionRequest request = parseCSVLine(values);
+            AddQuestionRequest request = parseValues(values);
             requests.add(request);
         }
         return requests;
@@ -34,7 +39,7 @@ public class AddQuestionRequestCSVReader implements AddQuestionRequestReader {
 
     @Override
     public AddQuestionRequest readNext() throws IOException {
-        return parseCSVLine(reader.readNext());
+        return parseValues(reader.readNext());
     }
 
     @Override
@@ -42,13 +47,13 @@ public class AddQuestionRequestCSVReader implements AddQuestionRequestReader {
         reader.close();
     }
 
-    private AddQuestionRequest parseCSVLine(String[] values) {
+    protected AddQuestionRequest parseValues(String[] values) {
         String body = values[0].trim();
         String answer = values[1].trim();
         String subject = values[2].trim();
         String instructions = values[3].trim();
 
-        return new AddQuestionRequest(body, Arrays.asList(answer), instructions, subject, null, null);
+        return new AddQuestionRequest(body, Arrays.asList(answer), instructions, subject, null);
     }
 
 }
