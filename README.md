@@ -11,5 +11,9 @@ https://www.ling.upenn.edu/courses/Fall_2003/ling001/penn_treebank_pos.html
 Inspiration for UI
 
 fillintheblanks - https://tympanus.net/Tutorials/NaturalLanguageForm/?
+
 rewrite - https://tympanus.net/Development/MinimalForm/
+
 buttons - https://tympanus.net/Development/CreativeButtons/
+
+https://www.awwwards.com/20-best-web-fonts-from-google-web-fonts-and-font-face.html
