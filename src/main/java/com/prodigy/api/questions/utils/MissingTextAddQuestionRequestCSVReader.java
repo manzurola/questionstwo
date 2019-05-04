@@ -35,6 +35,7 @@ public class MissingTextAddQuestionRequestCSVReader extends AddQuestionRequestCS
         int difficultyLevel = Integer.valueOf(values[4].trim());
 
         StringBuffer bodyBuf = new StringBuffer();
+        StringBuffer answerBuf = new StringBuffer();
         List<String> answerKey = new ArrayList<>();
         int blankIndex = 0;
 
@@ -49,6 +50,7 @@ public class MissingTextAddQuestionRequestCSVReader extends AddQuestionRequestCS
                 if (word.startsWith("[") && word.endsWith("]")) {   // dummy
                     word = word.substring(1, word.length() - 1).trim();
                 } else {
+                    answerBuf.append(word).append(", ");
                     answerKey.add(word);
                     correct = true;
                 }
@@ -56,9 +58,10 @@ public class MissingTextAddQuestionRequestCSVReader extends AddQuestionRequestCS
             blankIndex++;
         }
         matcher.appendTail(bodyBuf);
+        answerBuf.delete(answerBuf.length() - 2, answerBuf.length());
 
         return AddQuestionRequest.builder()
-                .answerKey(answerKey)
+                .answerKey(answerBuf.toString())
                 .body(bodyBuf.toString())
                 .instructions(instructions)
                 .subject(subject)
