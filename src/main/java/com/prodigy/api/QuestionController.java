@@ -42,19 +42,19 @@ public class QuestionController {
     @RequestMapping(method = RequestMethod.GET)
     public List<Question> getAllQuestions() {
         Result<List<Question>> result = serviceExecutor.execute(GetAllQuestionsCommand.class, new GetAllQuestionsRequest());
-        return result.payload();
+        return result.getData();
     }
 
 //    @RequestMapping(method = RequestMethod.GET)
 //    public List<Question> getNextQuestions() {
 //        Result<List<Question>> result = serviceExecutor.execute(GetAllQuestionsCommand.class, new GetAllQuestionsRequest());
-//        return result.payload();
+//        return result.getData();
 //    }
 
     @RequestMapping(method = RequestMethod.POST)
     public Question addQuestion(@RequestBody AddQuestionRequest requestBody) {
         Result<Question> result = serviceExecutor.execute(AddQuestionCommand.class, requestBody);
-        return result.payload();
+        return result.getData();
     }
 
 }

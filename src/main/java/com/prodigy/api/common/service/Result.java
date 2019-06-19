@@ -4,7 +4,7 @@ public interface Result<T> {
 
     boolean isOk();
 
-    T payload();
+    T getData();
 
     Throwable exception();
 
@@ -33,7 +33,7 @@ class ServiceResultOk<T> implements Result<T> {
     }
 
     @Override
-    public T payload() {
+    public T getData() {
         return payload;
     }
 
@@ -45,7 +45,7 @@ class ServiceResultOk<T> implements Result<T> {
     @Override
     public String toString() {
         return "ServiceResultOk{" +
-                "payload=" + payload +
+                "getData=" + payload +
                 ", ok=" + isOk() +
                 ", exception=" + exception() +
                 '}';
@@ -66,7 +66,7 @@ class ServiceResultError<T> implements Result<T> {
     }
 
     @Override
-    public T payload() {
+    public T getData() {
         throw new RuntimeException(exception);
     }
 
@@ -80,7 +80,7 @@ class ServiceResultError<T> implements Result<T> {
         return "ServiceResultError{" +
                 "exception=" + exception +
                 ", ok=" + isOk() +
-                ", payload=" + payload() +
+                ", getData=" + getData() +
                 '}';
     }
 }

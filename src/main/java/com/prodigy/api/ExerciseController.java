@@ -42,13 +42,13 @@ public class ExerciseController {
     @RequestMapping(method = RequestMethod.GET)
     public List<Exercise> getAllExercises() {
         Result<List<Exercise>> result = serviceExecutor.execute(GetAllExercisesCommand.class, new GetAllExercisesRequest());
-        return result.payload();
+        return result.getData();
     }
 
     @RequestMapping(method = RequestMethod.POST)
     public Exercise addExercise(@RequestBody AddExerciseRequest requestBody) {
         Result<Exercise> result = serviceExecutor.execute(AddExerciseCommand.class, requestBody);
-        return result.payload();
+        return result.getData();
     }
 
 }

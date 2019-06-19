@@ -10,6 +10,7 @@ import com.prodigy.api.common.ElasticsearchDataStore;
 import com.prodigy.api.common.Id;
 import com.prodigy.api.common.jackson.IdDeserializer;
 import com.prodigy.api.common.jackson.IdSerializer;
+import com.prodigy.api.common.service.CommandFactory;
 import com.prodigy.api.common.service.ServiceExecutor;
 import com.prodigy.api.common.service.ServiceExecutorImpl;
 import com.prodigy.api.exercises.ExerciseRepository;
@@ -142,7 +143,12 @@ public class Application {
 
     @Bean
     public ServiceExecutor serviceExecutor() {
-        return new ServiceExecutorImpl(applicationContext::getBean);
+        return new ServiceExecutorImpl(commandFactory());
+    }
+
+    @Bean
+    public CommandFactory commandFactory() {
+        return applicationContext::getBean;
     }
 
     @Bean

@@ -1,16 +1,23 @@
 package com.prodigy.api;
 
+import com.prodigy.api.common.Id;
 import org.springframework.http.MediaType;
 import org.springframework.http.codec.ServerSentEvent;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+import reactor.core.publisher.DirectProcessor;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.FluxProcessor;
+import reactor.core.publisher.FluxSink;
 
 import java.time.Duration;
 import java.time.LocalTime;
+import java.util.concurrent.atomic.AtomicLong;
 
 @RestController
 public class SSEDemo {
+
+
 
     @GetMapping(path = "/stream-flux", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public Flux<String> streamFlux() {
@@ -21,10 +28,48 @@ public class SSEDemo {
     @GetMapping("/stream-sse")
     public Flux<ServerSentEvent<String>> streamEvents() {
         return Flux.interval(Duration.ofSeconds(1))
-                .map(sequence -> ServerSentEvent.<String> builder()
-                        .id(String.valueOf(sequence))
+                .map(message -> ServerSentEvent.<String>builder()
+                        .id(String.valueOf(message))
                         .event("periodic-event")
                         .data("SSE - " + LocalTime.now().toString())
                         .build());
+    }
+
+//    @GetMapping("/stream-sse-2")
+//    public Flux<ServerSentEvent<String>> streamEventsFromCollection() {
+//        return processor.map(message -> ServerSentEvent.<String>builder()
+//                .id(String.valueOf(message))
+//                .event("periodic-event")
+//                .data("SSE - " + LocalTime.now().toString())
+//                .build()
+//        );
+//    }
+
+    @GetMapping("/add-event")
+    public void addEvent() {
+    }
+
+    public static class Game {
+
+
+    }
+
+    public static class ChatMessage {
+        private final Id<ChatMessage> id;
+        private final String message;
+
+        public ChatMessage(Id<ChatMessage> id, String message) {
+            this.id = id;
+            this.message = message;
+        }
+
+        public Id<ChatMessage> getId() {
+            return id;
+        }
+
+        public String getMessage() {
+            return message;
+        }
+
     }
 }
