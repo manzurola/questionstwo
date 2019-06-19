@@ -26,13 +26,13 @@ public class ReviewController {
 //    @GetMapping("/reviews/{id}")
 //    public Review getReview(@PathVariable Id<Review> id) {
 //        Result<Review> result = serviceExecutor.execute(GetReviewCommand.class, new GetReviewRequest(id));
-//        return result.payload();
+//        return result.getData();
 //    }
 
     @GetMapping("/reviews")
     public Review getReview(@RequestParam Id<Answer> answerId) {
         Result<Review> result = serviceExecutor.execute(GetReviewCommand.class, new GetReviewRequest(answerId));
-        return result.payload();
+        return result.getData();
     }
 
 }

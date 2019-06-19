@@ -36,24 +36,24 @@ public class AnswerController {
         Answer answer = serviceExecutor.execute(
                 SubmitAnswerCommand.class,
                 request
-        ).payload();
+        ).getData();
         System.out.println(answer);
         Question question = serviceExecutor.execute(
                 GetQuestionCommand.class,
                 new GetQuestionRequest(answer.getQuestionId())
-        ).payload();
+        ).getData();
         System.out.println(question);
         AddReviewRequest addReviewRequest = serviceExecutor.execute(
                 SuggestReviewCommand.class,
                 new SuggestReviewRequest(question, answer)
-        ).payload();
+        ).getData();
         System.out.println(addReviewRequest);
         Result<Review> review = serviceExecutor.execute(
                 AddReviewCommand.class,
                 addReviewRequest
         );
         System.out.println(review);
-        return review.payload();
+        return review.getData();
     }
 
 }

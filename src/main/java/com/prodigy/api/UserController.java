@@ -31,12 +31,12 @@ public class UserController {
             consumes = MediaType.APPLICATION_JSON_VALUE)
     public User addUser(@RequestBody AddUserRequest request) {
         Result<User> result = serviceExecutor.execute(AddUserCommand.class, request);
-        return result.payload();
+        return result.getData();
     }
 
     @RequestMapping(value = "{userId}", method = RequestMethod.GET)
     public User getUser(@PathVariable Id<User> userId) {
-        return serviceExecutor.execute(GetUserCommand.class, new GetUserRequest(userId)).payload();
+        return serviceExecutor.execute(GetUserCommand.class, new GetUserRequest(userId)).getData();
     }
 
 }
