@@ -26,7 +26,6 @@ export class TextInput extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            disabled: true,
             value: '',
             disabled: false,
             focused: false,

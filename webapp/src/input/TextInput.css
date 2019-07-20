@@ -19,6 +19,7 @@
     /*position: absolute;*/
     color: gray;
     font-weight: 300;
+    font-size: 12pt;
 }
 
 .textarea-label.withcontent {
