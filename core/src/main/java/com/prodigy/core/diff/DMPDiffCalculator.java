@@ -1,19 +1,21 @@
 package com.prodigy.core.diff;
 
-import name.fraser.neil.plaintext.diff_match_patch;
+import org.bitbucket.cowwoc.diffmatchpatch.DiffMatchPatch;
 
 import java.util.*;
 
+import static org.bitbucket.cowwoc.diffmatchpatch.DiffMatchPatch.Operation.EQUAL;
+
 public class DMPDiffCalculator implements DiffCalculator {
 
-    private final diff_match_patch dmp;
+    private final DiffMatchPatch dmp;
     private boolean ignoreCase;
 
     public DMPDiffCalculator() {
-        this.dmp = new diff_match_patch();
+        this.dmp = new DiffMatchPatch();
     }
 
-    public DMPDiffCalculator(diff_match_patch dmp) {
+    public DMPDiffCalculator(DiffMatchPatch dmp) {
         this.dmp = dmp;
     }
 
@@ -50,15 +52,15 @@ public class DMPDiffCalculator implements DiffCalculator {
         }
 
         // do diff
-        List<diff_match_patch.Diff> diffs = doDiff(actualChars.toString(), expectedChars.toString());
+        LinkedList<DiffMatchPatch.Diff> diffs = doDiff(actualChars.toString(), expectedChars.toString());
 
         // expand diffs of more than one char to multiple single char diffs
-        LinkedList<diff_match_patch.Diff> expanded = new LinkedList<>();
-        for (diff_match_patch.Diff diff : diffs) {
+        LinkedList<DiffMatchPatch.Diff> expanded = new LinkedList<>();
+        for (DiffMatchPatch.Diff diff : diffs) {
             if (diff.text.length() > 1) {
                 char[] chars = diff.text.toCharArray();
                 for (char aChar : chars) {
-                    expanded.add(new diff_match_patch.Diff(diff.operation, String.valueOf(aChar)));
+                    expanded.add(new DiffMatchPatch.Diff(diff.operation, String.valueOf(aChar)));
                 }
             } else {
                 expanded.add(diff);
@@ -68,11 +70,11 @@ public class DMPDiffCalculator implements DiffCalculator {
         return toTextDiffs(expanded, source, target);
     }
 
-    private <T> List<Diff<T>> toTextDiffs(LinkedList<diff_match_patch.Diff> diffs, List<T> source, List<T> target) {
+    private <T> List<Diff<T>> toTextDiffs(LinkedList<DiffMatchPatch.Diff> diffs, List<T> source, List<T> target) {
         LinkedList<T> sourceQueue = new LinkedList<>(source);
         LinkedList<T> targetQueue = new LinkedList<>(target);
         List<Diff<T>> result = new ArrayList<>();
-        for (diff_match_patch.Diff diff : diffs) {
+        for (DiffMatchPatch.Diff diff : diffs) {
             switch (diff.operation) {
                 case EQUAL:
                 case DELETE:
@@ -89,7 +91,7 @@ public class DMPDiffCalculator implements DiffCalculator {
         return result;
     }
 
-    private Diff.Operation getOperation(diff_match_patch.Operation source) {
+    private Diff.Operation getOperation(DiffMatchPatch.Operation source) {
         switch (source) {
             case EQUAL:
                 return Diff.Operation.EQUAL;
@@ -102,9 +104,9 @@ public class DMPDiffCalculator implements DiffCalculator {
         }
     }
 
-    private LinkedList<diff_match_patch.Diff> doDiff(String actual, String expected) {
-        LinkedList<diff_match_patch.Diff> diffs = dmp.diff_main(actual, expected);
-        dmp.diff_cleanupMerge(diffs);
+    private LinkedList<DiffMatchPatch.Diff> doDiff(String actual, String expected) {
+        LinkedList<DiffMatchPatch.Diff> diffs = dmp.diffMain(actual, expected);
+        dmp.diffCleanupMerge(diffs);
         return diffs;
     }
 
