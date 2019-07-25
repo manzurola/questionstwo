@@ -28,12 +28,12 @@ public class DMPDiffCalculator implements DiffCalculator {
 
         // convert words to chars for word diff
 
-        char c = 'a';
+        char c = 0;
         for (T word : target) {
             if (!wordToChar.containsKey(word)) {
                 wordToChar.put(word, String.valueOf(c));
                 charToWord.put(String.valueOf(c), word);
-                c++;
+                c++; // 255 is limit!
             }
             String key = wordToChar.get(word);
             expectedChars.append(key);

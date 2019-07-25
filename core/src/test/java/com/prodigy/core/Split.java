@@ -2,9 +2,12 @@ package com.prodigy.core;
 
 import com.prodigy.core.diff.DMPDiffCalculator;
 import com.prodigy.core.diff.Diff;
+import edu.stanford.nlp.ling.Word;
+import edu.stanford.nlp.process.WhitespaceTokenizer;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.io.StringReader;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -31,6 +34,16 @@ public class Split {
 
         Assert.assertEquals(expected, actual);
     }
+
+    @Test
+    public void splitTest() {
+        String s = "ggg, .gg";
+        List<Word> words = WhitespaceTokenizer.newWordWhitespaceTokenizer(new StringReader(s)).tokenize();
+        System.out.println(words);
+    }
+
+
+
 
     public static class Elem {
         private final String text;
