@@ -9,11 +9,23 @@ import com.prodigy.core.tokenize.TaggingTokenizer;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class TestStuff {
+
+    @Test
+    public void testLargeDiff() {
+        List<String> target = new ArrayList<>();
+        for (int i = 0; i < Character.MAX_VALUE; i++) {
+             target.add(String.valueOf(Math.random()));
+        }
+
+        List<String> source = new ArrayList<>();
+
+        DMPDiffCalculator diffCalculator = new DMPDiffCalculator();
+        List<Diff<String>> actual = diffCalculator.getDiff(source, target);
+        System.out.println(actual);
+    }
 
     @Test
     public void testDiff() {

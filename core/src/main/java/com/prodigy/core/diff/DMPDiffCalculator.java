@@ -74,7 +74,7 @@ public class DMPDiffCalculator implements DiffCalculator {
     }
 
     private static class CharStringMapper<T> {
-        private static final char MAX_VALUES = Character.MAX_VALUE;
+        private static final int MAX_VALUES = Character.MAX_VALUE;
         private char charCode = 0;
         private Map<T, String> elemToChar = new HashMap<>();
         private Map<String, T> charToElem = new HashMap<>();

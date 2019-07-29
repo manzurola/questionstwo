@@ -10,6 +10,7 @@ import edu.stanford.nlp.trees.TypedDependency;
 import java.util.List;
 import java.util.stream.Collectors;
 
+// https://nlp.stanford.edu/software/dependencies_manual.pdf
 public class StanfordGrammaticalRelationsParser implements GrammaticalRelationsParser {
 
     private final DependencyParser parser;
