@@ -13,6 +13,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+// https://nlp.stanford.edu/software/dependencies_manual.pdf
 public class StanfordSentenceParser implements SentenceParser {
 
     private final MaxentTagger tagger;
@@ -34,7 +35,7 @@ public class StanfordSentenceParser implements SentenceParser {
 
         List<TaggedWord> collected = new ArrayList<>();
         for (int i = 0; i < sourceTagged.size(); i++) {
-            edu.stanford.nlp.ling.TaggedWord word = sourceTagged.get(i);
+            edu.stanford.nlp.ling.TaggedWord word = sourceTagged.get(i);new edu.stanford.nlp.ling.TaggedWord(word);
             collected.add(new com.prodigy.nlp.TaggedWord(word.word(), POS.ofValue(word.tag()).orElse(null), i));
         }
         GrammaticalStructure sourceGrammar = parser.predict(sourceTagged);

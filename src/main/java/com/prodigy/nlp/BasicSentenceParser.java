@@ -24,6 +24,6 @@ public class BasicSentenceParser implements SentenceParser {
                 .map(w-> new Word(w.word()))
                 .collect(Collectors.toList());
         log.info("Parsed words: " + sourceWords);
-        return new Sentence(sentence, sourceWords, null, null);
+        return new Sentence(sentence, null, null);
     }
 }

@@ -1,4 +1,4 @@
-package com.prodigy.nlp;
+package com.prodigy.core.nlp;
 
 import java.util.Objects;
 

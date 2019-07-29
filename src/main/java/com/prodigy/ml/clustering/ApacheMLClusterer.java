@@ -24,7 +24,6 @@ public class ApacheMLClusterer<T> implements Clusterer<T> {
         this.clusterer = new KMeansPlusPlusClusterer<>(20, 10000, distance);
     }
 
-
     private Cluster<T> adaptCluster(CentroidCluster<ClusterableWrapper> source) {
         Clusterable center = source.getCenter();
         FeatureVector<T> vectorCenter = new FeatureVector<>(center.getPoint(), null);
@@ -38,34 +37,15 @@ public class ApacheMLClusterer<T> implements Clusterer<T> {
 
     @Override
     public List<Cluster<T>> cluster(Collection<FeatureVector<T>> points) throws Exception {
-        List<CentroidCluster<ClusterableWrapper>> clusterResults = clusterer.cluster(
-                points
+        return clusterer.cluster(points
                         .stream()
                         .map(ClusterableWrapper::new)
-                        .collect(Collectors.toList()));
-
-        return clusterResults.stream()
+                        .collect(Collectors.toList())
+        )
+                .stream()
                 .map(this::adaptCluster)
                 .collect(Collectors.toList());
-
     }
 
 
-    private class ClusterableWrapper implements org.apache.commons.math3.ml.clustering.Clusterable {
-
-        private final FeatureVector<T> vector;
-
-        public ClusterableWrapper(FeatureVector<T> vector) {
-            this.vector = vector;
-        }
-
-        @Override
-        public double[] getPoint() {
-            return vector.getPoint();
-        }
-
-        public T getData() {
-            return vector.getData();
-        }
-    }
 }

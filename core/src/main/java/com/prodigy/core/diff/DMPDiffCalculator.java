@@ -4,8 +4,6 @@ import org.bitbucket.cowwoc.diffmatchpatch.DiffMatchPatch;
 
 import java.util.*;
 
-import static org.bitbucket.cowwoc.diffmatchpatch.DiffMatchPatch.Operation.EQUAL;
-
 public class DMPDiffCalculator implements DiffCalculator {
 
     private final DiffMatchPatch dmp;
@@ -19,42 +17,20 @@ public class DMPDiffCalculator implements DiffCalculator {
         this.dmp = dmp;
     }
 
-
     @Override
     public <T> List<Diff<T>> getDiff(List<T> source, List<T> target) {
-        Map<T, String> wordToChar = new HashMap<>();
-        Map<String, T> charToWord = new HashMap<>();
 
-        StringBuilder expectedChars = new StringBuilder();
-        StringBuilder actualChars = new StringBuilder();
+        CharStringMapper<T> charStringMapper = new CharStringMapper<>();
 
-        // convert words to chars for word diff
+        // Convert words to chars for text diff
+        String sourceAsChars = charStringMapper.mapAll(source);
+        String targetAsChars = charStringMapper.mapAll(target);
 
-        char c = 0;
-        for (T word : target) {
-            if (!wordToChar.containsKey(word)) {
-                wordToChar.put(word, String.valueOf(c));
-                charToWord.put(String.valueOf(c), word);
-                c++; // 255 is limit!
-            }
-            String key = wordToChar.get(word);
-            expectedChars.append(key);
-        }
+        // Do diff
+        LinkedList<DiffMatchPatch.Diff> diffs = doDiff(sourceAsChars, targetAsChars);
 
-        for (T word : source) {
-            if (!wordToChar.containsKey(word)) {
-                wordToChar.put(word, String.valueOf(c));
-                charToWord.put(String.valueOf(c), word);
-                c++;
-            }
-            String key = wordToChar.get(word);
-            actualChars.append(key);
-        }
-
-        // do diff
-        LinkedList<DiffMatchPatch.Diff> diffs = doDiff(actualChars.toString(), expectedChars.toString());
-
-        // expand diffs of more than one char to multiple single char diffs
+        // The diff algorithm may return consecutive chars as a single diff.
+        // We expand such diffs to multiple single char ones
         LinkedList<DiffMatchPatch.Diff> expanded = new LinkedList<>();
         for (DiffMatchPatch.Diff diff : diffs) {
             if (diff.text.length() > 1) {
@@ -67,31 +43,38 @@ public class DMPDiffCalculator implements DiffCalculator {
             }
         }
 
-        return toTextDiffs(expanded, source, target);
+        return resolveElementsFromChars(expanded, charStringMapper);
     }
 
-    private <T> List<Diff<T>> toTextDiffs(LinkedList<DiffMatchPatch.Diff> diffs, List<T> source, List<T> target) {
-        LinkedList<T> sourceQueue = new LinkedList<>(source);
-        LinkedList<T> targetQueue = new LinkedList<>(target);
+    private LinkedList<DiffMatchPatch.Diff> doDiff(String actual, String expected) {
+        LinkedList<DiffMatchPatch.Diff> diffs = dmp.diffMain(actual, expected);
+        dmp.diffCleanupMerge(diffs);
+        return diffs;
+    }
+
+    private <T> List<Diff<T>> resolveElementsFromChars(LinkedList<DiffMatchPatch.Diff> diffs, CharStringMapper<T> mapper) {
+//        LinkedList<T> sourceQueue = new LinkedList<>(source);
+//        LinkedList<T> targetQueue = new LinkedList<>(target);
         List<Diff<T>> result = new ArrayList<>();
         for (DiffMatchPatch.Diff diff : diffs) {
-            switch (diff.operation) {
-                case EQUAL:
-                case DELETE:
-                    result.add(new Diff<>(getOperation(diff.operation), sourceQueue.pop()));
-                    targetQueue.pop();
-                    break;
-                case INSERT:
-                    result.add(new Diff<>(getOperation(diff.operation), targetQueue.pop()));
-                    break;
-                default:
-                    break;
-            }
+            result.add(new Diff<>(translateOperation(diff.operation), mapper.get(diff.text)));
+//            switch (diff.operation) {
+//                case EQUAL:
+//                case DELETE:
+//                    result.add(new Diff<>(translateOperation(diff.operation), sourceQueue.pop()));
+//                    targetQueue.pop();
+//                    break;
+//                case INSERT:
+//                    result.add(new Diff<>(translateOperation(diff.operation), targetQueue.pop()));
+//                    break;
+//                default:
+//                    break;
+//            }
         }
         return result;
     }
 
-    private Diff.Operation getOperation(DiffMatchPatch.Operation source) {
+    private Diff.Operation translateOperation(DiffMatchPatch.Operation source) {
         switch (source) {
             case EQUAL:
                 return Diff.Operation.EQUAL;
@@ -104,10 +87,37 @@ public class DMPDiffCalculator implements DiffCalculator {
         }
     }
 
-    private LinkedList<DiffMatchPatch.Diff> doDiff(String actual, String expected) {
-        LinkedList<DiffMatchPatch.Diff> diffs = dmp.diffMain(actual, expected);
-        dmp.diffCleanupMerge(diffs);
-        return diffs;
+    private static class CharStringMapper<T> {
+        private char charCode = 0;
+        private Map<T, String> elemToChar = new HashMap<>();
+        private Map<String, T> charToElem = new HashMap<>();
+
+        String mapAll(List<T> elements) {
+
+            StringBuilder buffer = new StringBuilder();
+
+            for (T elem : elements) {
+                String key = map(elem);
+                buffer.append(key);
+            }
+
+            return buffer.toString();
+        }
+
+        String map(T element) {
+            if (!elemToChar.containsKey(element)) {
+                String s = String.valueOf(charCode);
+                elemToChar.put(element, s);
+                charToElem.put(s, element);
+                charCode++; // 255 is limit!
+            }
+            return elemToChar.get(element);
+        }
+
+        T get(String character) {
+            return charToElem.get(character);
+        }
+
     }
 
 }

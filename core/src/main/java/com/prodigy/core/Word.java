@@ -1,19 +1,15 @@
 package com.prodigy.core;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
-public class Word implements Taggable {
+
+public class Word {
 
     private final String value;
-    private final int index;
-    private final Set<Tag> tags;
+    private final POS pos;
 
-    public Word(String value, int index, Set<Tag> tags) {
-        this.tags = tags;
-        this.index = index;
+    public Word(String value, POS pos) {
+        this.pos = pos;
         this.value = value;
     }
 
@@ -21,12 +17,8 @@ public class Word implements Taggable {
         return value;
     }
 
-    public boolean containsTag(Tag tag) {
-        return tags.contains(tag);
-    }
-
-    public List<Tag> tagList() {
-        return new ArrayList<>(tags);
+    public POS pos() {
+        return pos;
     }
 
     @Override
@@ -46,6 +38,7 @@ public class Word implements Taggable {
     public String toString() {
         return "Word{" +
                 "value='" + value + '\'' +
+                ", pos=" + pos +
                 '}';
     }
 }

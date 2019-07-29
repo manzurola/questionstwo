@@ -1,14 +1,8 @@
 package com.prodigy.core;
 
-import java.util.List;
 
-public class SentenceFactory {
+public interface SentenceFactory {
 
-    public Sentence parse(String text) {
-        return null;
-    }
+    Sentence parse(String text);
 
-    public Sentence fromWords(List<String> words) {
-        return null;
-    }
 }

@@ -21,8 +21,6 @@ import edu.stanford.nlp.parser.nndep.DependencyParser;
 import edu.stanford.nlp.process.DocumentPreprocessor;
 import edu.stanford.nlp.tagger.maxent.MaxentTagger;
 import edu.stanford.nlp.trees.GrammaticalStructure;
-import edu.stanford.nlp.trees.TypedDependency;
-import name.fraser.neil.plaintext.diff_match_patch;
 import org.apache.commons.math3.ml.clustering.Clusterable;
 import org.apache.commons.math3.ml.distance.DistanceMeasure;
 import org.apache.commons.math3.ml.distance.ManhattanDistance;
@@ -66,9 +64,9 @@ public class SentenceParseTest {
 
     @Test
     public void name() throws IOException {
-        String modelPath = DependencyParser.DEFAULT_MODEL;
         String taggerPath = "edu/stanford/nlp/models/pos-tagger/english-left3words/english-left3words-distsim.tagger";
         MaxentTagger tagger = new MaxentTagger(taggerPath);
+        String modelPath = DependencyParser.DEFAULT_MODEL;
         DependencyParser parser = DependencyParser.loadFromModelFile(modelPath);
 
         QuestionFeatureExtractor featureExtractor = new QuestionFeatureExtractor(
@@ -231,167 +229,5 @@ public class SentenceParseTest {
 
 
     }
-
-    @Test
-    public void cluster() {
-        String modelPath = DependencyParser.DEFAULT_MODEL;
-        String taggerPath = "edu/stanford/nlp/models/pos-tagger/english-left3words/english-left3words-distsim.tagger";
-        MaxentTagger tagger = new MaxentTagger(taggerPath);
-        DependencyParser parser = DependencyParser.loadFromModelFile(modelPath);
-
-        String expectedString = "Do you sleep well?";
-        String actualString = "You sleep well.";
-
-//        String expectedString = "do they often go to the pictures?";
-//        String actualString = "do they go to the pictures often?";
-
-        List<HasWord> expectedWords = new DocumentPreprocessor(new StringReader(expectedString)).iterator().next();
-        List<HasWord> actualWords = new DocumentPreprocessor(new StringReader(actualString)).iterator().next();
-
-        List<TaggedWord> expectedTagged = tagger.tagSentence(expectedWords);
-        List<TaggedWord> actualTagged = tagger.tagSentence(actualWords);
-
-        System.out.println(expectedTagged);
-        System.out.println(actualTagged);
-
-        GrammaticalStructure expectedGrammar = parser.predict(expectedTagged);
-        GrammaticalStructure actualGrammar = parser.predict(actualTagged);
-
-        for (TypedDependency next : expectedGrammar.typedDependencies()) {
-            System.out.println("Relation, ShortName: " + next.reln().getShortName() + ", LongName: " + next.reln().getLongName());
-            Optional<POS> depPos = POS.ofValue(next.dep().tag());
-            Optional<POS> govPos = POS.ofValue(next.gov().tag());
-            System.out.println("Dependent: " + next.dep() + ", tag: " + depPos.orElse(null));
-            System.out.println("Governor: " + next.gov() + ", tag: " + govPos.orElse(null));
-        }
-
-        for (TypedDependency next : actualGrammar.typedDependencies()) {
-            System.out.println("Relation, ShortName: " + next.reln().getShortName() + ", LongName: " + next.reln().getLongName());
-            System.out.println("Dependent: " + next.dep());
-            System.out.println("Governor: " + next.gov());
-        }
-
-        System.out.println(expectedGrammar.typedDependencies());
-        System.out.println(actualGrammar.typedDependencies());
-
-        diff_match_patch dmp = new diff_match_patch();
-
-        Map<String, String> wordToChar = new HashMap<>();
-        Map<String, String> charToWord = new HashMap<>();
-
-        StringBuilder expectedChars = new StringBuilder();
-        StringBuilder actualChars = new StringBuilder();
-
-        // convert words to chars for word diff
-        char c = 'a';
-        for (TaggedWord taggedWord : expectedTagged) {
-            String word = taggedWord.word();
-            if (!wordToChar.containsKey(word)) {
-                wordToChar.put(word, String.valueOf(c));
-                charToWord.put(String.valueOf(c), word);
-                c++;
-            }
-            String key = wordToChar.get(word);
-            expectedChars.append(key);
-        }
-
-        for (TaggedWord taggedWord : actualTagged) {
-            String word = taggedWord.word();
-            if (!wordToChar.containsKey(word)) {
-                wordToChar.put(word, String.valueOf(c));
-                charToWord.put(String.valueOf(c), word);
-                c++;
-            }
-            String key = wordToChar.get(word);
-            actualChars.append(key);
-        }
-
-        System.out.println(expectedChars.toString());
-        System.out.println(actualChars.toString());
-
-        // revert chars to words
-        LinkedList<diff_match_patch.Diff> diffs = dmp.diff_main(actualChars.toString(), expectedChars.toString());
-        dmp.diff_cleanupMerge(diffs);
-        System.out.println(diffs);
-
-        // expand diffs of more than one char to multiple single char diffs
-        LinkedList<diff_match_patch.Diff> expanded = new LinkedList<>();
-        for (diff_match_patch.Diff diff : diffs) {
-            if (diff.text.length() > 1) {
-                char[] chars = diff.text.toCharArray();
-                for (char aChar : chars) {
-                    expanded.add(new diff_match_patch.Diff(diff.operation, String.valueOf(aChar)));
-                }
-            } else {
-                expanded.add(diff);
-            }
-        }
-
-        // revert diff text to from chars to words
-        for (diff_match_patch.Diff diff : expanded) {
-            diff.text = charToWord.get(diff.text);
-        }
-
-
-        int distance = dmp.diff_levenshtein(expanded);
-        System.out.println(expanded);
-        System.out.println(distance);
-
-
-    }
-
-//    @Test
-//    public void parse() throws IOException {
-//        BufferedWriter writer = Files.newWriter(new File("parsed_questions.txt"), Charset.defaultCharset());
-//        List<AddQuestionRequest> requests = reader.readAll();
-//        StanfordNlpClient nlpClient = nlpClientFactory.create();
-//        CoreDocument document;
-//        AddQuestionRequest request;
-//        for (int i = 0; i < requests.size(); i++) {
-//            request = requests.get(i);
-//            document = nlpClient.annotate(request.getBody());
-//
-//
-//            writer.write(String.format("[%d] --- %s", i, request.getInstructions()));
-//            writer.newLine();
-//            writer.write("-body");
-//            writer.newLine();
-//            writer.write(request.getBody());
-//            writer.newLine();
-//            writer.write("-body.postags");
-//            writer.newLine();
-//            writer.write(Arrays.toString(nlpClient.posTags(document).toArray()));
-//            writer.newLine();
-//            writer.write("-body.dependencies");
-//            writer.newLine();
-//            writer.write(nlpClient.dependencyGraph(document).toString());
-//            writer.newLine();
-//
-//            for (int j = 0; j < request.getAnswerKey().size(); j++) {
-//                String answer = request.getAnswerKey().get(j);
-//                document = nlpClient.annotate(answer);
-//
-//                String key = "--answer_" + j;
-//
-//                writer.write(key);
-//                writer.newLine();
-//                writer.write(answer);
-//                writer.newLine();
-//                writer.write(key + ".postags");
-//                writer.newLine();
-//                writer.write(Arrays.toString(nlpClient.posTags(document).toArray()));
-//                writer.newLine();
-//                writer.write(key + ".dependencies");
-//                writer.newLine();
-//                writer.write(nlpClient.dependencyGraph(document).toString());
-//                writer.newLine();
-//            }
-//
-//            writer.newLine();
-//            writer.newLine();
-//        }
-//
-//        writer.close();
-//    }
 
 }
