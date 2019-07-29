@@ -116,6 +116,12 @@ public class TestStuff {
         }
     }
 
+    @Test
+    public void name() {
+        char c = 65535;
+        System.out.println(c == Character.MAX_VALUE);
+    }
+
     public static class Elem {
         private final String text;
 

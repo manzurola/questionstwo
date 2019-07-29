@@ -43,7 +43,7 @@ public class DMPDiffCalculator implements DiffCalculator {
             }
         }
 
-        return resolveElementsFromChars(expanded, charStringMapper);
+        return resolveDiffs(expanded, charStringMapper);
     }
 
     private LinkedList<DiffMatchPatch.Diff> doDiff(String actual, String expected) {
@@ -52,24 +52,10 @@ public class DMPDiffCalculator implements DiffCalculator {
         return diffs;
     }
 
-    private <T> List<Diff<T>> resolveElementsFromChars(LinkedList<DiffMatchPatch.Diff> diffs, CharStringMapper<T> mapper) {
-//        LinkedList<T> sourceQueue = new LinkedList<>(source);
-//        LinkedList<T> targetQueue = new LinkedList<>(target);
+    private <T> List<Diff<T>> resolveDiffs(LinkedList<DiffMatchPatch.Diff> diffs, CharStringMapper<T> mapper) {
         List<Diff<T>> result = new ArrayList<>();
         for (DiffMatchPatch.Diff diff : diffs) {
             result.add(new Diff<>(translateOperation(diff.operation), mapper.get(diff.text)));
-//            switch (diff.operation) {
-//                case EQUAL:
-//                case DELETE:
-//                    result.add(new Diff<>(translateOperation(diff.operation), sourceQueue.pop()));
-//                    targetQueue.pop();
-//                    break;
-//                case INSERT:
-//                    result.add(new Diff<>(translateOperation(diff.operation), targetQueue.pop()));
-//                    break;
-//                default:
-//                    break;
-//            }
         }
         return result;
     }
@@ -88,9 +74,11 @@ public class DMPDiffCalculator implements DiffCalculator {
     }
 
     private static class CharStringMapper<T> {
+        private static final char MAX_VALUES = Character.MAX_VALUE;
         private char charCode = 0;
         private Map<T, String> elemToChar = new HashMap<>();
         private Map<String, T> charToElem = new HashMap<>();
+        private boolean maxed;
 
         String mapAll(List<T> elements) {
 
@@ -104,12 +92,20 @@ public class DMPDiffCalculator implements DiffCalculator {
             return buffer.toString();
         }
 
+
         String map(T element) {
+            if (maxed) {
+                throw new RuntimeException(String.format("The maximal number of unique values to diff (%d) was reached", MAX_VALUES));
+            }
             if (!elemToChar.containsKey(element)) {
                 String s = String.valueOf(charCode);
                 elemToChar.put(element, s);
                 charToElem.put(s, element);
                 charCode++; // 255 is limit!
+
+                if (charCode == MAX_VALUES) {
+                    maxed = true;
+                }
             }
             return elemToChar.get(element);
         }
