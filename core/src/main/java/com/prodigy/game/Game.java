@@ -4,7 +4,7 @@ public interface Game {
 
     Question nextQuestion();
 
-    Review reviewAnswer(Answer answer);
+    Review submitAnswer(Answer answer);
 
 
 }

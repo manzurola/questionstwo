@@ -1,10 +1,8 @@
 package com.prodigy.game;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.prodigy.engine.Sentence;
+import com.prodigy.core.Sentence;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.Objects;
 
 /**
@@ -15,13 +13,13 @@ public class Question {
 
     private final Id<Question> id;
     private final Sentence source;
-    private final List<Sentence> targets;
+    private final Sentence target;
     private final String description;
 
     private Question(Builder builder) {
         this.id = builder.id;
         this.source = builder.source;
-        this.targets = builder.targets;
+        this.target = builder.target;
         this.description = builder.description;
     }
 
@@ -33,8 +31,8 @@ public class Question {
         return source;
     }
 
-    public List<Sentence> getTargets() {
-        return targets;
+    public Sentence getTarget() {
+        return target;
     }
 
     public String getDescription() {
@@ -48,12 +46,12 @@ public class Question {
         Question question = (Question) o;
         return Objects.equals(id, question.id) &&
                 Objects.equals(source, question.source) &&
-                Objects.equals(targets, question.targets);
+                Objects.equals(target, question.target);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, source, targets);
+        return Objects.hash(id, source, target);
     }
 
     @Override
@@ -61,7 +59,7 @@ public class Question {
         return "Question{" +
                 "id=" + id +
                 ", body='" + source + '\'' +
-                ", answerKey=" + targets +
+                ", answerKey=" + target +
                 '}';
     }
 
@@ -73,7 +71,7 @@ public class Question {
 
         private Id<Question> id = Id.next();
         private Sentence source;
-        private List<Sentence> targets;
+        private Sentence target;
         private String description;
 
         public Builder id(Id<Question> id) {
@@ -86,13 +84,8 @@ public class Question {
             return this;
         }
 
-        public Builder targets(List<Sentence> targets) {
-            this.targets = targets;
-            return this;
-        }
-
-        public Builder targets(Sentence... targets) {
-            this.targets = Arrays.asList(targets);
+        public Builder target(Sentence target) {
+            this.target = target;
             return this;
         }
 

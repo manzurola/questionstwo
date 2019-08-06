@@ -1,43 +1,34 @@
 package com.prodigy.game;
 
-import javax.validation.constraints.NotNull;
+
 import java.util.Objects;
 
 public class Review {
 
-    @NotNull
     private final Id<Review> id;
-    @NotNull
     private final Id<Answer> answerId;
-    @NotNull
     private final Score score;
-    private final Comment comment;
     private final Explain explain;
+
 
     private Review(Builder builder) {
         this.id = builder.id;
         this.answerId = builder.answerId;
         this.score = builder.score;
-        this.comment = builder.comment;
         this.explain = builder.explain;
     }
 
-    public Id<Review> getId() {
+    public Id<Review> id() {
         return id;
     }
 
-    public Id<Answer> getAnswerId() {
+    public Id<Answer> answerId() {
         return answerId;
     }
 
     public Score getScore() {
         return score;
     }
-
-    public Comment getComment() {
-        return comment;
-    }
-
 
     public Explain getExplain() {
         return explain;
@@ -50,13 +41,12 @@ public class Review {
         Review review = (Review) o;
         return Objects.equals(id, review.id) &&
                 Objects.equals(answerId, review.answerId) &&
-                Objects.equals(score, review.score) &&
-                Objects.equals(comment, review.comment);
+                Objects.equals(score, review.score);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, answerId, score, comment);
+        return Objects.hash(id, answerId, score);
     }
 
     public static Builder newBuilder() {

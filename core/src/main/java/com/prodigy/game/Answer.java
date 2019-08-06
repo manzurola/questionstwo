@@ -1,6 +1,6 @@
 package com.prodigy.game;
 
-import com.prodigy.engine.Sentence;
+import com.prodigy.core.Sentence;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
