@@ -13,6 +13,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+// https://nlp.stanford.edu/software/dependencies_manual.pdf
 public class StanfordSentenceParser implements SentenceParser {
 
     private final MaxentTagger tagger;
@@ -28,13 +29,13 @@ public class StanfordSentenceParser implements SentenceParser {
         DocumentPreprocessor doc = new DocumentPreprocessor(new StringReader(sentence));
         Iterator<List<HasWord>> iterator = doc.iterator();
         if (!iterator.hasNext()) {
-            return new Sentence(sentence, new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+            return new Sentence(sentence, new ArrayList<>(), new ArrayList<>());
         }
         List<edu.stanford.nlp.ling.TaggedWord> sourceTagged = tagger.tagSentence(iterator.next());
 
         List<TaggedWord> collected = new ArrayList<>();
         for (int i = 0; i < sourceTagged.size(); i++) {
-            edu.stanford.nlp.ling.TaggedWord word = sourceTagged.get(i);
+            edu.stanford.nlp.ling.TaggedWord word = sourceTagged.get(i);new edu.stanford.nlp.ling.TaggedWord(word);
             collected.add(new com.prodigy.nlp.TaggedWord(word.word(), POS.ofValue(word.tag()).orElse(null), i));
         }
         GrammaticalStructure sourceGrammar = parser.predict(sourceTagged);
@@ -42,7 +43,7 @@ public class StanfordSentenceParser implements SentenceParser {
                 .map(this::toGrammaticalRelation)
                 .collect(Collectors.toList());
 
-        return new Sentence(sentence, collected.stream().map(w -> new Word(w.value())).collect(Collectors.toList()), collected, relations);
+        return new Sentence(sentence, collected, relations);
     }
 
     private GrammaticalRelation toGrammaticalRelation(TypedDependency dependency) {

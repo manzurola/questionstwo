@@ -2,6 +2,7 @@ package com.prodigy.nlp;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class Sentence {
 
@@ -10,9 +11,9 @@ public class Sentence {
     private final List<TaggedWord> taggedWords;
     private final List<GrammaticalRelation> relations;
 
-    public Sentence(String value, List<Word> words, List<TaggedWord> taggedWords, List<GrammaticalRelation> relations) {
+    public Sentence(String value, List<TaggedWord> taggedWords, List<GrammaticalRelation> relations) {
         this.value = value;
-        this.words = words;
+        this.words = taggedWords.stream().map(w -> new Word(w.value())).collect(Collectors.toList());
         this.taggedWords = taggedWords;
         this.relations = relations;
     }
