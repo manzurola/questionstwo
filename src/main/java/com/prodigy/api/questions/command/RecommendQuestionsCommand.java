@@ -18,9 +18,9 @@ public class RecommendQuestionsCommand extends AbstractCommand<Question, AddQues
 
     @Override
     protected Question doExecute(AddQuestionRequest request) throws Exception {
-        Question question = Question.builder()
-                .body(request.getBody())
-                .answerKey(request.getAnswerKey())
+        Question question = Question.newBuilder()
+                .withBody(request.getBody())
+                .withAnswerKey(request.getAnswerKey())
                 .build();
         return repository.add(question);
     }

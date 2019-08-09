@@ -3,9 +3,7 @@ package com.prodigy.api;
 import com.opencsv.CSVWriter;
 import com.prodigy.api.questions.Question;
 import com.prodigy.api.questions.request.AddQuestionRequest;
-import com.prodigy.api.questions.utils.AddQuestionRequestCSVReader;
-import com.prodigy.api.questions.utils.AddQuestionRequestReader;
-import com.prodigy.api.questions.utils.QuestionUtils;
+import com.prodigy.utils.QuestionTestData;
 import com.prodigy.ml.FeatureVector;
 import com.prodigy.ml.QuestionFeatureExtractor;
 import com.prodigy.ml.clustering.ApacheMLClusterer;
@@ -36,11 +34,11 @@ import java.util.stream.Collectors;
 
 public class SentenceParseTest {
 
-    AddQuestionRequestReader reader;
+    QuestionTestData testData;
     StanfordNlpClientFactory nlpClientFactory;
 
     public SentenceParseTest() throws IOException {
-        reader = new AddQuestionRequestCSVReader();
+        testData = new QuestionTestData();
 //        nlpClientFactory = new StanfordNlpClientFactory();
     }
 
@@ -84,10 +82,10 @@ public class SentenceParseTest {
 
         writer.writeNext(title);
 
-        QuestionUtils questionUtils = new QuestionUtils();
-        List<AddQuestionRequest> requests = questionUtils.getQuestions();
+        QuestionTestData questionTestData = new QuestionTestData();
+        List<AddQuestionRequest> requests = questionTestData.data();
         for (AddQuestionRequest request : requests) {
-            Question question = questionUtils.newQuestionFromRequest(request).build();
+            Question question = request.toQuestion().build();
             FeatureVector<Question> features = featureExtractor.extract(question);
 
             List<String> collect = Arrays.stream(features.getPoint()).boxed()
@@ -158,14 +156,13 @@ public class SentenceParseTest {
         );
 
 
-        QuestionUtils questionUtils = new QuestionUtils();
-        LinkedList<AddQuestionRequest> requests = new LinkedList<>(reader.readAll());
+        QuestionTestData questionTestData = new QuestionTestData();
+        LinkedList<AddQuestionRequest> requests = new LinkedList<>(testData.data());
         requests.poll();
 
         List<FeatureVector<Question>> vectors = new ArrayList<>();
         for (AddQuestionRequest request : requests) {
-            Question.Builder builder = questionUtils.newQuestionFromRequest(request);
-            Question question = builder.build();
+            Question question = request.toQuestion().build();
             FeatureVector<Question> features = featureExtractor.extract(question);
             System.out.println(features);
             vectors.add(features);
@@ -184,9 +181,9 @@ public class SentenceParseTest {
         List<Question> answers = new ArrayList<>();
 
 
-        Question answer = Question.builder()
-                .answerKey("I went home.")
-                .body("I am going home.")
+        Question answer = Question.newBuilder()
+                .withAnswerKey(Arrays.asList("I went home."))
+                .withBody("I am going home.")
                 .build();
         answers.add(answer);
 

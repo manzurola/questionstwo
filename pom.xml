@@ -5,11 +5,7 @@
 
     <groupId>com.prodigy</groupId>
     <artifactId>prodigy-web</artifactId>
-    <packaging>pom</packaging>
     <version>0.1.0</version>
-    <modules>
-        <module>core</module>
-    </modules>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -77,7 +73,7 @@
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>12.0.1</version>
+            <version>28.0-jre</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/diff_match_patch/diff_match_patch -->
         <dependency>
@@ -154,11 +150,6 @@
             <artifactId>lucene-queries</artifactId>
             <version>${apache-lucene.version}</version>
         </dependency>
-        <dependency>
-            <groupId>org.apache.lucene</groupId>
-            <artifactId>lucene-core</artifactId>
-            <version>${apache-lucene.version}</version>
-        </dependency>
 
     </dependencies>
 
@@ -182,6 +173,10 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.20</version>
+                <configuration>
+                    <forkCount>1</forkCount>
+                    <reuseForks>false</reuseForks>
+                </configuration>
             </plugin>
         </plugins>
     </build>

@@ -1,4 +1,4 @@
-package com.prodigy.api.test;
+package com.prodigy.api.calls;
 
 import com.prodigy.api.questions.Question;
 import com.prodigy.api.questions.request.AddQuestionRequest;

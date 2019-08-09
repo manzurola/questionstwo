@@ -1,7 +1,5 @@
 package com.prodigy.core.scoring;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class Score {

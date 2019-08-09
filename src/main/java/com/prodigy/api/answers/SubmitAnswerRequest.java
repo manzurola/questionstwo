@@ -9,22 +9,20 @@ import java.util.Objects;
 
 public class SubmitAnswerRequest implements ServiceRequest {
 
-    private Id<User> userId;
     private Id<Question> questionId;
     private String answer;
 
-    public SubmitAnswerRequest(Id<User> userId, Id<Question> questionId, String answer) {
-        this.userId = userId;
+    public SubmitAnswerRequest(Id<Question> questionId, String answer) {
         this.questionId = questionId;
         this.answer = answer;
     }
 
-    public Id<User> getUserId() {
-        return userId;
-    }
-
     public Id<Question> getQuestionId() {
         return questionId;
+    }
+
+    public SubmitAnswerRequest withQuestionId(Id<Question> questionId) {
+        return new SubmitAnswerRequest(questionId, answer);
     }
 
     public String getAnswer() {
@@ -36,13 +34,12 @@ public class SubmitAnswerRequest implements ServiceRequest {
         if (this == o) return true;
         if (!(o instanceof SubmitAnswerRequest)) return false;
         SubmitAnswerRequest that = (SubmitAnswerRequest) o;
-        return Objects.equals(userId, that.userId) &&
-                Objects.equals(questionId, that.questionId) &&
+        return Objects.equals(questionId, that.questionId) &&
                 Objects.equals(answer, that.answer);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(userId, questionId, answer);
+        return Objects.hash(questionId, answer);
     }
 }

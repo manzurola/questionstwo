@@ -19,10 +19,6 @@ public class AddQuestionRequestCSVReader implements AddQuestionRequestReader {
 
     private CSVReader reader;
 
-    public AddQuestionRequestCSVReader() throws IOException {
-        System.out.println("AddQuestionRequestCSVReader");
-    }
-
     public AddQuestionRequestCSVReader(File file) throws IOException {
         System.out.println("AddQuestionRequestCSVReader: " + file);
         this.reader = new CSVReader(Files.newBufferedReader(file.toPath()));

@@ -1,4 +1,4 @@
-package com.prodigy.api.test;
+package com.prodigy.api.calls;
 
 import com.prodigy.api.users.User;
 import com.prodigy.api.users.request.AddUserRequest;

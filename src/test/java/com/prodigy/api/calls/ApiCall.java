@@ -1,4 +1,4 @@
-package com.prodigy.api.test;
+package com.prodigy.api.calls;
 
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.ResponseEntity;

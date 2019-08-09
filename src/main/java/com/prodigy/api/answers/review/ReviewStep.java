@@ -1,4 +1,4 @@
-package com.prodigy.api.review.reviewer;
+package com.prodigy.api.answers.review;
 
 public class ReviewStep {
 

@@ -1,21 +1,9 @@
 package com.prodigy.api;
 
-import com.prodigy.api.answers.Answer;
-import com.prodigy.api.answers.SubmitAnswerCommand;
-import com.prodigy.api.answers.SubmitAnswerRequest;
 import com.prodigy.api.common.Id;
-import com.prodigy.api.common.service.Result;
 import com.prodigy.api.common.service.ServiceExecutor;
 import com.prodigy.api.game.GameEvent;
 import com.prodigy.api.game.GameSession;
-import com.prodigy.api.questions.Question;
-import com.prodigy.api.questions.command.GetQuestionCommand;
-import com.prodigy.api.questions.request.GetQuestionRequest;
-import com.prodigy.api.review.Review;
-import com.prodigy.api.review.command.AddReviewCommand;
-import com.prodigy.api.review.command.SuggestReviewCommand;
-import com.prodigy.api.review.request.AddReviewRequest;
-import com.prodigy.api.review.request.SuggestReviewRequest;
 import com.prodigy.api.users.User;
 import org.springframework.http.MediaType;
 import org.springframework.http.codec.ServerSentEvent;
@@ -78,30 +66,5 @@ public class GameController {
         return null;
     }
 
-    @PostMapping("/game/{id}/submit")
-    public void submitAnswer(@RequestBody SubmitAnswerRequest request) {
-        Answer answer = serviceExecutor.execute(
-                SubmitAnswerCommand.class,
-                request
-        ).getData();
-        System.out.println(answer);
-        Question question = serviceExecutor.execute(
-                GetQuestionCommand.class,
-                new GetQuestionRequest(answer.getQuestionId())
-        ).getData();
-        System.out.println(question);
-        AddReviewRequest addReviewRequest = serviceExecutor.execute(
-                SuggestReviewCommand.class,
-                new SuggestReviewRequest(question, answer)
-        ).getData();
-        System.out.println(addReviewRequest);
-        Result<Review> review = serviceExecutor.execute(
-                AddReviewCommand.class,
-                addReviewRequest
-        );
-        System.out.println(review);
-
-        // notify game of review, update game state and send event to clients
-    }
 
 }

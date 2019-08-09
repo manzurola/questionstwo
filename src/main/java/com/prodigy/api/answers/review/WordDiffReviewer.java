@@ -1,10 +1,8 @@
-package com.prodigy.api.review.reviewer;
+package com.prodigy.api.answers.review;
 
 import com.prodigy.api.answers.Answer;
 import com.prodigy.api.questions.Question;
 import com.prodigy.api.questions.data.QuestionRepository;
-import com.prodigy.api.review.Score;
-import com.prodigy.api.review.request.AddReviewRequest;
 import com.prodigy.nlp.*;
 import com.prodigy.nlp.diff.DMPTextDiffCalculator;
 import com.prodigy.nlp.diff.TextDiff;
@@ -20,23 +18,18 @@ import static com.prodigy.nlp.diff.TextDiff.Operation.*;
 
 public class WordDiffReviewer implements Reviewer {
 
-    private final SentenceParser parser = new BasicSentenceParser();
+    private final SentenceParser parser;
     private final TextDiffCalculator diffCalculator = new DMPTextDiffCalculator();
     private final QuestionRepository questionRepository;
 
-    public WordDiffReviewer(QuestionRepository questionRepository) {
+    public WordDiffReviewer(QuestionRepository questionRepository, SentenceParser sentenceParser) {
         this.questionRepository = questionRepository;
+        this.parser = sentenceParser;
     }
 
     @Override
-    public AddReviewRequest review(Answer answer) {
-        Sentence input = parser.parse(answer.getInput());
-        Question question;
-        try {
-            question = questionRepository.get(answer.getQuestionId());
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+    public Review reviewAnswer(String answer, Question question) {
+        Sentence input = parser.parse(answer);
 
         List<Sentence> answerKey = question.getAnswerKey().stream()
                 .map(parser::parse)
@@ -48,7 +41,10 @@ public class WordDiffReviewer implements Reviewer {
             break;
         }
 
-        return new AddReviewRequest(answer.getId(), score(explain), null, null, null, explain);
+        return Review.newBuilder()
+                .score(score(explain))
+                .explain(explain)
+                .build();
     }
 
     private Explain explain(Sentence source, Sentence target) {

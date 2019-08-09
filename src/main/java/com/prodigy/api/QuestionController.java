@@ -1,6 +1,10 @@
 package com.prodigy.api;
 
 
+import com.prodigy.api.answers.Answer;
+import com.prodigy.api.answers.SubmitAnswerCommand;
+import com.prodigy.api.answers.SubmitAnswerRequest;
+import com.prodigy.api.common.Id;
 import com.prodigy.api.common.service.Result;
 import com.prodigy.api.common.service.ServiceExecutor;
 import com.prodigy.api.questions.Question;
@@ -8,10 +12,7 @@ import com.prodigy.api.questions.command.AddQuestionCommand;
 import com.prodigy.api.questions.command.GetAllQuestionsCommand;
 import com.prodigy.api.questions.request.AddQuestionRequest;
 import com.prodigy.api.questions.request.GetAllQuestionsRequest;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -56,5 +57,12 @@ public class QuestionController {
         Result<Question> result = serviceExecutor.execute(AddQuestionCommand.class, requestBody);
         return result.getData();
     }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/{questionId}/answer")
+    public Answer submitAnswer(@PathVariable Id<Question> questionId, @RequestBody SubmitAnswerRequest request) {
+        return serviceExecutor.execute(SubmitAnswerCommand.class, request.withQuestionId(questionId)).getData();
+    }
+
+
 
 }

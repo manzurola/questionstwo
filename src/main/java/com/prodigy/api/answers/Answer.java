@@ -1,25 +1,28 @@
 package com.prodigy.api.answers;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import com.prodigy.api.common.Id;
 import com.prodigy.api.questions.Question;
-import com.prodigy.api.review.Review;
-import com.prodigy.api.users.User;
+import com.prodigy.api.answers.review.Review;
 
-import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonDeserialize(builder = Answer.Builder.class)
 public class Answer {
 
     private final Id<Answer> id;
-    private final Id<User> userId;
     private final Id<Question> questionId;
     private final String input;
+    private final Review review;
 
-    public Answer(Id<Answer> id, Id<User> userId, Id<Question> questionId, String input) {
-        this.id = id;
-        this.userId = userId;
-        this.questionId = questionId;
-        this.input = input;
+    public Answer(Builder builder) {
+        this.id = builder.id;
+        this.questionId = builder.questionId;
+        this.input = builder.input;
+        this.review = builder.review;
     }
 
     public static Builder builder() {
@@ -28,10 +31,6 @@ public class Answer {
 
     public Id<Answer> getId() {
         return id;
-    }
-
-    public Id<User> getUserId() {
-        return userId;
     }
 
     public Id<Question> getQuestionId() {
@@ -43,44 +42,40 @@ public class Answer {
     }
 
     @Override
+    public String toString() {
+        return "Answer{" +
+                "id=" + id +
+                ", questionId=" + questionId +
+                ", input='" + input + '\'' +
+                ", review=" + review +
+                '}';
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Answer)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
         Answer answer = (Answer) o;
         return Objects.equals(id, answer.id) &&
-                Objects.equals(userId, answer.userId) &&
                 Objects.equals(questionId, answer.questionId) &&
-                Objects.equals(input, answer.input);
+                Objects.equals(input, answer.input) &&
+                Objects.equals(review, answer.review);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, userId, questionId, input);
+        return Objects.hash(id, questionId, input, review);
     }
 
-    @Override
-    public String toString() {
-        return "Answer{" +
-                "id=" + id +
-                ", userId=" + userId +
-                ", questionId=" + questionId +
-                ", input='" + input + '\'' +
-                '}';
-    }
-
+    @JsonPOJOBuilder(withPrefix = "")
     public static class Builder {
         private Id<Answer> id = Id.next();
-        private Id<User> userId;
         private Id<Question> questionId;
         private String input;
+        private Review review;
 
         public Builder id(Id<Answer> id) {
             this.id = id;
-            return this;
-        }
-
-        public Builder userId(Id<User> userId) {
-            this.userId = userId;
             return this;
         }
 
@@ -94,8 +89,13 @@ public class Answer {
             return this;
         }
 
+        public Builder review(Review review) {
+            this.review = review;
+            return this;
+        }
+
         public Answer build() {
-            return new Answer(id, userId, questionId, input);
+            return new Answer(this);
         }
     }
 

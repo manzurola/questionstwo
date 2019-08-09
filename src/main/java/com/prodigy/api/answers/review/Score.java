@@ -1,4 +1,4 @@
-package com.prodigy.api.review;
+package com.prodigy.api.answers.review;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 

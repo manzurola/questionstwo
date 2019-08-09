@@ -10,9 +10,9 @@ export class Review extends Component {
         super(props);
         this.state = {
             question: props.question,
-            diff: props.explain.steps,
-            score: props.score.value,
-            scale: props.scale,
+            diff: props.review.explain.steps,
+            score: props.review.score.value,
+            scale: props.review.scale,
         };
     }
 
