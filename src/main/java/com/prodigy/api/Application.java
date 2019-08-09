@@ -13,10 +13,6 @@ import com.prodigy.api.common.jackson.IdSerializer;
 import com.prodigy.api.common.service.CommandFactory;
 import com.prodigy.api.common.service.ServiceExecutor;
 import com.prodigy.api.common.service.ServiceExecutorImpl;
-import com.prodigy.api.exercises.ExerciseRepository;
-import com.prodigy.api.exercises.InMemoryExerciseRepository;
-import com.prodigy.api.exercises.utils.CSVExerciseReader;
-import com.prodigy.api.exercises.utils.ExerciseReader;
 import com.prodigy.api.questions.Question;
 import com.prodigy.api.questions.data.InMemoryQuestionRepository;
 import com.prodigy.api.questions.data.QuestionRepository;
@@ -48,7 +44,6 @@ import org.springframework.core.env.Environment;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Arrays;
@@ -113,27 +108,14 @@ public class Application {
     @Bean
     public QuestionRepository questionRepository() throws Exception {
         QuestionUtils utils = new QuestionUtils(Arrays.asList(
-                new AddQuestionRequestCSVReader(new File(this.getClass().getClassLoader().getResource("questions-en-shortanswer.csv").getFile())),
-                new MissingTextAddQuestionRequestCSVReader(new File(this.getClass().getClassLoader().getResource("questions-en-fill-in-the-blanks.csv").getFile()))
+                new AddQuestionRequestCSVReader(new File(this.getClass().getClassLoader().getResource("questions-en.csv").getFile()))
+//                new MissingTextAddQuestionRequestCSVReader(new File(this.getClass().getClassLoader().getResource("questions-en-fill-in-the-blanks.csv").getFile()))
         ));
         List<Question> data = utils.getQuestions()
                 .stream()
                 .map(request -> utils.newQuestionFromRequest(request).build())
                 .collect(Collectors.toList());
         return new InMemoryQuestionRepository(data);
-    }
-
-    @Bean
-    public ExerciseRepository exerciseRepository(ExerciseReader reader) throws Exception {
-        return new InMemoryExerciseRepository(reader.readAll());
-    }
-
-    @Bean
-    public ExerciseReader exerciseReader() throws IOException {
-        return new CSVExerciseReader(
-                new File(this.getClass().getClassLoader().getResource("en-data-exercises.csv").getFile()),
-                new File(this.getClass().getClassLoader().getResource("en-data-questions.csv").getFile())
-        );
     }
 
     @Bean
@@ -167,11 +149,11 @@ public class Application {
         return new BasicSentenceParser();
     }
 
-    @Bean
-    public ContractionResolver contractionResolver() throws FileNotFoundException {
-        String file = this.getClass().getClassLoader().getResource("en-data-exercises.csv").getFile();
-        return new ContractionResolverImpl(new FileReader(file));
-    }
+//    @Bean
+//    public ContractionResolver contractionResolver() throws FileNotFoundException {
+//        String file = this.getClass().getClassLoader().getResource("en-data-exercises.csv").getFile();
+//        return new ContractionResolverImpl(new FileReader(file));
+//    }
 
     @Bean
     public Reviewer reviewer() throws Exception {
