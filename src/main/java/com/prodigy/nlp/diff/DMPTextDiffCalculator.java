@@ -1,6 +1,6 @@
 package com.prodigy.nlp.diff;
 
-import name.fraser.neil.plaintext.diff_match_patch;
+import org.bitbucket.cowwoc.diffmatchpatch.DiffMatchPatch;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -10,14 +10,14 @@ import java.util.stream.Collectors;
 
 public class DMPTextDiffCalculator implements TextDiffCalculator {
 
-    private final diff_match_patch dmp;
+    private final DiffMatchPatch dmp;
     private boolean ignoreCase;
 
     public DMPTextDiffCalculator() {
-        this.dmp = new diff_match_patch();
+        this.dmp = new DiffMatchPatch();
     }
 
-    public DMPTextDiffCalculator(diff_match_patch dmp) {
+    public DMPTextDiffCalculator(DiffMatchPatch dmp) {
         this.dmp = dmp;
     }
 
@@ -58,15 +58,15 @@ public class DMPTextDiffCalculator implements TextDiffCalculator {
         }
 
         // do diff
-        List<diff_match_patch.Diff> diffs = doDiff(actualChars.toString(), expectedChars.toString());
+        List<DiffMatchPatch.Diff> diffs = doDiff(actualChars.toString(), expectedChars.toString());
 
         // expand diffs of more than one char to multiple single char diffs
-        LinkedList<diff_match_patch.Diff> expanded = new LinkedList<>();
-        for (diff_match_patch.Diff diff : diffs) {
+        LinkedList<DiffMatchPatch.Diff> expanded = new LinkedList<>();
+        for (DiffMatchPatch.Diff diff : diffs) {
             if (diff.text.length() > 1) {
                 char[] chars = diff.text.toCharArray();
                 for (char aChar : chars) {
-                    expanded.add(new diff_match_patch.Diff(diff.operation, String.valueOf(aChar)));
+                    expanded.add(new DiffMatchPatch.Diff(diff.operation, String.valueOf(aChar)));
                 }
             } else {
                 expanded.add(diff);
@@ -74,7 +74,7 @@ public class DMPTextDiffCalculator implements TextDiffCalculator {
         }
 
         // revert diffs from chars to words
-        for (diff_match_patch.Diff diff : expanded) {
+        for (DiffMatchPatch.Diff diff : expanded) {
             diff.text = charToWord.get(diff.text);
         }
 
@@ -83,23 +83,23 @@ public class DMPTextDiffCalculator implements TextDiffCalculator {
 
     @Override
     public double distance(List<TextDiff> diffs) {
-        return dmp.diff_levenshtein(toDiffs(diffs));
+        return dmp.diffLevenshtein(toDiffs(diffs));
     }
 
-    private List<TextDiff> toTextDiffs(LinkedList<diff_match_patch.Diff> diffs) {
+    private List<TextDiff> toTextDiffs(LinkedList<DiffMatchPatch.Diff> diffs) {
         return diffs
                 .stream()
                 .map(d -> new TextDiff(d.text, getOperation(d.operation)))
                 .collect(Collectors.toList());
     }
 
-    private LinkedList<diff_match_patch.Diff> toDiffs(List<TextDiff> diffs) {
-        LinkedList<diff_match_patch.Diff> linked = new LinkedList<>();
-        diffs.forEach(d -> linked.add(new diff_match_patch.Diff(getOperation(d.getOperation()), d.getText())));
+    private LinkedList<DiffMatchPatch.Diff> toDiffs(List<TextDiff> diffs) {
+        LinkedList<DiffMatchPatch.Diff> linked = new LinkedList<>();
+        diffs.forEach(d -> linked.add(new DiffMatchPatch.Diff(getOperation(d.getOperation()), d.getText())));
         return linked;
     }
 
-    private TextDiff.Operation getOperation(diff_match_patch.Operation source) {
+    private TextDiff.Operation getOperation(DiffMatchPatch.Operation source) {
         switch (source) {
             case EQUAL:
                 return TextDiff.Operation.EQUAL;
@@ -112,22 +112,22 @@ public class DMPTextDiffCalculator implements TextDiffCalculator {
         }
     }
 
-    private diff_match_patch.Operation getOperation(TextDiff.Operation source) {
+    private DiffMatchPatch.Operation getOperation(TextDiff.Operation source) {
         switch (source) {
             case EQUAL:
-                return diff_match_patch.Operation.EQUAL;
+                return DiffMatchPatch.Operation.EQUAL;
             case DELETE:
-                return diff_match_patch.Operation.DELETE;
+                return DiffMatchPatch.Operation.DELETE;
             case INSERT:
-                return diff_match_patch.Operation.INSERT;
+                return DiffMatchPatch.Operation.INSERT;
             default:
                 throw new RuntimeException("Invalid operation mapping " + source);
         }
     }
 
-    private LinkedList<diff_match_patch.Diff> doDiff(String actual, String expected) {
-        LinkedList<diff_match_patch.Diff> diffs = dmp.diff_main(actual, expected);
-        dmp.diff_cleanupMerge(diffs);
+    private LinkedList<DiffMatchPatch.Diff> doDiff(String actual, String expected) {
+        LinkedList<DiffMatchPatch.Diff> diffs = dmp.diffMain(actual, expected);
+        dmp.diffCleanupMerge(diffs);
         return diffs;
     }
 }

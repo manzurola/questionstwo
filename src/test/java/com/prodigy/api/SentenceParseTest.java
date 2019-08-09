@@ -22,10 +22,10 @@ import edu.stanford.nlp.process.DocumentPreprocessor;
 import edu.stanford.nlp.tagger.maxent.MaxentTagger;
 import edu.stanford.nlp.trees.GrammaticalStructure;
 import edu.stanford.nlp.trees.TypedDependency;
-import name.fraser.neil.plaintext.diff_match_patch;
 import org.apache.commons.math3.ml.clustering.Clusterable;
 import org.apache.commons.math3.ml.distance.DistanceMeasure;
 import org.apache.commons.math3.ml.distance.ManhattanDistance;
+import org.bitbucket.cowwoc.diffmatchpatch.DiffMatchPatch;
 import org.junit.Test;
 
 import java.io.FileWriter;
@@ -274,7 +274,7 @@ public class SentenceParseTest {
         System.out.println(expectedGrammar.typedDependencies());
         System.out.println(actualGrammar.typedDependencies());
 
-        diff_match_patch dmp = new diff_match_patch();
+        DiffMatchPatch dmp = new DiffMatchPatch();
 
         Map<String, String> wordToChar = new HashMap<>();
         Map<String, String> charToWord = new HashMap<>();
@@ -310,17 +310,17 @@ public class SentenceParseTest {
         System.out.println(actualChars.toString());
 
         // revert chars to words
-        LinkedList<diff_match_patch.Diff> diffs = dmp.diff_main(actualChars.toString(), expectedChars.toString());
-        dmp.diff_cleanupMerge(diffs);
+        LinkedList<DiffMatchPatch.Diff> diffs = dmp.diffMain(actualChars.toString(), expectedChars.toString());
+        dmp.diffCleanupMerge(diffs);
         System.out.println(diffs);
 
         // expand diffs of more than one char to multiple single char diffs
-        LinkedList<diff_match_patch.Diff> expanded = new LinkedList<>();
-        for (diff_match_patch.Diff diff : diffs) {
+        LinkedList<DiffMatchPatch.Diff> expanded = new LinkedList<>();
+        for (DiffMatchPatch.Diff diff : diffs) {
             if (diff.text.length() > 1) {
                 char[] chars = diff.text.toCharArray();
                 for (char aChar : chars) {
-                    expanded.add(new diff_match_patch.Diff(diff.operation, String.valueOf(aChar)));
+                    expanded.add(new DiffMatchPatch.Diff(diff.operation, String.valueOf(aChar)));
                 }
             } else {
                 expanded.add(diff);
@@ -328,12 +328,12 @@ public class SentenceParseTest {
         }
 
         // revert diff text to from chars to words
-        for (diff_match_patch.Diff diff : expanded) {
+        for (DiffMatchPatch.Diff diff : expanded) {
             diff.text = charToWord.get(diff.text);
         }
 
 
-        int distance = dmp.diff_levenshtein(expanded);
+        int distance = dmp.diffLevenshtein(expanded);
         System.out.println(expanded);
         System.out.println(distance);
 

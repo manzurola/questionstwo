@@ -31,7 +31,7 @@ import com.prodigy.nlp.*;
 import com.prodigy.nlp.diff.*;
 import edu.stanford.nlp.parser.nndep.DependencyParser;
 import edu.stanford.nlp.tagger.maxent.MaxentTagger;
-import name.fraser.neil.plaintext.diff_match_patch;
+import org.bitbucket.cowwoc.diffmatchpatch.DiffMatchPatch;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
@@ -138,7 +138,7 @@ public class Application {
 
     @Bean
     public TextDiffCalculator diffCalculator() {
-        return new DMPTextDiffCalculator(new diff_match_patch());
+        return new DMPTextDiffCalculator(new DiffMatchPatch());
     }
 
     @Bean

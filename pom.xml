@@ -76,9 +76,9 @@
             <version>12.0.1</version>
         </dependency>
         <dependency>
-            <groupId>diff_match_patch</groupId>
-            <artifactId>diff_match_patch</artifactId>
-            <version>current</version>
+            <groupId>org.bitbucket.cowwoc</groupId>
+            <artifactId>diff-match-patch</artifactId>
+            <version>1.1</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/edu.stanford.nlp/stanford-corenlp -->
         <dependency>
