@@ -3,7 +3,10 @@ package com.prodigy.api.answers.review;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import com.prodigy.core.Word;
+import com.prodigy.core.diff.Diff;
 
+import java.util.List;
 import java.util.Objects;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -13,23 +16,31 @@ public class Review {
     private final Score score;
     private final Comment comment;
     private final Explain explain;
+    private final List<Diff<Word>> diff;
+    private final boolean isCorrect;
 
     private Review(Builder builder) {
         this.score = builder.score;
         this.comment = builder.comment;
         this.explain = builder.explain;
+        this.diff = builder.diff;
+        this.isCorrect = builder.isCorrect;
     }
 
-    public Score getScore() {
+    public Score score() {
         return score;
     }
 
-    public Comment getComment() {
+    public Comment comment() {
         return comment;
     }
 
-    public Explain getExplain() {
+    public Explain explain() {
         return explain;
+    }
+
+    public List<Diff<Word>> diff() {
+        return diff;
     }
 
     @Override
@@ -55,6 +66,8 @@ public class Review {
         private Score score;
         private Comment comment;
         private Explain explain;
+        private List<Diff<Word>> diff;
+        private boolean isCorrect;
 
         public Builder score(Score score) {
             this.score = score;
@@ -68,6 +81,16 @@ public class Review {
 
         public Builder explain(Explain breakdown) {
             this.explain = breakdown;
+            return this;
+        }
+
+        public Builder diff(List<Diff<Word>> diff) {
+            this.diff = diff;
+            return this;
+        }
+
+        public Builder isCorrect(boolean isCorrect) {
+            this.isCorrect = isCorrect;
             return this;
         }
 

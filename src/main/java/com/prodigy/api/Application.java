@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
+import com.prodigy.api.answers.review.DefaultReviewer;
 import com.prodigy.api.common.Id;
 import com.prodigy.api.common.jackson.IdDeserializer;
 import com.prodigy.api.common.jackson.IdSerializer;
@@ -17,10 +18,10 @@ import com.prodigy.api.questions.data.QuestionRepository;
 import com.prodigy.api.questions.utils.AddQuestionRequestCSVReader;
 import com.prodigy.api.questions.utils.AddQuestionRequestReader;
 import com.prodigy.api.answers.review.Reviewer;
-import com.prodigy.api.answers.review.WordDiffReviewer;
-import com.prodigy.nlp.*;
-import com.prodigy.nlp.diff.*;
-import edu.stanford.nlp.parser.nndep.DependencyParser;
+import com.prodigy.core.diff.DMPDiffCalculator;
+import com.prodigy.core.diff.DiffCalculator;
+import com.prodigy.core.nlp.SentenceParser;
+import com.prodigy.core.nlp.StanfordSentenceParser;
 import edu.stanford.nlp.tagger.maxent.MaxentTagger;
 import org.bitbucket.cowwoc.diffmatchpatch.DiffMatchPatch;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -99,8 +100,8 @@ public class Application {
     }
 
     @Bean
-    public TextDiffCalculator diffCalculator() {
-        return new DMPTextDiffCalculator(new DiffMatchPatch());
+    public DiffCalculator diffCalculator() {
+        return new DMPDiffCalculator(new DiffMatchPatch());
     }
 
     @Bean
@@ -115,11 +116,9 @@ public class Application {
 
     @Bean
     public SentenceParser sentenceParser() {
-        String modelPath = DependencyParser.DEFAULT_MODEL;
         String taggerPath = "edu/stanford/nlp/models/pos-tagger/english-left3words/english-left3words-distsim.tagger";
         MaxentTagger tagger = new MaxentTagger(taggerPath);
-        DependencyParser parser = DependencyParser.loadFromModelFile(modelPath);
-        return new StanfordSentenceParser(tagger, parser);
+        return new StanfordSentenceParser(tagger);
     }
 
 //    @Bean
@@ -130,12 +129,7 @@ public class Application {
 
     @Bean
     public Reviewer reviewer() throws Exception {
-        return new WordDiffReviewer(questionRepository(), sentenceParser());
-    }
-
-    @Bean
-    public SentenceDiffCheck diffCheck() {
-        return new SimpleSentenceDiffCheck(diffCalculator());
+        return new DefaultReviewer(sentenceParser(), diffCalculator());
     }
 
 //    @Bean

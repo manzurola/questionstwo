@@ -1,7 +1,7 @@
 package com.prodigy.core;
 
-import com.prodigy.core.grammar.GrammaticalRelation;
-import com.prodigy.core.grammar.IndexedWord;
+import com.prodigy.core.nlp.GrammaticalRelation;
+import com.prodigy.core.nlp.IndexedWord;
 
 import java.io.Serializable;
 import java.util.*;

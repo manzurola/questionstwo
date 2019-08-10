@@ -1,9 +1,8 @@
-package com.prodigy.api.answers;
+package com.prodigy.api.answers.request;
 
 import com.prodigy.api.common.Id;
 import com.prodigy.api.common.service.ServiceRequest;
 import com.prodigy.api.questions.Question;
-import com.prodigy.api.users.User;
 
 import java.util.Objects;
 

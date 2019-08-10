@@ -1,7 +1,7 @@
-package com.prodigy.api.answers;
+package com.prodigy.api.answers.data;
 
+import com.prodigy.api.answers.Answer;
 import com.prodigy.api.common.DataStore;
-import org.springframework.stereotype.Component;
 
 public class ElastisearchAnswerRepository implements AnswerRepository {
 

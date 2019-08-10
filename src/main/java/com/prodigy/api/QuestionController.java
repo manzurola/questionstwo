@@ -2,8 +2,8 @@ package com.prodigy.api;
 
 
 import com.prodigy.api.answers.Answer;
-import com.prodigy.api.answers.SubmitAnswerCommand;
-import com.prodigy.api.answers.SubmitAnswerRequest;
+import com.prodigy.api.answers.command.SubmitAnswerCommand;
+import com.prodigy.api.answers.request.SubmitAnswerRequest;
 import com.prodigy.api.common.Id;
 import com.prodigy.api.common.service.Result;
 import com.prodigy.api.common.service.ServiceExecutor;

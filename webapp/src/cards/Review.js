@@ -10,9 +10,9 @@ export class Review extends Component {
         super(props);
         this.state = {
             question: props.question,
-            diff: props.review.explain.steps,
-            score: props.review.score.value,
-            scale: props.review.scale,
+            review: props.review,
+//            score: props.review.score.value,
+//            scale: props.review.scale,
         };
     }
 
@@ -26,7 +26,7 @@ export class Review extends Component {
             <div className={'review-input'}>
                 <div className={'review-input-label'}><Text>{this.state.question.instructions}</Text></div>
                 <div className={'review-input-answer'}>
-                    {this.state.score > 0 ? this.renderTrue() : this.renderFalse()}
+                    {this.state.review.isCorrect ? this.renderTrue() : this.renderFalse()}
                 </div>
             </div>
         </div>
@@ -56,18 +56,19 @@ export class Review extends Component {
 
     renderReviewedWords() {
         let words = [];
-        for (let i = 0; i < this.state.diff.length; i++) {
-            let step = this.state.diff[i];
+        for (let i = 0; i < this.state.review.diff.length; i++) {
+            let step = this.state.review.diff[i];
             console.log(step);
-            switch (step.result) {
+            let word = step.object.value;
+            switch (step.operation) {
                 case 'DELETE':
-                    words.push(<Strikethrough key={i}><Text color={'#cccccc'}>{step.value}</Text></Strikethrough>);
+                    words.push(<Strikethrough key={i}><Text color={'#cccccc'}>{word}</Text></Strikethrough>);
                     break;
                 case 'INSERT':
-                    words.push(<SlideFromBottom key={i}><Text color={'#ff0000'}>{step.value}</Text></SlideFromBottom>);
+                    words.push(<SlideFromBottom key={i}><Text color={'#ff0000'}>{word}</Text></SlideFromBottom>);
                     break;
                 case 'EQUAL':
-                    words.push(<Text key={i}>{step.value}</Text>);
+                    words.push(<Text key={i}>{word}</Text>);
                     break;
             }
 

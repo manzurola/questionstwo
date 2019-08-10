@@ -1,4 +1,4 @@
-package com.prodigy.core.grammar;
+package com.prodigy.core.nlp;
 
 import com.prodigy.core.POS;
 import com.prodigy.core.Word;

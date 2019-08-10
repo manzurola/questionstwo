@@ -1,6 +1,6 @@
 package com.prodigy.core;
 
-import com.prodigy.core.grammar.GrammaticalRelation;
+import com.prodigy.core.nlp.GrammaticalRelation;
 
 import java.util.Arrays;
 import java.util.List;
