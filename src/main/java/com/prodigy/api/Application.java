@@ -5,37 +5,24 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
-import com.prodigy.api.common.DataStore;
-import com.prodigy.api.common.ElasticsearchDataStore;
+import com.prodigy.api.answers.review.Reviewer;
 import com.prodigy.api.common.Id;
 import com.prodigy.api.common.jackson.IdDeserializer;
 import com.prodigy.api.common.jackson.IdSerializer;
 import com.prodigy.api.common.service.CommandFactory;
 import com.prodigy.api.common.service.ServiceExecutor;
 import com.prodigy.api.common.service.ServiceExecutorImpl;
-import com.prodigy.api.exercises.ExerciseRepository;
-import com.prodigy.api.exercises.InMemoryExerciseRepository;
-import com.prodigy.api.exercises.utils.CSVExerciseReader;
-import com.prodigy.api.exercises.utils.ExerciseReader;
 import com.prodigy.api.questions.Question;
 import com.prodigy.api.questions.data.InMemoryQuestionRepository;
 import com.prodigy.api.questions.data.QuestionRepository;
 import com.prodigy.api.questions.utils.AddQuestionRequestCSVReader;
-import com.prodigy.api.questions.utils.MissingTextAddQuestionRequestCSVReader;
-import com.prodigy.api.questions.utils.QuestionUtils;
-import com.prodigy.api.review.reviewer.Reviewer;
-import com.prodigy.api.review.reviewer.WordDiffReviewer;
-import com.prodigy.api.users.data.ElasticsearchUserRepository;
-import com.prodigy.api.users.data.UserRepository;
-import com.prodigy.nlp.*;
-import com.prodigy.nlp.diff.*;
-import edu.stanford.nlp.parser.nndep.DependencyParser;
+import com.prodigy.api.questions.utils.AddQuestionRequestReader;
+import com.prodigy.core.diff.DMPDiffCalculator;
+import com.prodigy.core.diff.DiffCalculator;
+import com.prodigy.core.diff.SentenceDiffChecker;
+import com.prodigy.core.nlp.SentenceParser;
 import edu.stanford.nlp.tagger.maxent.MaxentTagger;
 import org.bitbucket.cowwoc.diffmatchpatch.DiffMatchPatch;
-import org.elasticsearch.client.transport.TransportClient;
-import org.elasticsearch.common.settings.Settings;
-import org.elasticsearch.common.transport.InetSocketTransportAddress;
-import org.elasticsearch.transport.client.PreBuiltTransportClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
@@ -46,11 +33,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.core.env.Environment;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -106,39 +88,13 @@ public class Application {
     }
 
     @Bean
-    public DataStore dataStore() throws UnknownHostException {
-        return new ElasticsearchDataStore(transportClient(), objectMapper());
-    }
-
-    @Bean
     public QuestionRepository questionRepository() throws Exception {
-        QuestionUtils utils = new QuestionUtils(Arrays.asList(
-                new AddQuestionRequestCSVReader(new File(this.getClass().getClassLoader().getResource("questions-en-shortanswer.csv").getFile())),
-                new MissingTextAddQuestionRequestCSVReader(new File(this.getClass().getClassLoader().getResource("questions-en-fill-in-the-blanks.csv").getFile()))
-        ));
-        List<Question> data = utils.getQuestions()
+        AddQuestionRequestReader reader = new AddQuestionRequestCSVReader(new File(this.getClass().getClassLoader().getResource("questions-en.csv").getFile()));
+        List<Question> data = reader.readAll()
                 .stream()
-                .map(request -> utils.newQuestionFromRequest(request).build())
+                .map(request -> request.toQuestion().build())
                 .collect(Collectors.toList());
         return new InMemoryQuestionRepository(data);
-    }
-
-    @Bean
-    public ExerciseRepository exerciseRepository(ExerciseReader reader) throws Exception {
-        return new InMemoryExerciseRepository(reader.readAll());
-    }
-
-    @Bean
-    public ExerciseReader exerciseReader() throws IOException {
-        return new CSVExerciseReader(
-                new File(this.getClass().getClassLoader().getResource("en-data-exercises.csv").getFile()),
-                new File(this.getClass().getClassLoader().getResource("en-data-questions.csv").getFile())
-        );
-    }
-
-    @Bean
-    public TextDiffCalculator diffCalculator() {
-        return new DMPTextDiffCalculator(new DiffMatchPatch());
     }
 
     @Bean
@@ -151,47 +107,38 @@ public class Application {
         return applicationContext::getBean;
     }
 
+//    @Bean
+//    public ContractionResolver contractionResolver() throws FileNotFoundException {
+//        String file = this.getClass().getClassLoader().getResourcadde("en-data-exercises.csv").getFile();
+//        return new ContractionResolverImpl(new FileReader(file));
+//    }
+
     @Bean
-    public UserRepository userRepository() throws UnknownHostException {
-        return new ElasticsearchUserRepository(dataStore());
+    public Reviewer reviewer() throws Exception {
+        return new Reviewer(sentenceParser(), sentenceDiffChecker());
     }
 
     @Bean
     public SentenceParser sentenceParser() {
-//        String modelPath = DependencyParser.DEFAULT_MODEL;
-//        String taggerPath = "edu/stanford/nlp/models/pos-tagger/english-left3words/english-left3words-distsim.tagger";
-//        MaxentTagger tagger = new MaxentTagger(taggerPath);
-//        DependencyParser parser = DependencyParser.loadFromModelFile(modelPath);
-//        return new StanfordSentenceParser(tagger, parser);
-
-        return new BasicSentenceParser();
+        String taggerPath = "edu/stanford/nlp/models/pos-tagger/english-left3words/english-left3words-distsim.tagger";
+        MaxentTagger tagger = new MaxentTagger(taggerPath);
+        return new SentenceParser(tagger);
     }
 
     @Bean
-    public ContractionResolver contractionResolver() throws FileNotFoundException {
-        String file = this.getClass().getClassLoader().getResource("en-data-exercises.csv").getFile();
-        return new ContractionResolverImpl(new FileReader(file));
+    public SentenceDiffChecker sentenceDiffChecker() {
+        return new SentenceDiffChecker(new DMPDiffCalculator(new DiffMatchPatch()));
     }
 
-    @Bean
-    public Reviewer reviewer() throws Exception {
-        return new WordDiffReviewer(questionRepository());
-    }
-
-    @Bean
-    public SentenceDiffCheck diffCheck() {
-        return new SimpleSentenceDiffCheck(diffCalculator());
-    }
-
-    @Bean
-    public TransportClient transportClient() throws UnknownHostException {
-        Settings settings = Settings.builder()
-                .put("cluster.name", elasticsearchClusterName).build();
-        TransportClient client = new PreBuiltTransportClient(settings)
-                .addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName(elasticsearchHostName), elasticsearchPort));
-
-        return client;
-    }
+//    @Bean
+//    public TransportClient transportClient() throws UnknownHostException {
+//        Settings settings = Settings.builder()
+//                .put("cluster.name", elasticsearchClusterName).build();
+//        TransportClient client = new PreBuiltTransportClient(settings)
+//                .addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName(elasticsearchHostName), elasticsearchPort));
+//
+//        return client;
+//    }
 
     @Bean
     public ObjectMapper objectMapper() {

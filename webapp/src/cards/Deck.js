@@ -16,7 +16,7 @@ export class Deck extends Component {
             index: 0,
             data: [],
             questions: [],
-            reviews: {},
+            answers: {},
         }
     }
 
@@ -62,7 +62,7 @@ export class Deck extends Component {
     }
 
     getReview() {
-        return this.state.reviews[this.state.index];
+        return this.state.answers[this.state.index];
     }
 
     getQuestion() {
@@ -86,21 +86,21 @@ export class Deck extends Component {
 
     submitAndReview(answer) {
         const request = {
-            questionId: this.getQuestion().id,
-            userId: '',
             answer: answer,
         };
         console.log(request);
-        axios.post('/answers', request).then(res => {
+        console.log(answer);
+        console.log(this.getQuestion().id);
+        axios.post('/questions/' + this.getQuestion().id + '/answer', request).then(res => {
             // console.log(res);
             // console.log(res.data);
-            let reviews = {...this.state.reviews};
-            reviews[this.state.index] = res.data;
-            console.log("logging reviews:");
-            console.log(reviews);
+            let answers = {...this.state.answers};
+            answers[this.state.index] = res.data;
+            console.log("logging answers:");
+            console.log(answers);
 
             this.setState({
-                reviews: reviews,
+                answers: answers,
             });
         })
     }

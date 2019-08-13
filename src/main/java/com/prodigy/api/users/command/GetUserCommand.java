@@ -6,7 +6,6 @@ import com.prodigy.api.users.data.UserRepository;
 import com.prodigy.api.users.request.GetUserRequest;
 import org.springframework.stereotype.Component;
 
-@Component
 public class GetUserCommand extends AbstractCommand<User, GetUserRequest> {
 
     private final UserRepository repository;

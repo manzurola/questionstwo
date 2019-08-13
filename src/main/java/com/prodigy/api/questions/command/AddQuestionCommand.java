@@ -17,10 +17,10 @@ public class AddQuestionCommand extends AbstractCommand<Question, AddQuestionReq
 
     @Override
     protected Question doExecute(AddQuestionRequest request) throws Exception {
-        Question question = Question.builder()
-                .body(request.getBody())
-                .answerKey(request.getAnswerKey())
-                .instructions(request.getInstructions())
+        Question question = Question.newBuilder()
+                .withBody(request.getBody())
+                .withAnswerKey(request.getAnswerKey())
+                .withInstructions(request.getInstructions())
                 .build();
         return repository.add(question);
     }

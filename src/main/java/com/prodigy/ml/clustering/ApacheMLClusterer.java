@@ -33,7 +33,7 @@ public class ApacheMLClusterer<T> implements Clusterer<T> {
             vectors.add(new FeatureVector<>(point.getPoint(), point.getData()));
         }
 
-        return new Cluster(vectorCenter, vectors);
+        return new Cluster<>(vectorCenter, vectors);
     }
 
     @Override

@@ -1,6 +1,9 @@
 package com.prodigy.api.env;
 
 import com.prodigy.api.Application;
+import com.prodigy.api.questions.utils.AddQuestionRequestCSVReader;
+import com.prodigy.utils.QuestionTestData;
+import org.assertj.core.util.Files;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.runner.RunWith;
@@ -33,6 +36,7 @@ public abstract class EndToEndTest {
 
     protected URL baseUrl;
 
+
     @Autowired
     protected TestRestTemplate template;
 
@@ -40,12 +44,12 @@ public abstract class EndToEndTest {
     @Before
     public void setUp() throws Exception {
         this.baseUrl = new URL("http://localhost:" + port);
-        embeddedElasticsearch = new EmbeddedElasticsearch(elasticsearchPort, elasticsearchClusterName).start();
+//        embeddedElasticsearch = new EmbeddedElasticsearch(elasticsearchPort, elasticsearchClusterName).start();
     }
 
     @After
     public void tearDown() throws Exception {
-        embeddedElasticsearch.stop();
+//        embeddedElasticsearch.stop();
     }
 
 }

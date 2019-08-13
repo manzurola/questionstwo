@@ -3,7 +3,7 @@ package com.prodigy.api.game;
 import com.prodigy.api.answers.Answer;
 import com.prodigy.api.common.Id;
 import com.prodigy.api.questions.Question;
-import com.prodigy.api.review.Review;
+import com.prodigy.api.answers.review.Review;
 import com.prodigy.api.users.User;
 
 public abstract class GameEvent<T> {

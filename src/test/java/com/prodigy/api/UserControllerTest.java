@@ -1,6 +1,6 @@
 package com.prodigy.api;
 
-import com.prodigy.api.test.AddUserApiCall;
+import com.prodigy.api.calls.AddUserApiCall;
 import com.prodigy.api.env.EndToEndTest;
 import com.prodigy.api.users.User;
 import com.prodigy.api.users.request.AddUserRequest;

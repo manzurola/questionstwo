@@ -33,7 +33,7 @@ export class TextInput extends Component {
 
     renderLabel = () => {
         return <div
-            className={['textarea-label', this.state.empty ? 'withoutcontent' : 'withcontent'].join(' ')}><Text>{this.props.label}</Text></div>
+            className={['textarea-label', this.state.empty ? 'withoutcontent' : 'withcontent'].join(' ')}><Text text={this.props.label}/></div>
     };
 
     renderContent =() => {

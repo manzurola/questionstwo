@@ -1,6 +1,7 @@
 package com.prodigy.api.questions.request;
 
 import com.prodigy.api.common.service.ServiceRequest;
+import com.prodigy.api.questions.Question;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -54,6 +55,13 @@ public class AddQuestionRequest implements ServiceRequest {
 
     public String getSource() {
         return source;
+    }
+
+    public Question.Builder toQuestion() {
+        return Question.newBuilder()
+                .withAnswerKey(this.getAnswerKey())
+                .withInstructions(this.getInstructions())
+                .withBody(this.getBody());
     }
 
     @Override

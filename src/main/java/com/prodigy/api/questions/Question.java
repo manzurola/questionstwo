@@ -1,9 +1,9 @@
 package com.prodigy.api.questions;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.prodigy.api.common.Id;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -11,6 +11,7 @@ import java.util.Objects;
  * Created by guym on 16/05/2017.
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
+@JsonDeserialize(builder = Question.Builder.class)
 public class Question {
 
     private final Id<Question> id;
@@ -18,11 +19,11 @@ public class Question {
     private final List<String> answerKey;
     private final String instructions;
 
-    public Question(Id<Question> id, String body, List<String> answerKey, String instructions) {
-        this.id = id;
-        this.body = body;
-        this.answerKey = answerKey;
-        this.instructions = instructions;
+    private Question(Builder builder) {
+        this.id = builder.id;
+        this.body = builder.body;
+        this.answerKey = builder.answerKey;
+        this.instructions = builder.instructions;
     }
 
     public Id<Question> getId() {
@@ -65,7 +66,7 @@ public class Question {
                 '}';
     }
 
-    public static Builder builder() {
+    public static Builder newBuilder() {
         return new Builder();
     }
 
@@ -76,42 +77,28 @@ public class Question {
         private List<String> answerKey;
         private String instructions;
 
-        public Builder id(Id<Question> id) {
+        public Builder withId(Id<Question> id) {
             this.id = id;
             return this;
         }
 
-        public Builder body(String body) {
+        public Builder withBody(String body) {
             this.body = body;
             return this;
         }
 
-        public String body() {
-            return this.body;
-        }
-
-        public Builder answerKey(List<String> answerKey) {
+        public Builder withAnswerKey(List<String> answerKey) {
             this.answerKey = answerKey;
             return this;
         }
 
-        public List<String> answerKey() {
-            return this.answerKey;
-        }
-
-        public Builder answerKey(String... answerKey) {
-            this.answerKey = Arrays.asList(answerKey);
-            return this;
-        }
-
-        public Builder instructions(String instructions){
+        public Builder withInstructions(String instructions){
             this.instructions = instructions;
             return this;
         }
 
-
         public Question build() {
-            return new Question(id, body, answerKey, instructions);
+            return new Question(this);
         }
 
     }

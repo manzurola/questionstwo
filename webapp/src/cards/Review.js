@@ -10,9 +10,9 @@ export class Review extends Component {
         super(props);
         this.state = {
             question: props.question,
-            diff: props.explain.steps,
-            score: props.score.value,
-            scale: props.scale,
+            review: props.review,
+//            score: props.review.score.value,
+//            scale: props.review.scale,
         };
     }
 
@@ -24,16 +24,16 @@ export class Review extends Component {
         return <div className={'review'}>
             {this.renderTitle()}
             <div className={'review-input'}>
-                <div className={'review-input-label'}><Text>{this.state.question.instructions}</Text></div>
+                <div className={'review-input-label'}><Text text={this.state.question.instructions}/></div>
                 <div className={'review-input-answer'}>
-                    {this.state.score > 0 ? this.renderTrue() : this.renderFalse()}
+                    {this.state.review.isCorrect ? this.renderTrue() : this.renderFalse()}
                 </div>
             </div>
         </div>
     }
 
     renderTitle() {
-        return <Text fontSize={'2em'}>{this.props.question.body}</Text>;
+        return <Text fontSize={'2em'} text={this.props.question.body}/>;
     }
 
     renderTrue() {
@@ -56,22 +56,21 @@ export class Review extends Component {
 
     renderReviewedWords() {
         let words = [];
-        for (let i = 0; i < this.state.diff.length; i++) {
-            let step = this.state.diff[i];
+        for (let i = 0; i < this.state.review.diff.length; i++) {
+            let step = this.state.review.diff[i];
             console.log(step);
-            switch (step.result) {
+            let word = step.item.originalValue;
+            switch (step.operation) {
                 case 'DELETE':
-                    words.push(<Strikethrough key={i}><Text color={'#cccccc'}>{step.value}</Text></Strikethrough>);
+                    words.push(<Strikethrough key={i}><Text color={'#cccccc'} text={word}/></Strikethrough>);
                     break;
                 case 'INSERT':
-                    words.push(<SlideFromBottom key={i}><Text color={'#ff0000'}>{step.value}</Text></SlideFromBottom>);
+                    words.push(<SlideFromBottom key={i}><Text color={'#ff0000'} text={word}/></SlideFromBottom>);
                     break;
                 case 'EQUAL':
-                    words.push(<Text key={i}>{step.value}</Text>);
+                    words.push(<Text key={i} text={word}/>);
                     break;
             }
-
-            words.push(<Text key={i + 333}> </Text>);
         }
         return words;
     }
