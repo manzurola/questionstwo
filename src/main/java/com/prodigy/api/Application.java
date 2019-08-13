@@ -18,10 +18,10 @@ import com.prodigy.api.questions.data.QuestionRepository;
 import com.prodigy.api.questions.utils.AddQuestionRequestCSVReader;
 import com.prodigy.api.questions.utils.AddQuestionRequestReader;
 import com.prodigy.core.diff.DMPDiffCalculator;
-import com.prodigy.core.diff.DiffCalculator;
 import com.prodigy.core.diff.SentenceDiffChecker;
-import com.prodigy.core.nlp.SentenceParser;
-import edu.stanford.nlp.tagger.maxent.MaxentTagger;
+import com.prodigy.core.nlp.PTBSentenceTokenizer;
+import com.prodigy.core.nlp.SentenceTokenizer;
+import com.prodigy.core.nlp.WhitespaceSentenceTokenizer;
 import org.bitbucket.cowwoc.diffmatchpatch.DiffMatchPatch;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -115,14 +115,17 @@ public class Application {
 
     @Bean
     public Reviewer reviewer() throws Exception {
-        return new Reviewer(sentenceParser(), sentenceDiffChecker());
+        return new Reviewer(whitespaceSentenceTokenizer(), sentenceDiffChecker());
     }
 
     @Bean
-    public SentenceParser sentenceParser() {
-        String taggerPath = "edu/stanford/nlp/models/pos-tagger/english-left3words/english-left3words-distsim.tagger";
-        MaxentTagger tagger = new MaxentTagger(taggerPath);
-        return new SentenceParser(tagger);
+    SentenceTokenizer whitespaceSentenceTokenizer() {
+        return new WhitespaceSentenceTokenizer();
+    }
+
+    @Bean
+    SentenceTokenizer ptbSentenceTokenizer() {
+        return new PTBSentenceTokenizer();
     }
 
     @Bean

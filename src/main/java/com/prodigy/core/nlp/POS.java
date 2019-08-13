@@ -1,4 +1,4 @@
-package com.prodigy.core;
+package com.prodigy.core.nlp;
 
 import java.util.Optional;
 

@@ -4,25 +4,25 @@ import com.prodigy.api.questions.Question;
 import com.prodigy.core.Word;
 import com.prodigy.core.diff.Diff;
 import com.prodigy.core.diff.SentenceDiffChecker;
-import com.prodigy.core.nlp.SentenceParser;
+import com.prodigy.core.nlp.SentenceTokenizer;
 
 import java.util.List;
 
 public class Reviewer {
 
-    private final SentenceParser parser;
+    private final SentenceTokenizer tokenizer;
     private final SentenceDiffChecker diffChecker;
 
-    public Reviewer(SentenceParser parser, SentenceDiffChecker diffChecker) {
-        this.parser = parser;
+    public Reviewer(SentenceTokenizer tokenizer, SentenceDiffChecker diffChecker) {
+        this.tokenizer = tokenizer;
         this.diffChecker = diffChecker;
     }
 
     public Review reviewAnswer(String answer, Question question) {
 
         // tokenize and tag words
-        List<Word> parsedAnswer = parser.parse(answer);
-        List<Word> parsedTarget = parser.parse(question.getAnswerKey().get(0));
+        List<Word> parsedAnswer = tokenizer.tokenize(answer);
+        List<Word> parsedTarget = tokenizer.tokenize(question.getAnswerKey().get(0));
         // lower case (?)
         // get diff
 
@@ -35,8 +35,6 @@ public class Reviewer {
                 isCorrect = false;
             }
         }
-
-        // return review
 
         return Review.newBuilder()
                 .diff(diff)

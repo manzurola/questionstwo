@@ -6,11 +6,9 @@ import java.util.Objects;
 public class Word {
 
     private final String value;
-    private final POS pos;
     private final String originalValue;
 
-    public Word(String value, POS pos, String originalValue) {
-        this.pos = pos;
+    public Word(String value, String originalValue) {
         this.value = value;
         this.originalValue = originalValue;
     }
@@ -19,11 +17,7 @@ public class Word {
         return value;
     }
 
-    public POS pos() {
-        return pos;
-    }
-
-    public String original() {
+    public String originalValue() {
         return originalValue;
     }
 
@@ -33,20 +27,18 @@ public class Word {
         if (o == null || getClass() != o.getClass()) return false;
         Word word = (Word) o;
         return Objects.equals(value, word.value) &&
-                pos == word.pos &&
                 Objects.equals(originalValue, word.originalValue);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(value, pos, originalValue);
+        return Objects.hash(value, originalValue);
     }
 
     @Override
     public String toString() {
         return "Word{" +
                 "value='" + value + '\'' +
-                ", pos=" + pos +
                 ", original='" + originalValue + '\'' +
                 '}';
     }
