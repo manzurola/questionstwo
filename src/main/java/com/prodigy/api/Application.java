@@ -5,7 +5,7 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
-import com.prodigy.api.answers.review.DefaultReviewer;
+import com.prodigy.api.answers.review.Reviewer;
 import com.prodigy.api.common.Id;
 import com.prodigy.api.common.jackson.IdDeserializer;
 import com.prodigy.api.common.jackson.IdSerializer;
@@ -17,11 +17,10 @@ import com.prodigy.api.questions.data.InMemoryQuestionRepository;
 import com.prodigy.api.questions.data.QuestionRepository;
 import com.prodigy.api.questions.utils.AddQuestionRequestCSVReader;
 import com.prodigy.api.questions.utils.AddQuestionRequestReader;
-import com.prodigy.api.answers.review.Reviewer;
 import com.prodigy.core.diff.DMPDiffCalculator;
 import com.prodigy.core.diff.DiffCalculator;
+import com.prodigy.core.diff.SentenceDiffChecker;
 import com.prodigy.core.nlp.SentenceParser;
-import com.prodigy.core.nlp.StanfordSentenceParser;
 import edu.stanford.nlp.tagger.maxent.MaxentTagger;
 import org.bitbucket.cowwoc.diffmatchpatch.DiffMatchPatch;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -88,7 +87,6 @@ public class Application {
         };
     }
 
-
     @Bean
     public QuestionRepository questionRepository() throws Exception {
         AddQuestionRequestReader reader = new AddQuestionRequestCSVReader(new File(this.getClass().getClassLoader().getResource("questions-en.csv").getFile()));
@@ -97,11 +95,6 @@ public class Application {
                 .map(request -> request.toQuestion().build())
                 .collect(Collectors.toList());
         return new InMemoryQuestionRepository(data);
-    }
-
-    @Bean
-    public DiffCalculator diffCalculator() {
-        return new DMPDiffCalculator(new DiffMatchPatch());
     }
 
     @Bean
@@ -114,13 +107,6 @@ public class Application {
         return applicationContext::getBean;
     }
 
-    @Bean
-    public SentenceParser sentenceParser() {
-        String taggerPath = "edu/stanford/nlp/models/pos-tagger/english-left3words/english-left3words-distsim.tagger";
-        MaxentTagger tagger = new MaxentTagger(taggerPath);
-        return new StanfordSentenceParser(tagger);
-    }
-
 //    @Bean
 //    public ContractionResolver contractionResolver() throws FileNotFoundException {
 //        String file = this.getClass().getClassLoader().getResourcadde("en-data-exercises.csv").getFile();
@@ -129,7 +115,19 @@ public class Application {
 
     @Bean
     public Reviewer reviewer() throws Exception {
-        return new DefaultReviewer(sentenceParser(), diffCalculator());
+        return new Reviewer(sentenceParser(), sentenceDiffChecker());
+    }
+
+    @Bean
+    public SentenceParser sentenceParser() {
+        String taggerPath = "edu/stanford/nlp/models/pos-tagger/english-left3words/english-left3words-distsim.tagger";
+        MaxentTagger tagger = new MaxentTagger(taggerPath);
+        return new SentenceParser(tagger);
+    }
+
+    @Bean
+    public SentenceDiffChecker sentenceDiffChecker() {
+        return new SentenceDiffChecker(new DMPDiffCalculator(new DiffMatchPatch()));
     }
 
 //    @Bean

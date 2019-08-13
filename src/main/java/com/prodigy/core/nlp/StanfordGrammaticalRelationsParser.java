@@ -45,11 +45,11 @@ public class StanfordGrammaticalRelationsParser implements GrammaticalRelationsP
                 .withName(dependency.reln().getShortName())
                 .withGovernor(new IndexedWord(
                         gov.index(),
-                        new Word(gov.word(), POS.ofValue(gov.tag()).orElse(null))
+                        new Word(gov.word(), POS.ofValue(gov.tag()).orElse(null), null) // TODO fix null
                 ))
                 .withDependant(new IndexedWord(
                         dep.index(),
-                        new Word(dep.word(), POS.ofValue(dep.tag()).orElse(null))
+                        new Word(dep.word(), POS.ofValue(dep.tag()).orElse(null), null)
                 ))
                 .build();
     }

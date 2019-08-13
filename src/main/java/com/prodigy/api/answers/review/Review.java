@@ -43,6 +43,10 @@ public class Review {
         return diff;
     }
 
+    public boolean isCorrect() {
+        return isCorrect;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

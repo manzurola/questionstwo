@@ -59,7 +59,7 @@ export class Review extends Component {
         for (let i = 0; i < this.state.review.diff.length; i++) {
             let step = this.state.review.diff[i];
             console.log(step);
-            let word = step.object.value;
+            let word = step.item.originalValue;
             switch (step.operation) {
                 case 'DELETE':
                     words.push(<Strikethrough key={i}><Text color={'#cccccc'}>{word}</Text></Strikethrough>);
@@ -71,8 +71,6 @@ export class Review extends Component {
                     words.push(<Text key={i}>{word}</Text>);
                     break;
             }
-
-            words.push(<Text key={i + 333}> </Text>);
         }
         return words;
     }

@@ -1,8 +1,10 @@
 package com.prodigy.core.diff;
 
+import com.prodigy.core.Word;
+
 import java.util.Objects;
 
-public class Diff<T> {
+public class WordDiff {
 
     public enum Operation {
         INSERT,
@@ -11,40 +13,40 @@ public class Diff<T> {
     }
 
     private final Operation operation;
-    private final T item;
+    private final Word word;
 
-    public Diff(Operation operation, T item) {
+    public WordDiff(Operation operation, Word word) {
         this.operation = operation;
-        this.item = item;
+        this.word = word;
     }
 
     public Operation operation() {
         return operation;
     }
 
-    public T object() {
-        return item;
+    public Word word() {
+        return word;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Diff)) return false;
-        Diff<?> diff = (Diff<?>) o;
-        return operation == diff.operation &&
-                Objects.equals(item, diff.item);
+        if (o == null || getClass() != o.getClass()) return false;
+        WordDiff wordDiff = (WordDiff) o;
+        return operation == wordDiff.operation &&
+                Objects.equals(word, wordDiff.word);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(operation, item);
+        return Objects.hash(operation, word);
     }
 
     @Override
     public String toString() {
-        return "Diff{" +
+        return "WordDiff{" +
                 "operation=" + operation +
-                ", element=" + item +
+                ", word=" + word +
                 '}';
     }
 }

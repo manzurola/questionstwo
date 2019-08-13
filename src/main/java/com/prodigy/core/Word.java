@@ -7,10 +7,12 @@ public class Word {
 
     private final String value;
     private final POS pos;
+    private final String originalValue;
 
-    public Word(String value, POS pos) {
+    public Word(String value, POS pos, String originalValue) {
         this.pos = pos;
         this.value = value;
+        this.originalValue = originalValue;
     }
 
     public String value() {
@@ -21,18 +23,23 @@ public class Word {
         return pos;
     }
 
+    public String original() {
+        return originalValue;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Word word = (Word) o;
         return Objects.equals(value, word.value) &&
-                pos == word.pos;
+                pos == word.pos &&
+                Objects.equals(originalValue, word.originalValue);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(value, pos);
+        return Objects.hash(value, pos, originalValue);
     }
 
     @Override
@@ -40,6 +47,7 @@ public class Word {
         return "Word{" +
                 "value='" + value + '\'' +
                 ", pos=" + pos +
+                ", original='" + originalValue + '\'' +
                 '}';
     }
 }

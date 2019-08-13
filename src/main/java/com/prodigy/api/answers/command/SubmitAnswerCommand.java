@@ -3,10 +3,10 @@ package com.prodigy.api.answers.command;
 import com.prodigy.api.answers.Answer;
 import com.prodigy.api.answers.request.SubmitAnswerRequest;
 import com.prodigy.api.answers.data.AnswerRepository;
+import com.prodigy.api.answers.review.Reviewer;
 import com.prodigy.api.common.service.AbstractCommand;
 import com.prodigy.api.questions.data.QuestionRepository;
 import com.prodigy.api.answers.review.Review;
-import com.prodigy.api.answers.review.Reviewer;
 import org.springframework.stereotype.Component;
 
 @Component

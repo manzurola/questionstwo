@@ -14,12 +14,75 @@ import org.junit.Test;
 
 import java.io.StringReader;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class TestStuff {
 
+    private static class Wrapper {
+        CoreLabel coreLabel;
+
+        public Wrapper(CoreLabel coreLabel) {
+            this.coreLabel = coreLabel;
+        }
+
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            Wrapper wrapper = (Wrapper) o;
+            return coreLabel.word().equals(wrapper.coreLabel.word());
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(coreLabel.word());
+        }
+
+        @Override
+        public String toString() {
+            return "Wrapper{" +
+                    "word=" + coreLabel.word() +
+                    '}';
+        }
+    }
+
+    @Test
+    public void assemble() {
+        String target = "Doesn't he love his wife?";
+        String source = "Doesn't he loves his wife?";
+
+        List<CoreLabel> targetWords = new PTBTokenizer<>(
+                new StringReader(target),
+                new CoreLabelTokenFactory(true),
+                "invertible"
+        ).tokenize();
+
+        List<CoreLabel> sourceWords = new PTBTokenizer<>(
+                new StringReader(source),
+                new CoreLabelTokenFactory(true),
+                "invertible"
+        ).tokenize();
+
+        DMPDiffCalculator diffCalculator = new DMPDiffCalculator();
+        List<Diff<Wrapper>> diff = diffCalculator.getDiff(
+                sourceWords.stream().map(Wrapper::new).collect(Collectors.toList()),
+                targetWords.stream().map(Wrapper::new).collect(Collectors.toList())
+        );
+        System.out.println(diff);
+
+//        StringBuilder builder = new StringBuilder();
+//        for (Diff<Wrapper> wordWrapperDiff : diff) {
+//            String op = wordWrapperDiff.operation().equals(Diff.Operation.DELETE) ? "(-)" : (wordWrapperDiff.operation().equals(Diff.Operation.INSERT) ? "(+)" : "");
+//            builder.append(String.format("%s%s ", op, wordWrapperDiff.object().getWord().word()));
+//        }
+//        return builder.toString();
+    }
+
+    // https://nlp.stanford.edu/nlp/javadoc/javanlp/edu/stanford/nlp/process/PTBTokenizer.html
     @Test
     public void testTokenize() {
-        String text = "Doesn't he love his wife?";
+        String text = "Doesn't      he love his wife organisation?".trim().replaceAll(" +", " ");
         List<edu.stanford.nlp.ling.Word> words = WhitespaceTokenizer.factory().getTokenizer(new StringReader(text)).tokenize();
         System.out.println(words);
 
@@ -28,20 +91,26 @@ public class TestStuff {
 
         List<CoreLabel> coreLabels = new PTBTokenizer<>(new StringReader(text), new CoreLabelTokenFactory(true), "invertible").tokenize();
         for (CoreLabel coreLabel : coreLabels) {
-            System.out.println(String.format("word: %s, ner: %s, tag: %s, index: %d, begin: %d, end: %d, before: %s, after: %s", coreLabel.word(), coreLabel.ner(), coreLabel.tag(), coreLabel.index(), coreLabel.beginPosition(), coreLabel.endPosition(), coreLabel.before(), coreLabel.after()));
+            System.out.println(String.format("word: '%s', ner: '%s', tag: '%s', index: %d, begin: %d, end: %d, before: '%s', after: '%s'", coreLabel.word(), coreLabel.ner(), coreLabel.tag(), coreLabel.index(), coreLabel.beginPosition(), coreLabel.endPosition(), coreLabel.before(), coreLabel.after()));
         }
 
         String taggerPath = "edu/stanford/nlp/models/pos-tagger/english-left3words/english-left3words-distsim.tagger";
-        MaxentTagger tagger = new MaxentTagger(taggerPath);
+        MaxentTagger tagger = tagger();
         List<TaggedWord> taggedWords = tagger.tagSentence(coreLabels);
         System.out.println(taggedWords);
+    }
+
+    private MaxentTagger tagger() {
+        String taggerPath = "edu/stanford/nlp/models/pos-tagger/english-left3words/english-left3words-distsim.tagger";
+        MaxentTagger tagger = new MaxentTagger(taggerPath);
+        return tagger;
     }
 
     @Test
     public void testLargeDiff() {
         List<String> target = new ArrayList<>();
         for (int i = 0; i < Character.MAX_VALUE; i++) {
-             target.add(String.valueOf(Math.random()));
+            target.add(String.valueOf(Math.random()));
         }
 
         List<String> source = new ArrayList<>();
@@ -53,9 +122,7 @@ public class TestStuff {
 
     @Test
     public void testParseAndDiff() {
-        String taggerPath = "edu/stanford/nlp/models/pos-tagger/english-left3words/english-left3words-distsim.tagger";
-        MaxentTagger tagger = new MaxentTagger(taggerPath);
-        SentenceParser parser = new StanfordSentenceParser(tagger);
+        SentenceParser parser = new SentenceParser(tagger());
 
         String target = "Does n't he love his wife?";
         String answer = "Doesn't he love his wife ?";
@@ -97,7 +164,7 @@ public class TestStuff {
     @Test
     public void grammarRelations() {
         String sentence = "hello my name is Guy and I am happy.";
-        StanfordSentenceParser tokenizer = new StanfordSentenceParser();
+        SentenceParser tokenizer = new SentenceParser(tagger());
         List<Word> words = tokenizer.parse(sentence);
         GrammaticalRelationsParser parser = new StanfordGrammaticalRelationsParser();
         List<GrammaticalRelation> relations = parser.parse(words);
@@ -106,7 +173,7 @@ public class TestStuff {
 
     @Test
     public void testRelationalDiffEquals() {
-        StanfordSentenceParser tokenizer = new StanfordSentenceParser();
+        SentenceParser tokenizer = new SentenceParser(tagger());
         GrammaticalRelationsParser parser = new StanfordGrammaticalRelationsParser();
         DMPDiffCalculator diffCalculator = new DMPDiffCalculator();
 
@@ -116,7 +183,7 @@ public class TestStuff {
         System.out.println(targetRel);
 
         String source = "hello my name is Guy and I am happy.";
-        tokenizer = new StanfordSentenceParser();
+        tokenizer = new SentenceParser(tagger());
         List<Word> sourceWords = tokenizer.parse(source);
         List<GrammaticalRelation> sourceRel = parser.parse(sourceWords);
         System.out.println(sourceRel);
@@ -127,7 +194,7 @@ public class TestStuff {
 
     @Test
     public void testRelationalDiff() {
-        StanfordSentenceParser tokenizer = new StanfordSentenceParser();
+        SentenceParser tokenizer = new SentenceParser(tagger());
         GrammaticalRelationsParser parser = new StanfordGrammaticalRelationsParser();
         DMPDiffCalculator diffCalculator = new DMPDiffCalculator();
 
@@ -137,7 +204,7 @@ public class TestStuff {
         System.out.println(targetWords);
 
         String source = "hello my is name is Guy and I happy.";
-        tokenizer = new StanfordSentenceParser();
+        tokenizer = new SentenceParser(tagger());
         List<Word> sourceWords = tokenizer.parse(source);
         List<GrammaticalRelation> sourceRel = parser.parse(sourceWords);
         System.out.println(sourceWords);
