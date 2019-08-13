@@ -72,9 +72,9 @@ public class DMPDiffCalculator implements DiffCalculator {
 
         for (DiffMatchPatch.Diff diffItem : diff) {
             switch (diffItem.operation) {
-                case EQUAL:
-                    result.add(new Diff<>(translateOperation(DiffMatchPatch.Operation.EQUAL), sourceQueue.remove()));
-                    targetQueue.remove();
+                case EQUAL: // when equal, always take the target element
+                    result.add(new Diff<>(translateOperation(DiffMatchPatch.Operation.EQUAL), targetQueue.remove()));
+                    sourceQueue.remove();
                     break;
                 case INSERT:
                     result.add(new Diff<>(translateOperation(DiffMatchPatch.Operation.INSERT), targetQueue.remove()));

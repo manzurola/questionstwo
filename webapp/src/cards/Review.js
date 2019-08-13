@@ -24,7 +24,7 @@ export class Review extends Component {
         return <div className={'review'}>
             {this.renderTitle()}
             <div className={'review-input'}>
-                <div className={'review-input-label'}><Text>{this.state.question.instructions}</Text></div>
+                <div className={'review-input-label'}><Text text={this.state.question.instructions}/></div>
                 <div className={'review-input-answer'}>
                     {this.state.review.isCorrect ? this.renderTrue() : this.renderFalse()}
                 </div>
@@ -33,7 +33,7 @@ export class Review extends Component {
     }
 
     renderTitle() {
-        return <Text fontSize={'2em'}>{this.props.question.body}</Text>;
+        return <Text fontSize={'2em'} text={this.props.question.body}/>;
     }
 
     renderTrue() {
@@ -62,13 +62,13 @@ export class Review extends Component {
             let word = step.item.originalValue;
             switch (step.operation) {
                 case 'DELETE':
-                    words.push(<Strikethrough key={i}><Text color={'#cccccc'}>{word}</Text></Strikethrough>);
+                    words.push(<Strikethrough key={i}><Text color={'#cccccc'} text={word}/></Strikethrough>);
                     break;
                 case 'INSERT':
-                    words.push(<SlideFromBottom key={i}><Text color={'#ff0000'}>{word}</Text></SlideFromBottom>);
+                    words.push(<SlideFromBottom key={i}><Text color={'#ff0000'} text={word}/></SlideFromBottom>);
                     break;
                 case 'EQUAL':
-                    words.push(<Text key={i}>{word}</Text>);
+                    words.push(<Text key={i} text={word}/>);
                     break;
             }
         }

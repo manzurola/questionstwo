@@ -26,12 +26,11 @@ export class Question extends Component {
     }
 
     renderTitle() {
-        return <div className={'question-title'}><Text fontSize={'2em'}>{this.props.body}</Text></div>;
+        return <div className={'question-title'}><Text fontSize={'2em'} text={this.props.body}/></div>;
     }
 
     renderInput() {
         return <div className={'question-input'}>
-            <Text>
             <TextInput
                 key={this.state.id}
                 autoFocus
@@ -40,7 +39,6 @@ export class Question extends Component {
                 onSubmit={this.answerWasSubmitted}
                 disabled={this.state.submitted}
             />
-            </Text>
         </div>
     }
 
