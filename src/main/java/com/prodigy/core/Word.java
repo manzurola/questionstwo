@@ -13,6 +13,10 @@ public class Word {
         this.originalValue = originalValue;
     }
 
+    public Word(String value) {
+        this(value, value);
+    }
+
     public String value() {
         return value;
     }
