@@ -1,7 +1,6 @@
 package com.prodigy.game;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.prodigy.core.Sentence;
 
 import java.util.Objects;
 

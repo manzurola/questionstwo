@@ -18,6 +18,13 @@ import java.util.stream.Collectors;
 
 public class TestStuff {
 
+    @Test
+    public void sentenceFactoryTest() {
+        SentenceFactory factory = new CoreNLPSentenceFactory();
+        Sentence sentence = factory.getSentence("This dress is very old; I can't wear it any more.");
+        System.out.println(sentence);
+    }
+
     private static class Wrapper {
         CoreLabel coreLabel;
 
@@ -121,25 +128,6 @@ public class TestStuff {
     }
 
     @Test
-    public void testParseAndDiff() {
-        SentenceParser parser = new SentenceParser(tagger());
-
-        String target = "Does n't he love his wife?";
-        String answer = "Doesn't he love his wife ?";
-
-        List<Word> targetWords = parser.parse(target);
-        List<Word> answerWords = parser.parse(answer);
-
-        DiffCalculator diffCalculator = new DMPDiffCalculator(new DiffMatchPatch());
-        List<Diff<Word>> diff = diffCalculator.getDiff(targetWords, answerWords);
-
-        System.out.println(diff);
-
-
-        System.out.println(parser.parse("you haven't missed me at all"));
-    }
-
-    @Test
     public void testDiff() {
 
 
@@ -160,85 +148,6 @@ public class TestStuff {
         Assert.assertEquals(expected, actual);
     }
 
-
-    @Test
-    public void grammarRelations() {
-        String sentence = "hello my name is Guy and I am happy.";
-        SentenceParser tokenizer = new SentenceParser(tagger());
-        List<Word> words = tokenizer.parse(sentence);
-        GrammaticalRelationsParser parser = new StanfordGrammaticalRelationsParser();
-        List<GrammaticalRelation> relations = parser.parse(words);
-        System.out.println(relations);
-    }
-
-    @Test
-    public void testRelationalDiffEquals() {
-        SentenceParser tokenizer = new SentenceParser(tagger());
-        GrammaticalRelationsParser parser = new StanfordGrammaticalRelationsParser();
-        DMPDiffCalculator diffCalculator = new DMPDiffCalculator();
-
-        String target = "hello my name is Guy and I am happy.";
-        List<Word> targetWords = tokenizer.parse(target);
-        List<GrammaticalRelation> targetRel = parser.parse(targetWords);
-        System.out.println(targetRel);
-
-        String source = "hello my name is Guy and I am happy.";
-        tokenizer = new SentenceParser(tagger());
-        List<Word> sourceWords = tokenizer.parse(source);
-        List<GrammaticalRelation> sourceRel = parser.parse(sourceWords);
-        System.out.println(sourceRel);
-
-        List<Diff<GrammaticalRelation>> diff = diffCalculator.getDiff(sourceRel, targetRel);
-        System.out.println(diff);
-    }
-
-    @Test
-    public void testRelationalDiff() {
-        SentenceParser tokenizer = new SentenceParser(tagger());
-        GrammaticalRelationsParser parser = new StanfordGrammaticalRelationsParser();
-        DMPDiffCalculator diffCalculator = new DMPDiffCalculator();
-
-        String target = "hello my name is Guy and I am happy.";
-        List<Word> targetWords = tokenizer.parse(target);
-        List<GrammaticalRelation> targetRel = parser.parse(targetWords);
-        System.out.println(targetWords);
-
-        String source = "hello my is name is Guy and I happy.";
-        tokenizer = new SentenceParser(tagger());
-        List<Word> sourceWords = tokenizer.parse(source);
-        List<GrammaticalRelation> sourceRel = parser.parse(sourceWords);
-        System.out.println(sourceWords);
-
-        List<Diff<Word>> diff = diffCalculator.getDiff(sourceWords, targetWords);
-
-        Sentence targetSentence = new Sentence(targetWords, targetRel);
-        Sentence sourceSentence = new Sentence(sourceWords, sourceRel);
-
-        int sourceIndex = 0, targetIndex = 0;
-
-        System.out.println(targetRel);
-
-        for (Diff<Word> wordDiff : diff) {
-            switch (wordDiff.operation()) {
-                case INSERT:
-                    List<GrammaticalRelation> targetWordRelations = targetSentence.getRelationsForWordAt(targetIndex);
-                    System.out.println("mistakes were made for the following relations (insert)");
-                    System.out.println(targetWordRelations);
-                    targetIndex++;
-                    break;
-                case DELETE:
-                    List<GrammaticalRelation> sourceWordRelations = sourceSentence.getRelationsForWordAt(sourceIndex);
-                    System.out.println("mistakes were made for the following relations (delete)");
-                    System.out.println(sourceWordRelations);
-                    sourceIndex++;
-                    break;
-                case EQUAL:
-                    targetIndex++;
-                    sourceIndex++;
-                    break;
-            }
-        }
-    }
 
     public static class Elem {
         private final String text;

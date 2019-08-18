@@ -56,10 +56,11 @@ export class Review extends Component {
 
     renderReviewedWords() {
         let words = [];
-        for (let i = 0; i < this.state.review.diff.length; i++) {
-            let step = this.state.review.diff[i];
+        let diff = this.state.review.diff.words;
+        for (let i = 0; i < diff.length; i++) {
+            let step = diff[i];
             console.log(step);
-            let word = step.item.originalValue;
+            let word = step.item.original;
             switch (step.operation) {
                 case 'DELETE':
                     words.push(<Strikethrough key={i}><Text color={'#cccccc'} text={word}/></Strikethrough>);
