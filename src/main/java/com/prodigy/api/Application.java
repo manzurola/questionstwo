@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
 import com.prodigy.api.answers.review.Reviewer;
+import com.prodigy.api.answers.review.SmartReviewer;
 import com.prodigy.api.common.Id;
 import com.prodigy.api.common.jackson.IdDeserializer;
 import com.prodigy.api.common.jackson.IdSerializer;
@@ -17,11 +18,10 @@ import com.prodigy.api.questions.data.InMemoryQuestionRepository;
 import com.prodigy.api.questions.data.QuestionRepository;
 import com.prodigy.api.questions.utils.AddQuestionRequestCSVReader;
 import com.prodigy.api.questions.utils.AddQuestionRequestReader;
+import com.prodigy.core.SentenceFactory;
 import com.prodigy.core.diff.DMPDiffCalculator;
 import com.prodigy.core.diff.SentenceDiffChecker;
-import com.prodigy.core.nlp.PTBSentenceTokenizer;
-import com.prodigy.core.nlp.SentenceTokenizer;
-import com.prodigy.core.nlp.WhitespaceSentenceTokenizer;
+import com.prodigy.core.nlp.CoreNLPSentenceFactory;
 import org.bitbucket.cowwoc.diffmatchpatch.DiffMatchPatch;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -115,17 +115,12 @@ public class Application {
 
     @Bean
     public Reviewer reviewer() throws Exception {
-        return new Reviewer(whitespaceSentenceTokenizer(), sentenceDiffChecker());
+        return new SmartReviewer(sentenceFactory(), sentenceDiffChecker());
     }
 
     @Bean
-    SentenceTokenizer whitespaceSentenceTokenizer() {
-        return new WhitespaceSentenceTokenizer();
-    }
-
-    @Bean
-    SentenceTokenizer ptbSentenceTokenizer() {
-        return new PTBSentenceTokenizer();
+    public SentenceFactory sentenceFactory() {
+        return new CoreNLPSentenceFactory();
     }
 
     @Bean

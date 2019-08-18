@@ -1,14 +1,5 @@
 package com.prodigy.core.nlp;
 
-import com.prodigy.core.Word;
-import edu.stanford.nlp.ling.TaggedWord;
-import edu.stanford.nlp.parser.nndep.DependencyParser;
-import edu.stanford.nlp.trees.GrammaticalStructure;
-import edu.stanford.nlp.trees.TypedDependency;
-
-import java.util.List;
-import java.util.stream.Collectors;
-
 // https://nlp.stanford.edu/software/dependencies_manual.pdf
 //public class StanfordGrammaticalRelationsParser implements GrammaticalRelationsParser {
 //

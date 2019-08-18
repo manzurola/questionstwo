@@ -18,6 +18,13 @@ import java.util.stream.Collectors;
 
 public class TestStuff {
 
+    @Test
+    public void sentenceFactoryTest() {
+        SentenceFactory factory = new CoreNLPSentenceFactory();
+        Sentence sentence = factory.getSentence("This dress is very old; I can't wear it any more.");
+        System.out.println(sentence);
+    }
+
     private static class Wrapper {
         CoreLabel coreLabel;
 
