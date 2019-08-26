@@ -34,8 +34,4 @@ public class QuestionTestData {
         return requests.get(new Random().nextInt(requests.size()));
     }
 
-    @Test
-    public void name() {
-        System.out.println(requests);
-    }
 }

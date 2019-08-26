@@ -1,30 +1,24 @@
-package com.prodigy.ml;
+package com.prodigy.recommend;
 
 import java.util.Arrays;
 
-public class FeatureVector<T> {
+public class Point {
 
     private final double[] point;
-    private final T data;
 
-    public FeatureVector(double[] point, T data) {
+    public Point(double[] point) {
         this.point = point;
-        this.data = data;
     }
 
     public double[] getPoint() {
         return point;
     }
 
-    public T getData() {
-        return data;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof FeatureVector)) return false;
-        FeatureVector<?> that = (FeatureVector<?>) o;
+        if (o == null || getClass() != o.getClass()) return false;
+        Point that = (Point) o;
         return Arrays.equals(point, that.point);
     }
 
@@ -37,7 +31,6 @@ public class FeatureVector<T> {
     public String toString() {
         return "FeatureVector{" +
                 "point=" + Arrays.toString(point) +
-                ", data=" + data +
                 '}';
     }
 }

@@ -65,9 +65,7 @@ public class DMPDiffCalculator implements DiffCalculator {
 
     private <T> List<Diff<T>> resolve(LinkedList<DiffMatchPatch.Diff> diff, List<T> source, List<T> target) {
         LinkedList<T> sourceQueue = new LinkedList<>(source);
-        System.out.println(sourceQueue);
         LinkedList<T> targetQueue = new LinkedList<>(target);
-        System.out.println(targetQueue);
         List<Diff<T>> result = new ArrayList<>();
 
         for (DiffMatchPatch.Diff diffItem : diff) {

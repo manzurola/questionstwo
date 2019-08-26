@@ -1,4 +1,4 @@
-package com.prodigy.ml;
+package com.prodigy.recommend;
 
 import org.junit.Test;
 

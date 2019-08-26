@@ -28,7 +28,7 @@ public class CoreNLPSentenceFactory implements SentenceFactory {
             return new Sentence(Collections.emptyList());
         }
         if (document.sentences().size() > 1) {
-            throw new RuntimeException("Value must contain exactly one sentence.");
+            throw new RuntimeException("Value must contain exactly one sentence: [" + value + "]");
         }
         CoreSentence core = document.sentences().get(0);
         List<Word> words = new ArrayList<>();

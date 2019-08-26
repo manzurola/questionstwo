@@ -38,6 +38,15 @@ public class AddQuestionRequestCSVReader implements AddQuestionRequestReader {
         return parseValues(reader.readNext());
     }
 
+    private List<AddQuestionRequest> readAll(boolean skipParseErrors) throws IOException {
+        List<AddQuestionRequest> requests = new ArrayList<>();
+        for (String[] values : reader) {
+            AddQuestionRequest request = parseValues(values);
+            requests.add(request);
+        }
+        return requests;
+    }
+
     @Override
     public void close() throws IOException {
         reader.close();
