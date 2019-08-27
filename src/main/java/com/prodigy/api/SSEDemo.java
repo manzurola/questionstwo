@@ -1,18 +1,14 @@
 package com.prodigy.api;
 
-import com.prodigy.api.common.Id;
+import com.prodigy.domain.common.Id;
 import org.springframework.http.MediaType;
 import org.springframework.http.codec.ServerSentEvent;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-import reactor.core.publisher.DirectProcessor;
 import reactor.core.publisher.Flux;
-import reactor.core.publisher.FluxProcessor;
-import reactor.core.publisher.FluxSink;
 
 import java.time.Duration;
 import java.time.LocalTime;
-import java.util.concurrent.atomic.AtomicLong;
 
 @RestController
 public class SSEDemo {

@@ -1,4 +1,4 @@
-package com.prodigy.game;
+package com.prodigy.domain;
 
 public class PathToSolution {
 
@@ -11,15 +11,15 @@ public class PathToSolution {
             REPLACE
         }
 
-        private final com.prodigy.game.ReviewStep.Result result;
+        private final com.prodigy.domain.ReviewStep.Result result;
         private final String value;
 
-        public ReviewStep(com.prodigy.game.ReviewStep.Result result, String value) {
+        public ReviewStep(com.prodigy.domain.ReviewStep.Result result, String value) {
             this.result = result;
             this.value = value;
         }
 
-        public com.prodigy.game.ReviewStep.Result getResult() {
+        public com.prodigy.domain.ReviewStep.Result getResult() {
             return result;
         }
 

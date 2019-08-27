@@ -12,11 +12,11 @@ public class Clusterable<T> {
         this.data = data;
     }
 
-    public double[] getPoint() {
+    public double[] point() {
         return vector.getPoint();
     }
 
-    public T getData() {
+    public T data() {
         return data;
     }
 }

@@ -1,4 +1,4 @@
-package com.prodigy.game;
+package com.prodigy.domain;
 
 import java.io.Serializable;
 import java.util.UUID;

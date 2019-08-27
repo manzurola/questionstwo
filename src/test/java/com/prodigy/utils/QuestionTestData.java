@@ -1,9 +1,8 @@
 package com.prodigy.utils;
 
-import com.prodigy.api.questions.request.AddQuestionRequest;
-import com.prodigy.api.questions.utils.AddQuestionRequestCSVReader;
-import com.prodigy.api.questions.utils.AddQuestionRequestReader;
-import org.junit.Test;
+import com.prodigy.domain.questions.request.AddQuestionRequest;
+import com.prodigy.domain.questions.utils.AddQuestionRequestCSVReader;
+import com.prodigy.domain.questions.utils.AddQuestionRequestReader;
 
 import java.io.File;
 import java.io.IOException;

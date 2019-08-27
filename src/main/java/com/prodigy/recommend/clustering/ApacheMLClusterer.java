@@ -61,11 +61,11 @@ public class ApacheMLClusterer<T> implements Clusterer<T> {
 
         @Override
         public double[] getPoint() {
-            return clusterable.getPoint();
+            return clusterable.point();
         }
 
         public T getData() {
-            return clusterable.getData();
+            return clusterable.data();
         }
     }
 }

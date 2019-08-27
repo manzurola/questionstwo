@@ -1,4 +1,4 @@
-package com.prodigy.game;
+package com.prodigy.domain;
 
 public interface Game {
 

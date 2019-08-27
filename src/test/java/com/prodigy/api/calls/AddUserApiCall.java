@@ -1,7 +1,7 @@
 package com.prodigy.api.calls;
 
-import com.prodigy.api.users.User;
-import com.prodigy.api.users.request.AddUserRequest;
+import com.prodigy.domain.users.User;
+import com.prodigy.domain.users.request.AddUserRequest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
