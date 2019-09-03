@@ -1,14 +1,14 @@
 package com.prodigy.api;
 
 
-import com.prodigy.api.common.Id;
-import com.prodigy.api.common.service.Result;
-import com.prodigy.api.common.service.ServiceExecutor;
-import com.prodigy.api.users.User;
-import com.prodigy.api.users.command.AddUserCommand;
-import com.prodigy.api.users.request.AddUserRequest;
-import com.prodigy.api.users.request.GetUserRequest;
-import com.prodigy.api.users.command.GetUserCommand;
+import com.prodigy.domain.common.Id;
+import com.prodigy.domain.common.service.Result;
+import com.prodigy.domain.common.service.ServiceExecutor;
+import com.prodigy.domain.users.User;
+import com.prodigy.domain.users.command.AddUserCommand;
+import com.prodigy.domain.users.request.AddUserRequest;
+import com.prodigy.domain.users.request.GetUserRequest;
+import com.prodigy.domain.users.command.GetUserCommand;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 

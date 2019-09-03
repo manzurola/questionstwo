@@ -1,3 +1,4 @@
+target_sentence,answer,subject,instructions,difficulty_level,source
 A dog is an animal.,Dogs are animals.,Countables and Uncountables,Put into the plural,1,Living English Structure by W. Stannard Allen | Exercise 1.1 | Elementary
 A potato is a vegetable.,Potatos are vegetables,Countables and Uncountables,Put into the plural,1,Living English Structure by W. Stannard Allen | Exercise 1.1 | Elementary
 A student is not always good,Students are not always good.,Countables and Uncountables,Put into the plural,1,Living English Structure by W. Stannard Allen | Exercise 1.1 | Elementary
@@ -198,26 +199,26 @@ There are some pictures in this book.,There aren't any pictures in this book.,so
 He told someone else.,He didn't tell anyone else.,some and any,Make into the negative,1,Living English Structure by W. Stannard Allen | Exercise 11.1 | Elementary
 I saw somebody at the window.,I didn't see anybody at the window.,some and any,Make into the negative,1,Living English Structure by W. Stannard Allen | Exercise 11.1 | Elementary
 She wants some more like that.,She doesn't want any more like that.,some and any,Make into the negative,1,Living English Structure by W. Stannard Allen | Exercise 11.1 | Elementary
-I have some books.,I don't have any books.,some and any,Make into a question,1,Living English Structure by W. Stannard Allen | Exercise 11.1 | Elementary
-He bought some ties.,He didn't buy any ties.,some and any,Make into a question,1,Living English Structure by W. Stannard Allen | Exercise 11.1 | Elementary
-There is some news.,The isn't any news.,some and any,Make into a question,1,Living English Structure by W. Stannard Allen | Exercise 11.1 | Elementary
-They want some paper.,They don't want any papar.,some and any,Make into a question,1,Living English Structure by W. Stannard Allen | Exercise 11.1 | Elementary
-You ate some apples.,You didn't eat any apples.,some and any,Make into a question,1,Living English Structure by W. Stannard Allen | Exercise 11.1 | Elementary
-You asked some questions.,You didn't ask any questions.,some and any,Make into a question,1,Living English Structure by W. Stannard Allen | Exercise 11.1 | Elementary
-We shall have some rain.,Whe shall not have any rain.,some and any,Make into a question,1,Living English Structure by W. Stannard Allen | Exercise 11.1 | Elementary
-The boy has some more cake.,The boy hasn't any more cake.,some and any,Make into a question,1,Living English Structure by W. Stannard Allen | Exercise 11.1 | Elementary
-I have seen you somewhere before.,I haven't seen you anywhere before.,some and any,Make into a question,1,Living English Structure by W. Stannard Allen | Exercise 11.1 | Elementary
-He knows something.,He doesn't know anything.,some and any,Make into a question,1,Living English Structure by W. Stannard Allen | Exercise 11.1 | Elementary
-They found it somewhere.,They didn't find it anywhere.,some and any,Make into a question,1,Living English Structure by W. Stannard Allen | Exercise 11.1 | Elementary
-You have some.,You haven't any.,some and any,Make into a question,1,Living English Structure by W. Stannard Allen | Exercise 11.1 | Elementary
-You saw someone there.,You didn't see anyone there.,some and any,Make into a question,1,Living English Structure by W. Stannard Allen | Exercise 11.1 | Elementary
-He has sent me some letters.,He hasn't sent me any letters.,some and any,Make into a question,1,Living English Structure by W. Stannard Allen | Exercise 11.1 | Elementary
-He gave you some ink.,He didn't give you any ink.,some and any,Make into a question,1,Living English Structure by W. Stannard Allen | Exercise 11.1 | Elementary
-He put some more sugar in his coffee.,Did he put any more sugar in his coffee?,some and any,Make into a question,1,Living English Structure by W. Stannard Allen | Exercise 11.1 | Elementary
-There are some pictures in this book.,There aren't any pictures in this book.,some and any,Make into a question,1,Living English Structure by W. Stannard Allen | Exercise 11.1 | Elementary
-He told someone else.,He didn't tell anyone else.,some and any,Make into a question,1,Living English Structure by W. Stannard Allen | Exercise 11.1 | Elementary
-I saw somebody at the window.,I didn't see anybody at the window.,some and any,Make into a question,1,Living English Structure by W. Stannard Allen | Exercise 11.1 | Elementary
-She wants some more like that.,She doesn't want any more like that.,some and any,Make into a question,1,Living English Structure by W. Stannard Allen | Exercise 11.1 | Elementary
+I have some books.,Do I have any books?,some and any,Make into a question,1,Living English Structure by W. Stannard Allen | Exercise 11.1 | Elementary
+He bought some ties.,Did he buy any ties?,some and any,Make into a question,1,Living English Structure by W. Stannard Allen | Exercise 11.1 | Elementary
+There is some news.,Is there any news?,some and any,Make into a question,1,Living English Structure by W. Stannard Allen | Exercise 11.1 | Elementary
+They want some paper.,Do they want any papaer?,some and any,Make into a question,1,Living English Structure by W. Stannard Allen | Exercise 11.1 | Elementary
+You ate some apples.,Did you eat any apples?,some and any,Make into a question,1,Living English Structure by W. Stannard Allen | Exercise 11.1 | Elementary
+You asked some questions.,Did you ask any questions?,some and any,Make into a question,1,Living English Structure by W. Stannard Allen | Exercise 11.1 | Elementary
+We shall have some rain.,Shall we have any rain?,some and any,Make into a question,1,Living English Structure by W. Stannard Allen | Exercise 11.1 | Elementary
+The boy has some more cake.,Does the boy have anymore cake?,some and any,Make into a question,1,Living English Structure by W. Stannard Allen | Exercise 11.1 | Elementary
+I have seen you somewhere before.,Have I seen you anywhere before?,some and any,Make into a question,1,Living English Structure by W. Stannard Allen | Exercise 11.1 | Elementary
+He knows something.,Does he know anything?,some and any,Make into a question,1,Living English Structure by W. Stannard Allen | Exercise 11.1 | Elementary
+They found it somewhere.,Did they find it anywhere?,some and any,Make into a question,1,Living English Structure by W. Stannard Allen | Exercise 11.1 | Elementary
+You have some.,Have you any?,some and any,Make into a question,1,Living English Structure by W. Stannard Allen | Exercise 11.1 | Elementary
+You saw someone there.,Have you seen anyone there?,some and any,Make into a question,1,Living English Structure by W. Stannard Allen | Exercise 11.1 | Elementary
+He has sent me some letters.,Has he sent me any letters?,some and any,Make into a question,1,Living English Structure by W. Stannard Allen | Exercise 11.1 | Elementary
+He gave you some ink.,Did he give you any ink?,some and any,Make into a question,1,Living English Structure by W. Stannard Allen | Exercise 11.1 | Elementary
+He put some more sugar in his coffee.,Did he put anymore sugar in his coffee?,some and any,Make into a question,1,Living English Structure by W. Stannard Allen | Exercise 11.1 | Elementary
+There are some pictures in this book.,Are there any pictures in this book?,some and any,Make into a question,1,Living English Structure by W. Stannard Allen | Exercise 11.1 | Elementary
+He told someone else.,Did he tell anyone else?,some and any,Make into a question,1,Living English Structure by W. Stannard Allen | Exercise 11.1 | Elementary
+I saw somebody at the window.,Did I see somebody at the window?,some and any,Make into a question,1,Living English Structure by W. Stannard Allen | Exercise 11.1 | Elementary
+She wants some more like that.,Does she want anymore like that?,some and any,Make into a question,1,Living English Structure by W. Stannard Allen | Exercise 11.1 | Elementary
 I have no time to help you.,I don't have any time to help you.,no = not...any,"Reword into the not...any, use the contracted -n't form",1,Living English Structure by W. Stannard Allen | Exercise 12.1 | Elementary
 There is no more sugar.,There isn't any more sugar.,no = not...any,"Reword into the not...any, use the contracted -n't form",1,Living English Structure by W. Stannard Allen | Exercise 12.1 | Elementary
 I can see my hat nowhere.,I can't see my hat anywhere.,no = not...any,"Reword into the not...any, use the contracted -n't form",1,Living English Structure by W. Stannard Allen | Exercise 12.1 | Elementary
@@ -226,3 +227,77 @@ We have seen nobody we know yet.,We haven't seen anybody we know yet.,no = not..
 They want nothing to eat.,They don't want anything to eat.,no = not...any,"Reword into the not...any, use the contracted -n't form",1,Living English Structure by W. Stannard Allen | Exercise 12.1 | Elementary
 I have no more money.,I don't have anymore money.,no = not...any,"Reword into the not...any, use the contracted -n't form",1,Living English Structure by W. Stannard Allen | Exercise 12.1 | Elementary
 There are no apples on the tree.,There aren't any apples on the tree.,no = not...any,"Reword into the not...any, use the contracted -n't form",1,Living English Structure by W. Stannard Allen | Exercise 12.1 | Elementary
+There was nobody in the gardern.,The wasn't anybody in the garden.,no = not...any,"Reword into the not...any, use the contracted -n't form",1,Living English Structure by W. Stannard Allen | Exercise 12.1 | Elementary
+The poor little boy has no shoes to wear.,The poor little boy hasn't any shoes to wear.,no = not...any,"Reword into the not...any, use the contracted -n't form",1,Living English Structure by W. Stannard Allen | Exercise 12.1 | Elementary
+There is nowhere for you to sleep.,The isn't anywhere for you to sleep.,no = not...any,"Reword into the not...any, use the contracted -n't form",1,Living English Structure by W. Stannard Allen | Exercise 12.1 | Elementary
+The cook has put no salt in the cabbage.,The cook hasn't put any salt in the cabbage.,no = not...any,"Reword into the not...any, use the contracted -n't form",1,Living English Structure by W. Stannard Allen | Exercise 12.1 | Elementary
+They will do no more work.,The won't do any more work.,no = not...any,"Reword into the not...any, use the contracted -n't form",1,Living English Structure by W. Stannard Allen | Exercise 12.1 | Elementary
+There was nothing left.,There wasn't anything left.,no = not...any,"Reword into the not...any, use the contracted -n't form",1,Living English Structure by W. Stannard Allen | Exercise 12.1 | Elementary
+The chicken has laid no eggs today.,The chicken hasn't laid any eggs today.,no = not...any,"Reword into the not...any, use the contracted -n't form",1,Living English Structure by W. Stannard Allen | Exercise 12.1 | Elementary
+"I want no more, thank you.","I don't want any more, thank you.",no = not...any,"Reword into the not...any, use the contracted -n't form",1,Living English Structure by W. Stannard Allen | Exercise 12.1 | Elementary
+He gave me nothing to drink.,He didn't give me anything to drink.,no = not...any,"Reword into the not...any, use the contracted -n't form",1,Living English Structure by W. Stannard Allen | Exercise 12.1 | Elementary
+I'll give it to nobody else.,I won't give it to anybody else.,no = not...any,"Reword into the not...any, use the contracted -n't form",1,Living English Structure by W. Stannard Allen | Exercise 12.1 | Elementary
+"He gave me no ink, so I could write no more.","He didn't give me any ink, so I couldn't write any more.",no = not...any,"Reword into the not...any, use the contracted -n't form",1,Living English Structure by W. Stannard Allen | Exercise 12.1 | Elementary
+My uncle can see nothing without his glasses.,My uncle can't see anything without his glasses.,no = not...any,"Reword into the not...any, use the contracted -n't form",1,Living English Structure by W. Stannard Allen | Exercise 12.1 | Elementary
+He must do it again.,He musn't do it again.,Negatives and Questions of Auxilary Verbs,Make the following sentence negative.,1,Living English Structure by W. Stannard Allen | Exercise 14.1 | Elementary
+She could understand everything.,She couldn't understand everything.,Negatives and Questions of Auxilary Verbs,Make the following sentence negative.,1,Living English Structure by W. Stannard Allen | Exercise 14.1 | Elementary
+They had time to tell her.,They hadn't time to tell her.,Negatives and Questions of Auxilary Verbs,Make the following sentence negative.,1,Living English Structure by W. Stannard Allen | Exercise 14.1 | Elementary
+It was very late.,It wasn't very late.,Negatives and Questions of Auxilary Verbs,Make the following sentence negative.,1,Living English Structure by W. Stannard Allen | Exercise 14.1 | Elementary
+We're coming tomorrow morning.,We aren't coming tomorrow morning.,Negatives and Questions of Auxilary Verbs,Make the following sentence negative.,1,Living English Structure by W. Stannard Allen | Exercise 14.1 | Elementary
+He can speak French.,He can't speak French.,Negatives and Questions of Auxilary Verbs,Make the following sentence negative.,1,Living English Structure by W. Stannard Allen | Exercise 14.1 | Elementary
+He'll come if you can.,He won't come if you can't.,Negatives and Questions of Auxilary Verbs,Make the following sentence negative.,1,Living English Structure by W. Stannard Allen | Exercise 14.1 | Elementary
+You must come this morning.,You mustn't come this morning.,Negatives and Questions of Auxilary Verbs,Make the following sentence negative.,1,Living English Structure by W. Stannard Allen | Exercise 14.1 | Elementary
+He comes here every day.,He doesn't come here evey day.,Negatives and Questions of Auxilary Verbs,Make the following sentence negative.,1,Living English Structure by W. Stannard Allen | Exercise 14.1 | Elementary
+We like her very much.,We don't like her very much.,Negatives and Questions of Auxilary Verbs,Make the following sentence negative.,1,Living English Structure by W. Stannard Allen | Exercise 14.1 | Elementary
+They arrived at six o'clock.,They didn't arrive at six o'clock.,Negatives and Questions of Auxilary Verbs,Make the following sentence negative.,1,Living English Structure by W. Stannard Allen | Exercise 14.1 | Elementary
+There were many people at the concert.,There weren't many people at the concert.,Negatives and Questions of Auxilary Verbs,Make the following sentence negative.,1,Living English Structure by W. Stannard Allen | Exercise 14.1 | Elementary
+Why did you come with him?,Why didn't you come with him?,Negatives and Questions of Auxilary Verbs,Make the following sentence negative.,1,Living English Structure by W. Stannard Allen | Exercise 14.1 | Elementary
+We could see as far as the mountains.,We couldn't see as far as the mountains.,Negatives and Questions of Auxilary Verbs,Make the following sentence negative.,1,Living English Structure by W. Stannard Allen | Exercise 14.1 | Elementary
+You shall have another one tomorrow.,You shan't have another one tomorrow.,Negatives and Questions of Auxilary Verbs,Make the following sentence negative.,1,Living English Structure by W. Stannard Allen | Exercise 14.1 | Elementary
+Our teacher wants the homework now.,Our teacher doesn't want the homework now.,Negatives and Questions of Auxilary Verbs,Make the following sentence negative.,1,Living English Structure by W. Stannard Allen | Exercise 14.1 | Elementary
+You must look out of the window.,You mustn't look out of the window.,Negatives and Questions of Auxilary Verbs,Make the following sentence negative.,1,Living English Structure by W. Stannard Allen | Exercise 14.1 | Elementary
+Eric can understand what you say.,Eric can't understand what you say.,Negatives and Questions of Auxilary Verbs,Make the following sentence negative.,1,Living English Structure by W. Stannard Allen | Exercise 14.1 | Elementary
+There are some more cakes.,There aren't some more cakes.,Negatives and Questions of Auxilary Verbs,Make the following sentence negative.,1,Living English Structure by W. Stannard Allen | Exercise 14.1 | Elementary
+He has anough to eat.,He hasn't enough to eat.,Negatives and Questions of Auxilary Verbs,Make the following sentence negative.,1,Living English Structure by W. Stannard Allen | Exercise 14.1 | Elementary
+Can you dring tea?,"No, I can't.",Negatives and Questions of Auxilary Verbs,Answer the following question in the negative,1,Living English Structure by W. Stannard Allen | Exercise 14.2 | Elementary
+Mustn't you eat fish?,"No, I must.",Negatives and Questions of Auxilary Verbs,Answer the following question in the negative,1,Living English Structure by W. Stannard Allen | Exercise 14.2 | Elementary
+Ought you to have any coffee?,"No, I ought not.",Negatives and Questions of Auxilary Verbs,Answer the following question in the negative,1,Living English Structure by W. Stannard Allen | Exercise 14.2 | Elementary
+Can you stay up late?,"No, I can't.",Negatives and Questions of Auxilary Verbs,Answer the following question in the negative,1,Living English Structure by W. Stannard Allen | Exercise 14.2 | Elementary
+Will you have another cigarette?,"No, I won't.",Negatives and Questions of Auxilary Verbs,Answer the following question in the negative,1,Living English Structure by W. Stannard Allen | Exercise 14.2 | Elementary
+Couldn't he telephone?,"No, he couldn't.",Negatives and Questions of Auxilary Verbs,Answer the following question in the negative,1,Living English Structure by W. Stannard Allen | Exercise 14.2 | Elementary
+Mustn't you go out so late night?,"No, I must.",Negatives and Questions of Auxilary Verbs,Answer the following question in the negative,1,Living English Structure by W. Stannard Allen | Exercise 14.2 | Elementary
+Have you any brothers or sisters?,"No, I haven't.",Negatives and Questions of Auxilary Verbs,Answer the following question in the negative,1,Living English Structure by W. Stannard Allen | Exercise 14.2 | Elementary
+Do you have lunch at one o'clock?,"No, I don't.",Negatives and Questions of Auxilary Verbs,Answer the following question in the negative,1,Living English Structure by W. Stannard Allen | Exercise 14.2 | Elementary
+Can you speak Czech?,"No, I can't.",Negatives and Questions of Auxilary Verbs,Answer the following question in the negative,1,Living English Structure by W. Stannard Allen | Exercise 14.2 | Elementary
+Did you read last night's paper?,"No, I didn't.",Negatives and Questions of Auxilary Verbs,Answer the following question in the negative,1,Living English Structure by W. Stannard Allen | Exercise 14.2 | Elementary
+Have you seen my hat anywhere?,"No, I haven't.",Negatives and Questions of Auxilary Verbs,Answer the following question in the negative,1,Living English Structure by W. Stannard Allen | Exercise 14.2 | Elementary
+Do stupid people always have stupid faces?,"No, they don't.",Negatives and Questions of Auxilary Verbs,Answer the following question in the negative,1,Living English Structure by W. Stannard Allen | Exercise 14.2 | Elementary
+Ought he to work so hard?,"No, he ought not.",Negatives and Questions of Auxilary Verbs,Answer the following question in the negative,1,Living English Structure by W. Stannard Allen | Exercise 14.2 | Elementary
+Were there many people at the party?,"No, there weren't.",Negatives and Questions of Auxilary Verbs,Answer the following question in the negative,1,Living English Structure by W. Stannard Allen | Exercise 14.2 | Elementary
+"You never used to smoke so much, did you?","No, I didn't.",Negatives and Questions of Auxilary Verbs,Answer the following question in the negative,1,Living English Structure by W. Stannard Allen | Exercise 14.3 | Elementary
+Have you any more like this?,"No, I don't.",Negatives and Questions of Auxilary Verbs,Answer the following question in the negative,1,Living English Structure by W. Stannard Allen | Exercise 14.3 | Elementary
+Did you have a comfortable journey?,"No, I didn't.",Negatives and Questions of Auxilary Verbs,Answer the following question in the negative,1,Living English Structure by W. Stannard Allen | Exercise 14.3 | Elementary
+Who used to take you out for walks when you were little?,Noone did.,Negatives and Questions of Auxilary Verbs,Answer the following question in the negative,1,Living English Structure by W. Stannard Allen | Exercise 14.3 | Elementary
+Do I have to come at nine?,"No, you don't.",Negatives and Questions of Auxilary Verbs,Answer the following question in the negative,1,Living English Structure by W. Stannard Allen | Exercise 14.3 | Elementary
+Did you have to write in ink?,"No, I didn't.",Negatives and Questions of Auxilary Verbs,Answer the following question in the negative,1,Living English Structure by W. Stannard Allen | Exercise 14.3 | Elementary
+Did you have sausages for breakfast?,"No, I didn't.",Negatives and Questions of Auxilary Verbs,Answer the following question in the negative,1,Living English Structure by W. Stannard Allen | Exercise 14.3 | Elementary
+Have we any sausages in the house?,"No, we don't.",Negatives and Questions of Auxilary Verbs,Answer the following question in the negative,1,Living English Structure by W. Stannard Allen | Exercise 14.3 | Elementary
+Need she put on a clean dress?,"No, she needn't.",Negatives and Questions of Auxilary Verbs,Answer the following question in the negative,1,Living English Structure by W. Stannard Allen | Exercise 14.3 | Elementary
+Did you use to live here?,"No, I didn't.",Negatives and Questions of Auxilary Verbs,Answer the following question in the negative,1,Living English Structure by W. Stannard Allen | Exercise 14.3 | Elementary
+Dare he come without our invitation?,"No, he daren't.",Negatives and Questions of Auxilary Verbs,Answer the following question in the negative,1,Living English Structure by W. Stannard Allen | Exercise 14.3 | Elementary
+Did you have your shoes cleaned this morning?,"No, I didn't.",Negatives and Questions of Auxilary Verbs,Answer the following question in the negative,1,Living English Structure by W. Stannard Allen | Exercise 14.3 | Elementary
+Need it be finished by Saturday?,"No, it needn't.",Negatives and Questions of Auxilary Verbs,Answer the following question in the negative,1,Living English Structure by W. Stannard Allen | Exercise 14.3 | Elementary
+Do you want any more rice pudding?,"No, I don't.",Negatives and Questions of Auxilary Verbs,Answer the following question in the negative,1,Living English Structure by W. Stannard Allen | Exercise 14.3 | Elementary
+Dare they do it again?,"No, they daren't.",Negatives and Questions of Auxilary Verbs,Answer the following question in the negative,1,Living English Structure by W. Stannard Allen | Exercise 14.3 | Elementary
+Did he dare to call you a thief to your face?,"No, he didn't.",Negatives and Questions of Auxilary Verbs,Answer the following question in the negative,1,Living English Structure by W. Stannard Allen | Exercise 14.3 | Elementary
+Didn't you use to go to school with him?,"No, I didn't.",Negatives and Questions of Auxilary Verbs,Answer the following question in the negative,1,Living English Structure by W. Stannard Allen | Exercise 14.3 | Elementary
+He can leave it here (whenever he wanted to).,He could leave it here for an hour. | He was able to leave it here for an hour.,can,Rewrite into the past using the given time-expressions in brackets.,1,Living English Structure by W. Stannard Allen | Exercise 17.1 | Elementary
+He can play chess (when he was young).,He could play chess when he was young. | He was able to play chess when he was young.,can,Rewrite into the past using the given time-expressions in brackets.,1,Living English Structure by W. Stannard Allen | Exercise 17.1 | Elementary
+I can fly a plane (when I was in the air force).,I could fly a plane when I was in the air force.,can,Rewrite into the past using the given time-expressions in brackets.,1,Living English Structure by W. Stannard Allen | Exercise 17.1 | Elementary
+We can do this exercise (last week).,We could do this exercise last week.,can,Rewrite into the past using the given time-expressions in brackets.,1,Living English Structure by W. Stannard Allen | Exercise 17.1 | Elementary
+She can cook very well (when I knew her).,She could cook very well when I knew her.,can,Rewrite into the past using the given time-expressions in brackets.,1,Living English Structure by W. Stannard Allen | Exercise 17.1 | Elementary
+I can go early (every day last summer).,I could go early every day last summer. | I was able to go early every day last summer.,can,Rewrite into the past using the given time-expressions in brackets.,1,Living English Structure by W. Stannard Allen | Exercise 17.1 | Elementary
+She can make her own dress (before she got married).,She could make her ownn dress before she got married. | She was able to make her own dress before she got married.,can,Rewrite into the past using the given time-expressions in brackets.,1,Living English Structure by W. Stannard Allen | Exercise 17.1 | Elementary
+She can read easily (before her eye trouble).,She could read easily before her eye trouble. | She was able to read easily before her eye trouble.,can,Rewrite into the past using the given time-expressions in brackets.,1,Living English Structure by W. Stannard Allen | Exercise 17.1 | Elementary
+He says I can have another one (yesterday).,He said I could have another one yesterday.,can,Rewrite into the past using the given time-expressions in brackets.,1,Living English Structure by W. Stannard Allen | Exercise 17.1 | Elementary
+I can go swimming (whenever I liked).,I could go swimming whenever I liked.,can,Rewrite into the past using the given time-expressions in brackets.,1,Living English Structure by W. Stannard Allen | Exercise 17.1 | Elementary

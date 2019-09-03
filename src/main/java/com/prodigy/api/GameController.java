@@ -1,10 +1,10 @@
 package com.prodigy.api;
 
-import com.prodigy.api.common.Id;
-import com.prodigy.api.common.service.ServiceExecutor;
-import com.prodigy.api.game.GameEvent;
-import com.prodigy.api.game.GameSession;
-import com.prodigy.api.users.User;
+import com.prodigy.domain.common.Id;
+import com.prodigy.domain.common.service.ServiceExecutor;
+import com.prodigy.domain.game.GameEvent;
+import com.prodigy.domain.game.GameSession;
+import com.prodigy.domain.users.User;
 import org.springframework.http.MediaType;
 import org.springframework.http.codec.ServerSentEvent;
 import org.springframework.web.bind.annotation.*;

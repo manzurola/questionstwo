@@ -1,26 +1,19 @@
 package com.prodigy.api;
 
-import com.prodigy.api.questions.Question;
-import com.prodigy.api.questions.request.AddQuestionRequest;
 import com.prodigy.utils.QuestionTestData;
-import com.prodigy.ml.FeatureVector;
+import com.prodigy.recommend.Point;
 import edu.stanford.nlp.ling.HasWord;
 import edu.stanford.nlp.ling.TaggedWord;
 import edu.stanford.nlp.parser.nndep.DependencyParser;
 import edu.stanford.nlp.process.DocumentPreprocessor;
 import edu.stanford.nlp.tagger.maxent.MaxentTagger;
 import edu.stanford.nlp.trees.GrammaticalStructure;
-import edu.stanford.nlp.trees.TypedDependency;
 import org.apache.commons.math3.ml.clustering.Clusterable;
-import org.apache.commons.math3.ml.distance.DistanceMeasure;
-import org.apache.commons.math3.ml.distance.ManhattanDistance;
-import org.bitbucket.cowwoc.diffmatchpatch.DiffMatchPatch;
 import org.junit.Test;
 
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class SentenceParseTest {
 
@@ -73,23 +66,6 @@ public class SentenceParseTest {
 //    }
 
 
-    private static class ClusterableWrapper<T> implements Clusterable {
-
-        private final FeatureVector<T> vector;
-
-        private ClusterableWrapper(FeatureVector<T> vector) {
-            this.vector = vector;
-        }
-
-        public FeatureVector<T> getVector() {
-            return vector;
-        }
-
-        @Override
-        public double[] getPoint() {
-            return vector.getPoint();
-        }
-    }
 
 //    @Test
 //    public void testCommonsCluster() throws Exception {
