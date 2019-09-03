@@ -1,4 +1,4 @@
-package com.prodigy.api;
+package com.prodigy;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.core.JsonParser;
