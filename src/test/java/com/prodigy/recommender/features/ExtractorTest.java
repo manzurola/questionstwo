@@ -1,7 +1,6 @@
 package com.prodigy.recommender.features;
 
 import com.prodigy.domain.questions.Question;
-import com.prodigy.domain.questions.request.AddQuestionRequest;
 import com.prodigy.recommend.QuestionFeatureExtractor;
 import com.prodigy.core.nlp.CoreNLPSentenceFactory;
 import com.prodigy.recommend.DiffPOSFeatureExtractor;
@@ -16,7 +15,6 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class ExtractorTest {
 
@@ -28,10 +26,7 @@ public class ExtractorTest {
         // the input source and target, where source is the user answer, is actually the user features
 
         QuestionTestData testData = new QuestionTestData();
-        List<Question> questions = testData.data().stream()
-                .map(AddQuestionRequest::toQuestion)
-                .map(Question.Builder::build)
-                .collect(Collectors.toList());
+        List<Question> questions = testData.questions();
 
         FeatureExtractor<Question> features = new QuestionFeatureExtractor(new CoreNLPSentenceFactory(), new DiffPOSFeatureExtractor());
 

@@ -3,7 +3,10 @@ package com.prodigy.core;
 import com.prodigy.core.diff.DMPDiffCalculator;
 import com.prodigy.core.diff.Diff;
 import com.prodigy.core.diff.DiffCalculator;
+import com.prodigy.core.diff.SentenceDiffChecker;
 import com.prodigy.core.nlp.*;
+import com.prodigy.domain.questions.Question;
+import com.prodigy.utils.QuestionTestData;
 import edu.stanford.nlp.ling.CoreLabel;
 import edu.stanford.nlp.ling.TaggedWord;
 import edu.stanford.nlp.process.*;
@@ -51,6 +54,17 @@ public class TestStuff {
             return "Wrapper{" +
                     "word=" + coreLabel.word() +
                     '}';
+        }
+    }
+
+    @Test
+    public void printMistakes() {
+        QuestionTestData data = new QuestionTestData();
+        List<Question> questions = data.questions();
+
+        for (Question question : questions) {
+            SentenceDiffChecker diffChecker = new SentenceDiffChecker(new DMPDiffCalculator());
+
         }
     }
 
