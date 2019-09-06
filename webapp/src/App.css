@@ -12,8 +12,8 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-
-    font-family: Myriad Pro, sans-serif !important;
+    background-color: #E5E5E5;
+    
 
     /*background-image: url("./attractive-backdrop-background-988872.jpg");*/
     /*background-image: radial-gradient(circle, #051937, #274f63, #67888a, #b3c2bb, #fefffc);*/
@@ -30,13 +30,14 @@
 .App-game {
     display: block;
     /*padding: 0 20% 0 20%;*/
-    height: 50%;
-    /*width: 400px;*/
+    /* height: 50%; */
     margin: auto;
     flex-direction: column;
     /*flex-grow: 4;*/
     align-items: center;
     justify-content: center;
+    width: 400px;
+    height: 500px;
 }
 
 .App-header {

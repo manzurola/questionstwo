@@ -11,17 +11,34 @@ export class TextInput extends Component {
         super(props);
         this.contentEditable = React.createRef();
         this.state = {
-            disabled: false,
-            focused: false,
-            html: '',
+            disabled: this.props.disabled || false,
+            focused: true,
+            html: this.props.value || '',
             empty: true,
             suggestion: '',
             previousKey: '',
         };
     }
 
-    componentDidMount() {
-        this.focus();
+    componentWillReceiveProps(nextProps) {
+        console.log("TextInput - componentWillReceiveProps - next props: ");
+        console.log(nextProps);
+        // if (nextProps === prevProps) {
+        //     return;
+        // }
+
+        let newState = {};
+        if (nextProps.disabled !== this.state.disabled) {
+            newState.disabled = nextProps.disabled;
+        }
+        if (nextProps.value !== this.state.html) {
+            newState.html = nextProps.value;
+        }
+        if (nextProps.focused && nextProps.focused !== this.state.focused) {
+            this.focus();       
+        }
+
+        this.setState({...newState});
     }
 
     render() {
@@ -52,7 +69,7 @@ export class TextInput extends Component {
                 onChange={this.handleChange} // handle innerHTML change
                 html={this.state.html}>
             </ContentEditable>
-            {this.renderAutoSuggest()}
+            {/* {this.renderAutoSuggest()} */}
         </div>
     };
 
@@ -64,15 +81,21 @@ export class TextInput extends Component {
     handleChange = (event) => {
         console.log("on change in content editable");
         console.log(event);
-        let value = sanitizeHtml(event.target.value);
-        event.target.value = value;
+        // let value = sanitizeHtml(event.target.value);
+        // event.target.value = value;
+        let value = event.target.value;
         if (value.includes('<br>')) {
             // this.handleSubmit(event);
         } else if (value.includes('\t')) {
             console.log("should auto suggest");
         } else {
             console.log("value " + value + ", " + !value);
-            this.setState({html: value, empty: !value}, () => this.props.onChange(event));
+            let callback = (e) => {
+                if (this.props.onChange) {
+                    this.props.onChange(e);
+                }
+            }
+            this.setState({html: value, empty: !value}, (callback)(event));
         }
     };
 
@@ -99,7 +122,13 @@ export class TextInput extends Component {
         let value = this.state.html;
         console.log("value: " + value);
         console.log(event);
-        this.setState({disabled: true}, () => this.props.onSubmit(value));
+        
+        let e = {
+            target: {
+                value: this.state.html
+            }
+        }
+        this.setState({disabled: true}, (() => this.props.onSubmit(e))(e));
     };
 
     focus = () => {
