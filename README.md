@@ -1,5 +1,5 @@
 # questionstwo
-version 2 of questionIds
+version 2 of questions
 
 Resources
 
