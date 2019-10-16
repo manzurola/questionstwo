@@ -1,13 +1,13 @@
 package com.prodigy.api;
 
-import com.prodigy.domain.answers.Answer;
-import com.prodigy.domain.answers.request.SubmitAnswerRequest;
+import com.prodigy.answers.Answer;
+import com.prodigy.answers.request.SubmitAnswerRequest;
 import com.prodigy.api.calls.AddQuestionApiCall;
 import com.prodigy.api.calls.SubmitAnswerApiCall;
 import com.prodigy.utils.QuestionTestData;
 import com.prodigy.api.env.EndToEndTest;
-import com.prodigy.domain.questions.Question;
-import com.prodigy.domain.questions.request.AddQuestionRequest;
+import com.prodigy.questions.Question;
+import com.prodigy.questions.request.AddQuestionRequest;
 import org.junit.Test;
 import org.springframework.http.ResponseEntity;
 

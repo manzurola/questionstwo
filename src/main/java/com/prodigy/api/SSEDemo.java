@@ -1,6 +1,6 @@
 package com.prodigy.api;
 
-import com.prodigy.domain.common.Id;
+import com.prodigy.common.data.Id;
 import org.springframework.http.MediaType;
 import org.springframework.http.codec.ServerSentEvent;
 import org.springframework.web.bind.annotation.GetMapping;

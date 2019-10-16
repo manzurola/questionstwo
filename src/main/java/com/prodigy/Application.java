@@ -5,24 +5,23 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
-import com.prodigy.domain.review.Reviewer;
-import com.prodigy.domain.review.SmartReviewer;
-import com.prodigy.domain.common.Id;
-import com.prodigy.domain.common.jackson.IdDeserializer;
-import com.prodigy.domain.common.jackson.IdSerializer;
-import com.prodigy.domain.common.service.CommandFactory;
-import com.prodigy.domain.common.service.ServiceExecutor;
-import com.prodigy.domain.common.service.ServiceExecutorImpl;
-import com.prodigy.domain.questions.Question;
-import com.prodigy.domain.questions.data.InMemoryQuestionRepository;
-import com.prodigy.domain.questions.data.QuestionRepository;
-import com.prodigy.domain.questions.utils.AddQuestionRequestCSVReader;
-import com.prodigy.domain.questions.utils.AddQuestionRequestReader;
-import com.prodigy.core.SentenceFactory;
-import com.prodigy.core.diff.DMPDiffCalculator;
-import com.prodigy.core.diff.SentenceDiffChecker;
-import com.prodigy.core.nlp.CoreNLPSentenceFactory;
-import org.bitbucket.cowwoc.diffmatchpatch.DiffMatchPatch;
+import com.prodigy.common.jackson.ObjectMapperConfig;
+import com.prodigy.diff.*;
+import com.prodigy.review.Reviewer;
+import com.prodigy.review.SmartReviewer;
+import com.prodigy.common.data.Id;
+import com.prodigy.common.jackson.IdDeserializer;
+import com.prodigy.common.jackson.IdSerializer;
+import com.prodigy.common.service.CommandFactory;
+import com.prodigy.common.service.ServiceExecutor;
+import com.prodigy.common.service.ServiceExecutorImpl;
+import com.prodigy.questions.Question;
+import com.prodigy.questions.data.InMemoryQuestionRepository;
+import com.prodigy.questions.data.QuestionRepository;
+import com.prodigy.questions.utils.AddQuestionRequestCSVReader;
+import com.prodigy.questions.utils.AddQuestionRequestReader;
+import com.prodigy.grammar.SentenceFactory;
+import com.prodigy.grammar.corenlp.CoreSentenceWrapperFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
@@ -120,12 +119,17 @@ public class Application {
 
     @Bean
     public SentenceFactory sentenceFactory() {
-        return new CoreNLPSentenceFactory();
+        return new CoreSentenceWrapperFactory();
     }
 
     @Bean
     public SentenceDiffChecker sentenceDiffChecker() {
-        return new SentenceDiffChecker(new DMPDiffCalculator(new DiffMatchPatch()));
+        return new SentenceDiffCheckerImpl(wordDiffChecker());
+    }
+
+    @Bean
+    public WordDiffChecker wordDiffChecker() {
+        return new WordValueDiffChecker(new DMPListDiffCalculator());
     }
 
 //    @Bean
@@ -140,18 +144,7 @@ public class Application {
 
     @Bean
     public ObjectMapper objectMapper() {
-
-        SimpleModule module = new SimpleModule();
-        module.addSerializer(Id.class, new IdSerializer());
-        module.addDeserializer(Id.class, new IdDeserializer());
-
-        ObjectMapper mapper = new ObjectMapper()
-                .setVisibility(FIELD, ANY)
-                .enable(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES)
-                .registerModule(new ParameterNamesModule(JsonCreator.Mode.PROPERTIES))
-                .registerModule(module);
-
-        return mapper;
+        return ObjectMapperConfig.getObjectMapper();
     }
 
 }

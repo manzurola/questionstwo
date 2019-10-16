@@ -4,10 +4,15 @@
 
 .textarea {
     border-bottom: black solid 2px;
-    font-family: Myriad Pro, sans-serif;
-    font-size: 20pt;
-    padding-bottom: 10px;
+    font-family: inherit;
+    font-size: inherit;
+    height: 100%;
+    padding-bottom: 5px;
+    position: relative;
+}
 
+.content-wrapper:before {
+    content: "\200b";
 }
 
 .textarea-autosuggest {
@@ -16,18 +21,21 @@
 
 .textarea-label {
     z-index: 0;
-    /*position: absolute;*/
+    position: absolute;
     color: gray;
     font-weight: 300;
     font-size: 12pt;
 }
 
 .textarea-label.withcontent {
-    transform: translate(0, -0.5em);
+    /* transform: translate(0, 5em); */
+    bottom: -25px;
+    position: absolute;
 }
 
 .textarea-label.withoutcontent {
-    transform: translate(0, 1em);
+    /* transform: translate(0, 1em); */
+    position: absolute;
 }
 
 .textarea-contenteditable {

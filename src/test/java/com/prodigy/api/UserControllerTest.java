@@ -2,8 +2,8 @@ package com.prodigy.api;
 
 import com.prodigy.api.calls.AddUserApiCall;
 import com.prodigy.api.env.EndToEndTest;
-import com.prodigy.domain.users.User;
-import com.prodigy.domain.users.request.AddUserRequest;
+import com.prodigy.users.User;
+import com.prodigy.users.request.AddUserRequest;
 import org.junit.Test;
 import org.springframework.http.ResponseEntity;
 

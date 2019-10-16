@@ -1,17 +1,17 @@
 package com.prodigy.api;
 
 
-import com.prodigy.domain.answers.Answer;
-import com.prodigy.domain.answers.command.SubmitAnswerCommand;
-import com.prodigy.domain.answers.request.SubmitAnswerRequest;
-import com.prodigy.domain.common.Id;
-import com.prodigy.domain.common.service.Result;
-import com.prodigy.domain.common.service.ServiceExecutor;
-import com.prodigy.domain.questions.Question;
-import com.prodigy.domain.questions.command.AddQuestionCommand;
-import com.prodigy.domain.questions.command.GetAllQuestionsCommand;
-import com.prodigy.domain.questions.request.AddQuestionRequest;
-import com.prodigy.domain.questions.request.GetAllQuestionsRequest;
+import com.prodigy.answers.Answer;
+import com.prodigy.answers.command.SubmitAnswerCommand;
+import com.prodigy.answers.request.SubmitAnswerRequest;
+import com.prodigy.common.data.Id;
+import com.prodigy.common.service.Result;
+import com.prodigy.common.service.ServiceExecutor;
+import com.prodigy.questions.Question;
+import com.prodigy.questions.command.AddQuestionCommand;
+import com.prodigy.questions.command.GetAllQuestionsCommand;
+import com.prodigy.questions.request.AddQuestionRequest;
+import com.prodigy.questions.request.GetAllQuestionsRequest;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
