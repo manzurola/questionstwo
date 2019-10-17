@@ -1,8 +1,10 @@
 package com.prodigy.diff;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 class ItemToCharMapper<T> {
 
@@ -19,13 +21,10 @@ class ItemToCharMapper<T> {
         this.itemHashingStrategy = Object::hashCode;
     }
 
-    CharSequence mapList(List<T> items) {
-        StringBuilder buffer = new StringBuilder();
-        for (T item : items) {
-            char key = mapItem(item);
-            buffer.append(key);
-        }
-        return buffer.toString();
+    List<Character> mapList(List<T> items) {
+        return items.stream()
+                .map(this::mapItem)
+                .collect(Collectors.toList());
     }
 
     char mapItem(T item) {

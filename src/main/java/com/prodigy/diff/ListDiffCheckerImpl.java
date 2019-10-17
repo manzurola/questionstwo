@@ -15,18 +15,13 @@ public class ListDiffCheckerImpl implements ListDiffChecker {
     }
 
     private <T> List<Diff<T>> checkDiff(List<T> source, List<T> target, ItemToCharMapper<T> itemToCharMapper) {
-        CharSequence sourceAsChars = itemToCharMapper.mapList(source);
-        CharSequence targetAsChars = itemToCharMapper.mapList(target);
-        List<Diff<Character>> charDiff = getTextDiff(sourceAsChars, targetAsChars);
-        return resolveItemsFromChars(charDiff, source, target);
+        List<Character> sourceAsChars = itemToCharMapper.mapList(source);
+        List<Character> targetAsChars = itemToCharMapper.mapList(target);
+        List<Diff<Character>> charDiff = new DMPUtils().checkDiff(sourceAsChars, targetAsChars);
+        return revertToItemDiff(charDiff, source, target);
     }
 
-    private List<Diff<Character>> getTextDiff(CharSequence source, CharSequence target) {
-        DMP dmp = new DMP();
-        return dmp.getTextDiff(source, target);
-    }
-
-    private <T> List<Diff<T>> resolveItemsFromChars(List<Diff<Character>> diff, List<T> source, List<T> target) {
+    private <T> List<Diff<T>> revertToItemDiff(List<Diff<Character>> diff, List<T> source, List<T> target) {
         LinkedList<T> sourceQueue = new LinkedList<>(source);
         LinkedList<T> targetQueue = new LinkedList<>(target);
         List<Diff<T>> result = new ArrayList<>();
