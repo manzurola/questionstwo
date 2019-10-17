@@ -1,0 +1,29 @@
+.textinput {
+    /*font-size: 18pt !important;*/
+    position: relative;
+    border-bottom: 2pt solid rgba(128,122,127,0.94);
+    width: 100%;
+    /*font-weight: 600;*/
+
+}
+
+.textinput-input {
+    font-size: 24px !important;
+}
+
+.textinput-label {
+    color: gray !important;
+    font-size: 14px !important;
+    font-family: inherit; 
+}
+
+.textinput-label.focus {
+    transform: translate(0, 5em) !important;
+    color: gray !important;
+}
+
+.textinput-label.disabled {
+    /*transform: translate(0, -1rem);*/
+    /*transform-origin: top left;*/
+    color: gray;
+}

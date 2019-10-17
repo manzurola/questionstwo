@@ -28,6 +28,7 @@ export class Review extends Component {
                 <div className={'review-input-answer'}>
                     {this.state.review.isCorrect ? this.renderTrue() : this.renderFalse()}
                 </div>
+                <div>{this.state.review.score}</div>
             </div>
         </div>
     }

@@ -22,7 +22,7 @@
 }
 
 .review-input-answer {
-
+    font-size: 20pt;
 }
 
 .review-input-answer-correct {
@@ -48,7 +48,6 @@
 .answer-text {
     position: relative;
     display: inline-block;
-
     /*-webkit-transition: background steps(1, end);*/
     /*transition: background steps(1, end);*/
 

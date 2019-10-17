@@ -1,13 +1,13 @@
 package com.prodigy.api;
 
-import com.prodigy.domain.answers.Answer;
-import com.prodigy.domain.answers.request.SubmitAnswerRequest;
+import com.prodigy.answers.Answer;
+import com.prodigy.answers.request.SubmitAnswerRequest;
 import com.prodigy.api.calls.AddQuestionApiCall;
 import com.prodigy.api.calls.SubmitAnswerApiCall;
 import com.prodigy.utils.QuestionTestData;
 import com.prodigy.api.env.EndToEndTest;
-import com.prodigy.domain.questions.Question;
-import com.prodigy.domain.questions.request.AddQuestionRequest;
+import com.prodigy.questions.Question;
+import com.prodigy.questions.request.AddQuestionRequest;
 import org.junit.Test;
 import org.springframework.http.ResponseEntity;
 
@@ -21,7 +21,7 @@ public class QuestionControllerTest extends EndToEndTest {
 
     @Test
     public void addQuestion() {
-        AddQuestionRequest request = questionTestData.random();
+        AddQuestionRequest request = questionTestData.randomRequest();
         ResponseEntity<Question> response = new AddQuestionApiCall().run(request, template, baseUrl);
         Question actual = response.getBody();
         Question expected = request.toQuestion().withId(actual.getId()).build();
@@ -30,14 +30,14 @@ public class QuestionControllerTest extends EndToEndTest {
 
     @Test
     public void getQuestion() {
-        AddQuestionRequest request = questionTestData.random();
+        AddQuestionRequest request = questionTestData.randomRequest();
         ResponseEntity<Question> response = new AddQuestionApiCall().run(request, template, baseUrl);
         Question actual = response.getBody();
     }
 
     @Test
     public void solveQuestion() {
-        AddQuestionRequest request = questionTestData.random();
+        AddQuestionRequest request = questionTestData.randomRequest();
         Question question = new AddQuestionApiCall().run(request, template, baseUrl).getBody();
         ResponseEntity<Answer> answer = new SubmitAnswerApiCall().run(
                 new SubmitAnswerRequest(question.getId(), "my answer"),
