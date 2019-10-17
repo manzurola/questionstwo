@@ -61,7 +61,7 @@ public class TestStuff {
         List<Question> questions = data.questions();
 
         for (Question question : questions) {
-            SentenceDiffChecker diffChecker = new SentenceDiffCheckerImpl(new ListDiffCheckerImpl());
+            SentenceDiffChecker diffChecker = new SentenceDiffCheckerImpl(new ListDiffChecker());
 
         }
     }
@@ -83,7 +83,7 @@ public class TestStuff {
                 "invertible"
         ).tokenize();
 
-        ListDiffCheckerImpl diffCalculator = new ListDiffCheckerImpl();
+        ListDiffChecker diffCalculator = new ListDiffChecker();
         List<Diff<Wrapper>> diff = diffCalculator.checkDiff(
                 sourceWords.stream().map(Wrapper::new).collect(Collectors.toList()),
                 targetWords.stream().map(Wrapper::new).collect(Collectors.toList())
@@ -134,7 +134,7 @@ public class TestStuff {
 
         List<String> source = new ArrayList<>();
 
-        ListDiffCheckerImpl diffCalculator = new ListDiffCheckerImpl();
+        ListDiffChecker diffCalculator = new ListDiffChecker();
         List<Diff<String>> actual = diffCalculator.checkDiff(source, target);
         System.out.println(actual);
     }
@@ -154,7 +154,7 @@ public class TestStuff {
                 new Diff<>(Diff.Operation.EQUAL, new Elem("guy"))
         );
 
-        ListDiffChecker listDiffChecker = new ListDiffCheckerImpl();
+        ListDiffChecker listDiffChecker = new ListDiffChecker();
         List<Diff<Elem>> actual = listDiffChecker.checkDiff(source, target);
 
         Assert.assertEquals(expected, actual);

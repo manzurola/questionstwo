@@ -119,7 +119,7 @@ public class Application {
 
     @Bean
     public ListDiffChecker listDiffChecker() {
-        return new ListDiffCheckerImpl();
+        return new ListDiffChecker();
     }
 
 //    @Bean

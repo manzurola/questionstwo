@@ -7,23 +7,23 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-class DMPUtils {
+final class DMPUtils {
 
-    public List<Diff<Character>> checkDiff(List<Character> source, List<Character> target) {
+    final List<Diff<Character>> checkDiff(List<Character> source, List<Character> target) {
         return splitByChars(checkDiff(
                 source.stream().map(String::valueOf).collect(Collectors.joining()),
                 target.stream().map(String::valueOf).collect(Collectors.joining())
         ));
     }
 
-    public List<Diff<String>> checkDiff(String source, String target) {
+    final List<Diff<String>> checkDiff(String source, String target) {
         DiffMatchPatch dmp = new DiffMatchPatch();
         LinkedList<DiffMatchPatch.Diff> diffs = dmp.diffMain(source, target, false);
         dmp.diffCleanupMerge(diffs);
         return translateDMPDiffs(diffs);
     }
 
-    public List<Diff<Character>> splitByChars(List<Diff<String>> diff) {
+    final List<Diff<Character>> splitByChars(List<Diff<String>> diff) {
         List<Diff<Character>> result = new ArrayList<>();
         for (Diff<String> aDiff : diff) {
             result.addAll(charSplit(aDiff));

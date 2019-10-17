@@ -22,7 +22,7 @@ public class EvaluationPolicyTest {
         // assert that feedback is equals to expected
 
         SentenceFactory sentenceFactory = new CoreSentenceWrapperFactory();
-        SentenceDiffChecker diffChecker = new SentenceDiffCheckerImpl(new ListDiffCheckerImpl());
+        SentenceDiffChecker diffChecker = new SentenceDiffCheckerImpl(new ListDiffChecker());
 
         Sentence target = sentenceFactory.getSentence("He is walking home.");
         Sentence input = sentenceFactory.getSentence("He walking home.");
