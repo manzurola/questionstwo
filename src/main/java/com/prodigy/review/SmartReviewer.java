@@ -27,7 +27,7 @@ public class SmartReviewer implements Reviewer {
         double score = 0;
         SentenceDiff bestMatch = null;
         for (String target : question.getAnswerKey()) {
-            SentenceDiff diff = diffChecker.diff(source, sentenceFactory.getSentence(target));
+            SentenceDiff diff = diffChecker.diffSourceAndTarget(source, sentenceFactory.getSentence(target));
             score = scoreDiff(diff);
             if (score > top) {
                 bestMatch = diff;
@@ -46,7 +46,7 @@ public class SmartReviewer implements Reviewer {
         double score = 0;
         SentenceDiff bestMatch = null;
         for (String target : answerKey) {
-            SentenceDiff diff = diffChecker.diff(sentenceFactory.getSentence(answer), sentenceFactory.getSentence(target));
+            SentenceDiff diff = diffChecker.diffSourceAndTarget(sentenceFactory.getSentence(answer), sentenceFactory.getSentence(target));
             score = scoreDiff(diff);
             if (score > top) {
                 bestMatch = diff;

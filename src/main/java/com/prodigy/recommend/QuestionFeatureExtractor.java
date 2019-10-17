@@ -1,12 +1,11 @@
 package com.prodigy.recommend;
 
-import com.prodigy.diff.WordValueDiffChecker;
 import com.prodigy.diff.SentenceDiff;
 import com.prodigy.diff.SentenceDiffCheckerImpl;
 import com.prodigy.grammar.Sentence;
 import com.prodigy.questions.Question;
 import com.prodigy.grammar.SentenceFactory;
-import com.prodigy.diff.DMPListDiffCalculator;
+import com.prodigy.diff.ListDiffCheckerImpl;
 
 import java.util.List;
 
@@ -35,7 +34,7 @@ public class QuestionFeatureExtractor implements FeatureExtractor<Question> {
         String target = question.getAnswerKey().get(0);
         Sentence sourceSent = sentenceFactory.getSentence(source);
         Sentence targetSent = sentenceFactory.getSentence(target);
-        SentenceDiffCheckerImpl diffChecker = new SentenceDiffCheckerImpl(new WordValueDiffChecker(new DMPListDiffCalculator()));
-        return diffChecker.diff(sourceSent, targetSent);
+        SentenceDiffCheckerImpl diffChecker = new SentenceDiffCheckerImpl(new ListDiffCheckerImpl());
+        return diffChecker.diffSourceAndTarget(sourceSent, targetSent);
     }
 }

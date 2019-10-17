@@ -1,17 +1,10 @@
 package com.prodigy;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.module.SimpleModule;
-import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
 import com.prodigy.common.jackson.ObjectMapperConfig;
 import com.prodigy.diff.*;
 import com.prodigy.review.Reviewer;
 import com.prodigy.review.SmartReviewer;
-import com.prodigy.common.data.Id;
-import com.prodigy.common.jackson.IdDeserializer;
-import com.prodigy.common.jackson.IdSerializer;
 import com.prodigy.common.service.CommandFactory;
 import com.prodigy.common.service.ServiceExecutor;
 import com.prodigy.common.service.ServiceExecutorImpl;
@@ -35,9 +28,6 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import static com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility.ANY;
-import static com.fasterxml.jackson.annotation.PropertyAccessor.FIELD;
 
 @SpringBootApplication
 public class Application {
@@ -124,12 +114,12 @@ public class Application {
 
     @Bean
     public SentenceDiffChecker sentenceDiffChecker() {
-        return new SentenceDiffCheckerImpl(wordDiffChecker());
+        return new SentenceDiffCheckerImpl(listDiffChecker());
     }
 
     @Bean
-    public WordDiffChecker wordDiffChecker() {
-        return new WordValueDiffChecker(new DMPListDiffCalculator());
+    public ListDiffChecker listDiffChecker() {
+        return new ListDiffCheckerImpl();
     }
 
 //    @Bean

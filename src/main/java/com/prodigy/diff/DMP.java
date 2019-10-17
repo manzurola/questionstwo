@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-class DMPWrapper {
+class DMP {
 
     private final DiffMatchPatch dmp = new DiffMatchPatch();
 

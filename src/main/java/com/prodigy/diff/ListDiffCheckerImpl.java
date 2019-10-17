@@ -2,19 +2,19 @@ package com.prodigy.diff;
 
 import java.util.*;
 
-public class DMPListDiffCalculator implements ListDiffCalculator {
+public class ListDiffCheckerImpl implements ListDiffChecker {
 
     @Override
-    public <T> List<Diff<T>> getDiff(List<T> source, List<T> target) {
-        return getDiff(source, target, new ItemToCharMapper<>());
+    public <T> List<Diff<T>> checkDiff(List<T> source, List<T> target) {
+        return checkDiff(source, target, new ItemToCharMapper<>());
     }
 
     @Override
-    public <T> List<Diff<T>> getDiff(List<T> source, List<T> target, HashingStrategy<T> hashingStrategy) {
-        return getDiff(source, target, new ItemToCharMapper<>(hashingStrategy));
+    public <T> List<Diff<T>> checkDiff(List<T> source, List<T> target, HashingStrategy<T> hashingStrategy) {
+        return checkDiff(source, target, new ItemToCharMapper<>(hashingStrategy));
     }
 
-    private <T> List<Diff<T>> getDiff(List<T> source, List<T> target, ItemToCharMapper<T> itemToCharMapper) {
+    private <T> List<Diff<T>> checkDiff(List<T> source, List<T> target, ItemToCharMapper<T> itemToCharMapper) {
         CharSequence sourceAsChars = itemToCharMapper.mapList(source);
         CharSequence targetAsChars = itemToCharMapper.mapList(target);
         List<Diff<Character>> charDiff = getTextDiff(sourceAsChars, targetAsChars);
@@ -22,7 +22,7 @@ public class DMPListDiffCalculator implements ListDiffCalculator {
     }
 
     private List<Diff<Character>> getTextDiff(CharSequence source, CharSequence target) {
-        DMPWrapper dmp = new DMPWrapper();
+        DMP dmp = new DMP();
         return dmp.getTextDiff(source, target);
     }
 

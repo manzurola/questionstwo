@@ -7,15 +7,15 @@ import java.util.*;
 
 public class SentenceDiffCheckerImpl implements SentenceDiffChecker {
 
-    private final WordDiffChecker wordDiffChecker;
+    private final ListDiffChecker diffChecker;
 
-    public SentenceDiffCheckerImpl(WordDiffChecker wordDiffChecker) {
-        this.wordDiffChecker = wordDiffChecker;
+    public SentenceDiffCheckerImpl(ListDiffChecker diffChecker) {
+        this.diffChecker = diffChecker;
     }
 
     @Override
-    public SentenceDiff diff(Sentence source, Sentence target) {
-        List<Diff<Word>> words = wordDiffChecker.diff(source.words(), target.words());
+    public SentenceDiff diffSourceAndTarget(Sentence source, Sentence target) {
+        List<Diff<Word>> words = diffChecker.checkDiff(source.words(), target.words(), word -> word.value().hashCode());
         return new SentenceDiff(words);
     }
 }

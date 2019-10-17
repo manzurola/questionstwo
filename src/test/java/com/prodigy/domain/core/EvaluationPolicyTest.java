@@ -22,12 +22,12 @@ public class EvaluationPolicyTest {
         // assert that feedback is equals to expected
 
         SentenceFactory sentenceFactory = new CoreSentenceWrapperFactory();
-        SentenceDiffChecker diffChecker = new SentenceDiffCheckerImpl(new WordValueDiffChecker(new DMPListDiffCalculator()));
+        SentenceDiffChecker diffChecker = new SentenceDiffCheckerImpl(new ListDiffCheckerImpl());
 
         Sentence target = sentenceFactory.getSentence("He is walking home.");
         Sentence input = sentenceFactory.getSentence("He walking home.");
 
-        SentenceDiff diff = diffChecker.diff(input, target);
+        SentenceDiff diff = diffChecker.diffSourceAndTarget(input, target);
 
         Rule rule = new Rule();
         rule.diffs = Arrays.asList(new Diff<>(Diff.Operation.INSERT, "is"));
