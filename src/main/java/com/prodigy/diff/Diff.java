@@ -4,12 +4,6 @@ import java.util.Objects;
 
 public class Diff<T> {
 
-    public enum Operation {
-        INSERT,
-        EQUAL,
-        DELETE
-    }
-
     private final Operation operation;
     private final T item;
 

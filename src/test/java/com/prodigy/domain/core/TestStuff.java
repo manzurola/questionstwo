@@ -61,7 +61,7 @@ public class TestStuff {
         List<Question> questions = data.questions();
 
         for (Question question : questions) {
-            SentenceDiffChecker diffChecker = new SentenceDiffCheckerImpl(new ListDiffChecker());
+            SentenceDiffCheck diffChecker = new SentenceDiffCheckImpl(new WordDiffCheckImpl());
 
         }
     }
@@ -83,8 +83,8 @@ public class TestStuff {
                 "invertible"
         ).tokenize();
 
-        ListDiffChecker diffCalculator = new ListDiffChecker();
-        List<Diff<Wrapper>> diff = diffCalculator.checkDiff(
+        ListDiffCheck diffCalculator = new ListDiffCheck();
+        List<Diff<Wrapper>> diff = diffCalculator.diffSourceAndTarget(
                 sourceWords.stream().map(Wrapper::new).collect(Collectors.toList()),
                 targetWords.stream().map(Wrapper::new).collect(Collectors.toList())
         );
@@ -134,8 +134,8 @@ public class TestStuff {
 
         List<String> source = new ArrayList<>();
 
-        ListDiffChecker diffCalculator = new ListDiffChecker();
-        List<Diff<String>> actual = diffCalculator.checkDiff(source, target);
+        ListDiffCheck diffCalculator = new ListDiffCheck();
+        List<Diff<String>> actual = diffCalculator.diffSourceAndTarget(source, target);
         System.out.println(actual);
     }
 
@@ -147,15 +147,15 @@ public class TestStuff {
         List<Elem> source = Arrays.asList(new Elem("hello"), new Elem("name"), new Elem("is"), new Elem("guy"));
 
         List<Diff<Elem>> expected = Arrays.asList(
-                new Diff<>(Diff.Operation.EQUAL, new Elem("hello")),
-                new Diff<>(Diff.Operation.INSERT, new Elem("my")),
-                new Diff<>(Diff.Operation.EQUAL, new Elem("name")),
-                new Diff<>(Diff.Operation.EQUAL, new Elem("is")),
-                new Diff<>(Diff.Operation.EQUAL, new Elem("guy"))
+                new Diff<>(Operation.EQUAL, new Elem("hello")),
+                new Diff<>(Operation.INSERT, new Elem("my")),
+                new Diff<>(Operation.EQUAL, new Elem("name")),
+                new Diff<>(Operation.EQUAL, new Elem("is")),
+                new Diff<>(Operation.EQUAL, new Elem("guy"))
         );
 
-        ListDiffChecker listDiffChecker = new ListDiffChecker();
-        List<Diff<Elem>> actual = listDiffChecker.checkDiff(source, target);
+        ListDiffCheck hashCodeDiffChecker = new ListDiffCheck();
+        List<Diff<Elem>> actual = hashCodeDiffChecker.diffSourceAndTarget(source, target);
 
         Assert.assertEquals(expected, actual);
     }

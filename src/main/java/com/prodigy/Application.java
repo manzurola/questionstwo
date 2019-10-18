@@ -113,13 +113,13 @@ public class Application {
     }
 
     @Bean
-    public SentenceDiffChecker sentenceDiffChecker() {
-        return new SentenceDiffCheckerImpl(listDiffChecker());
+    public SentenceDiffCheck sentenceDiffChecker() {
+        return new SentenceDiffCheckImpl(wordDiffCheck());
     }
 
     @Bean
-    public ListDiffChecker listDiffChecker() {
-        return new ListDiffChecker();
+    public WordDiffCheck wordDiffCheck() {
+        return new WordDiffCheckImpl();
     }
 
 //    @Bean

@@ -1,5 +1,7 @@
 package com.prodigy.recommender.features;
 
+import com.prodigy.diff.SentenceDiffCheckImpl;
+import com.prodigy.diff.WordDiffCheckImpl;
 import com.prodigy.questions.Question;
 import com.prodigy.recommend.QuestionFeatureExtractor;
 import com.prodigy.grammar.corenlp.CoreSentenceWrapperFactory;
@@ -28,7 +30,11 @@ public class ExtractorTest {
         QuestionTestData testData = new QuestionTestData();
         List<Question> questions = testData.questions();
 
-        FeatureExtractor<Question> features = new QuestionFeatureExtractor(new CoreSentenceWrapperFactory(), new DiffPOSFeatureExtractor());
+        FeatureExtractor<Question> features = new QuestionFeatureExtractor(
+                new CoreSentenceWrapperFactory(),
+                new DiffPOSFeatureExtractor(),
+                new SentenceDiffCheckImpl(new WordDiffCheckImpl())
+        );
 
         List<Clusterable<Question>> vectors = new ArrayList<>();
         for (Question question : questions) {
