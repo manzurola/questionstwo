@@ -22,7 +22,7 @@ public class EvaluationPolicyTest {
         // assert that feedback is equals to expected
 
         SentenceFactory sentenceFactory = new CoreSentenceWrapperFactory();
-        SentenceDiffChecker diffChecker = new SentenceDiffCheckerImpl(new ListDiffChecker());
+        SentenceDiffCheck diffChecker = new SentenceDiffCheckImpl(new WordDiffCheckImpl());
 
         Sentence target = sentenceFactory.getSentence("He is walking home.");
         Sentence input = sentenceFactory.getSentence("He walking home.");
@@ -30,7 +30,7 @@ public class EvaluationPolicyTest {
         SentenceDiff diff = diffChecker.diffSourceAndTarget(input, target);
 
         Rule rule = new Rule();
-        rule.diffs = Arrays.asList(new Diff<>(Diff.Operation.INSERT, "is"));
+        rule.diffs = Arrays.asList(new Diff<>(Operation.INSERT, "is"));
         rule.feedback = "testing feedback on specific mistake";
 
         Assert.assertTrue(rule.isSatisfied(diff));

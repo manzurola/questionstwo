@@ -1,21 +1,22 @@
 package com.prodigy.review;
 
+import com.prodigy.diff.Operation;
 import com.prodigy.diff.SentenceDiff;
 import com.prodigy.grammar.Sentence;
 import com.prodigy.grammar.Word;
-import com.prodigy.questions.Question;
+import com.prodigy.questions.domain.Question;
 import com.prodigy.grammar.SentenceFactory;
 import com.prodigy.diff.Diff;
-import com.prodigy.diff.SentenceDiffChecker;
+import com.prodigy.diff.SentenceDiffCheck;
 
 import java.util.List;
 
 public class SmartReviewer implements Reviewer {
 
     private final SentenceFactory sentenceFactory;
-    private final SentenceDiffChecker diffChecker;
+    private final SentenceDiffCheck diffChecker;
 
-    public SmartReviewer(SentenceFactory sentenceFactory, SentenceDiffChecker diffChecker) {
+    public SmartReviewer(SentenceFactory sentenceFactory, SentenceDiffCheck diffChecker) {
         this.sentenceFactory = sentenceFactory;
         this.diffChecker = diffChecker;
     }
@@ -60,7 +61,7 @@ public class SmartReviewer implements Reviewer {
         int totalWordCount = diff.words().size();
         int correctWordCount = totalWordCount;
         for (Diff<Word> wordDiff : diff.words()) {
-            correctWordCount -= wordDiff.operation().equals(Diff.Operation.EQUAL) ? 0 : 1;
+            correctWordCount -= wordDiff.operation().equals(Operation.EQUAL) ? 0 : 1;
         }
         return correctWordCount / totalWordCount;
     }
