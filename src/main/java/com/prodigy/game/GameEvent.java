@@ -1,8 +1,8 @@
 package com.prodigy.game;
 
-import com.prodigy.answers.Answer;
+import com.prodigy.answers.domain.Answer;
 import com.prodigy.common.data.Id;
-import com.prodigy.questions.Question;
+import com.prodigy.questions.domain.Question;
 import com.prodigy.review.Review;
 import com.prodigy.users.User;
 

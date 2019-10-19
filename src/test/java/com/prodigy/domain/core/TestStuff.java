@@ -4,7 +4,7 @@ import com.prodigy.diff.*;
 import com.prodigy.grammar.corenlp.CoreSentenceWrapperFactory;
 import com.prodigy.grammar.Sentence;
 import com.prodigy.grammar.SentenceFactory;
-import com.prodigy.questions.Question;
+import com.prodigy.questions.domain.Question;
 import com.prodigy.utils.QuestionTestData;
 import edu.stanford.nlp.ling.CoreLabel;
 import edu.stanford.nlp.ling.TaggedWord;

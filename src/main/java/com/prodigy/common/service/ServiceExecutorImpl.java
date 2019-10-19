@@ -9,8 +9,8 @@ public class ServiceExecutorImpl implements ServiceExecutor {
     }
 
     @Override
-    public <E, R extends ServiceRequest, T extends Command<E, R>> Result<E> execute(Class<T> commandClass, R request) {
-        Command<E, R> command = commandFactory.create(commandClass);
+    public <E, R extends ServiceRequest, T extends ServiceCommand<E, R>> Result<E> execute(Class<T> commandClass, R request) {
+        ServiceCommand<E, R> command = commandFactory.create(commandClass);
         return command.execute(request);
     }
 }

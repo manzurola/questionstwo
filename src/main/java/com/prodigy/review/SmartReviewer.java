@@ -4,7 +4,7 @@ import com.prodigy.diff.Operation;
 import com.prodigy.diff.SentenceDiff;
 import com.prodigy.grammar.Sentence;
 import com.prodigy.grammar.Word;
-import com.prodigy.questions.Question;
+import com.prodigy.questions.domain.Question;
 import com.prodigy.grammar.SentenceFactory;
 import com.prodigy.diff.Diff;
 import com.prodigy.diff.SentenceDiffCheck;
