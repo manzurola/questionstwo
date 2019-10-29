@@ -1,5 +1,7 @@
 package com.prodigy.common.data;
 
+import com.prodigy.common.Id;
+
 import java.util.List;
 
 public interface DataStore {

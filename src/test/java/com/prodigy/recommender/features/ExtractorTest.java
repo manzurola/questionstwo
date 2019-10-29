@@ -2,7 +2,7 @@ package com.prodigy.recommender.features;
 
 import com.prodigy.diff.SentenceDiffCheckImpl;
 import com.prodigy.diff.WordDiffCheckImpl;
-import com.prodigy.questions.domain.Question;
+import com.prodigy.domain.questions.domain.Question;
 import com.prodigy.recommend.QuestionFeatureExtractor;
 import com.prodigy.grammar.corenlp.CoreSentenceWrapperFactory;
 import com.prodigy.recommend.DiffPOSFeatureExtractor;

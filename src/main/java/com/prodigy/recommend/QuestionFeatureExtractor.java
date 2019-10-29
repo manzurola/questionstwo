@@ -3,7 +3,7 @@ package com.prodigy.recommend;
 import com.prodigy.diff.SentenceDiff;
 import com.prodigy.diff.SentenceDiffCheck;
 import com.prodigy.grammar.Sentence;
-import com.prodigy.questions.domain.Question;
+import com.prodigy.domain.questions.domain.Question;
 import com.prodigy.grammar.SentenceFactory;
 
 public class QuestionFeatureExtractor implements FeatureExtractor<Question> {

@@ -3,7 +3,7 @@ package com.prodigy.common.jackson;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
-import com.prodigy.common.data.Id;
+import com.prodigy.common.Id;
 
 import java.io.IOException;
 
