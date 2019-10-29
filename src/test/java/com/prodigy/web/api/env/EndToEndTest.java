@@ -1,6 +1,6 @@
 package com.prodigy.web.api.env;
 
-import com.prodigy.web.api.Application;
+import com.prodigy.web.Application;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.runner.RunWith;
