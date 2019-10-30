@@ -1,7 +1,7 @@
 package com.prodigy.domain.questions.service;
 
 import com.prodigy.common.service.ServiceRequest;
-import com.prodigy.domain.questions.domain.Question;
+import com.prodigy.domain.Question;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;

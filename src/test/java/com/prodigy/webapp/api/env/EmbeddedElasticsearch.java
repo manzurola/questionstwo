@@ -1,6 +1,6 @@
 package com.prodigy.webapp.api.env;
 
-import com.prodigy.domain.questions.database.ElasticsearchQuestionRepository;
+import com.prodigy.database.impl.ElasticsearchQuestionRepository;
 import pl.allegro.tech.embeddedelasticsearch.EmbeddedElastic;
 import pl.allegro.tech.embeddedelasticsearch.PopularProperties;
 

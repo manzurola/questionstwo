@@ -1,10 +1,12 @@
 package com.prodigy.domain.core;
 
 import com.prodigy.diff.*;
-import com.prodigy.grammar.corenlp.CoreSentenceWrapperFactory;
 import com.prodigy.grammar.Sentence;
 import com.prodigy.grammar.SentenceFactory;
 import com.prodigy.grammar.Word;
+import com.prodigy.grammar.SentenceDiff;
+import com.prodigy.grammar.SentenceDiffCheck;
+import com.prodigy.grammar.impl.SentenceDiffCheckImpl;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -24,10 +26,10 @@ public class EvaluationPolicyTest {
         SentenceFactory sentenceFactory = new CoreSentenceWrapperFactory();
         SentenceDiffCheck diffChecker = new SentenceDiffCheckImpl(new WordDiffCheckImpl());
 
-        Sentence target = sentenceFactory.getSentence("He is walking home.");
-        Sentence input = sentenceFactory.getSentence("He walking home.");
+        Sentence target = sentenceFactory.fromString("He is walking home.");
+        Sentence input = sentenceFactory.fromString("He walking home.");
 
-        SentenceDiff diff = diffChecker.diffSourceAndTarget(input, target);
+        SentenceDiff.SentenceDiff diff = diffChecker.diffSourceAndTarget(input, target);
 
         Rule rule = new Rule();
         rule.diffs = Arrays.asList(new Diff<>(Operation.INSERT, "is"));
@@ -41,7 +43,7 @@ public class EvaluationPolicyTest {
         private Action action;
         private String feedback;
 
-        boolean isSatisfied(SentenceDiff sentenceDiff) {
+        boolean isSatisfied(SentenceDiff.SentenceDiff sentenceDiff) {
             // check if sentence diff contains all diffs in consecutive order
             // (need to define more options, such as in beginning of diff, end, contains in general, at least one, etc)
 

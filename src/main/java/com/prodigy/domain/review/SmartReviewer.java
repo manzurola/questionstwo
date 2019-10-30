@@ -1,13 +1,9 @@
 package com.prodigy.domain.review;
 
 import com.prodigy.diff.Operation;
-import com.prodigy.diff.SentenceDiff;
-import com.prodigy.grammar.Sentence;
-import com.prodigy.grammar.Word;
-import com.prodigy.domain.questions.domain.Question;
-import com.prodigy.grammar.SentenceFactory;
+import com.prodigy.grammar.*;
+import com.prodigy.domain.Question;
 import com.prodigy.diff.Diff;
-import com.prodigy.diff.SentenceDiffCheck;
 
 import java.util.List;
 
@@ -23,12 +19,12 @@ public class SmartReviewer implements Reviewer {
 
     @Override
     public Review reviewAnswer(String answer, Question question) {
-        Sentence source = sentenceFactory.getSentence(answer);
+        Sentence source = sentenceFactory.fromString(answer);
         double top = -1;
         double score = 0;
         SentenceDiff bestMatch = null;
         for (String target : question.getAnswerKey()) {
-            SentenceDiff diff = diffChecker.diffSourceAndTarget(source, sentenceFactory.getSentence(target));
+            SentenceDiff diff = diffChecker.diffSourceAndTarget(source, sentenceFactory.fromString(target));
             score = scoreDiff(diff);
             if (score > top) {
                 bestMatch = diff;
@@ -47,7 +43,7 @@ public class SmartReviewer implements Reviewer {
         double score = 0;
         SentenceDiff bestMatch = null;
         for (String target : answerKey) {
-            SentenceDiff diff = diffChecker.diffSourceAndTarget(sentenceFactory.getSentence(answer), sentenceFactory.getSentence(target));
+            SentenceDiff diff = diffChecker.diffSourceAndTarget(sentenceFactory.fromString(answer), sentenceFactory.fromString(target));
             score = scoreDiff(diff);
             if (score > top) {
                 bestMatch = diff;

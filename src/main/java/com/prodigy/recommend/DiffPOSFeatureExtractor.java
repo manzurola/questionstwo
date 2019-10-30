@@ -2,15 +2,15 @@ package com.prodigy.recommend;
 
 import com.prodigy.diff.Diff;
 import com.prodigy.diff.Operation;
-import com.prodigy.diff.SentenceDiff;
 import com.prodigy.grammar.POS;
 import com.prodigy.grammar.Word;
+import com.prodigy.grammar.SentenceDiff;
 
 import java.util.Arrays;
 
 public class DiffPOSFeatureExtractor {
 
-    public Point extract(SentenceDiff sentenceDiff) {
+    public Point extract(SentenceDiff.SentenceDiff sentenceDiff) {
         double[] point = new double[POS.values().length];
         Arrays.fill(point, 0);
 

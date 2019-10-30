@@ -2,5 +2,5 @@ package com.prodigy.grammar;
 
 public interface SentenceFactory {
 
-    Sentence getSentence(String value);
+    Sentence fromString(String value);
 }

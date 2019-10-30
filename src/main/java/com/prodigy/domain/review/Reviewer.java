@@ -1,6 +1,6 @@
 package com.prodigy.domain.review;
 
-import com.prodigy.domain.questions.domain.Question;
+import com.prodigy.domain.Question;
 
 public interface Reviewer {
 

@@ -1,6 +1,6 @@
 package com.prodigy.domain.users.database;
 
-import com.prodigy.common.data.DataStore;
+import com.prodigy.database.impl.DataStore;
 import com.prodigy.common.Id;
 import com.prodigy.domain.users.User;
 

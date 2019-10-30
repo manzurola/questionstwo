@@ -1,20 +1,23 @@
 package com.prodigy.webapp;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.prodigy.common.jackson.ObjectMapperConfig;
-import com.prodigy.diff.*;
+import com.prodigy.serialization.jackson.ObjectMapperFactory;
+import com.prodigy.diff.ListDiffCheck;
+import com.prodigy.diff.impl.DMPListDiffCheck;
 import com.prodigy.domain.review.Reviewer;
 import com.prodigy.domain.review.SmartReviewer;
 import com.prodigy.common.service.CommandFactory;
 import com.prodigy.common.service.ServiceExecutor;
 import com.prodigy.common.service.ServiceExecutorImpl;
-import com.prodigy.domain.questions.domain.Question;
-import com.prodigy.domain.questions.database.InMemoryQuestionRepository;
-import com.prodigy.domain.questions.database.QuestionRepository;
-import com.prodigy.domain.questions.readers.AddQuestionRequestCSVReader;
-import com.prodigy.domain.questions.readers.AddQuestionRequestReader;
+import com.prodigy.domain.Question;
+import com.prodigy.database.impl.InMemoryQuestionRepository;
+import com.prodigy.database.QuestionRepository;
+import com.prodigy.domain.questions.readers.CSVQuestionReader;
+import com.prodigy.domain.questions.readers.QuestionReader;
 import com.prodigy.grammar.SentenceFactory;
-import com.prodigy.grammar.corenlp.CoreSentenceWrapperFactory;
+import com.prodigy.grammar.impl.CoreNLPSentenceFactory;
+import com.prodigy.grammar.SentenceDiffCheck;
+import com.prodigy.grammar.impl.SentenceDiffCheckImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
@@ -78,7 +81,7 @@ public class Application {
 
     @Bean
     public QuestionRepository questionRepository() throws Exception {
-        AddQuestionRequestReader reader = new AddQuestionRequestCSVReader(new File(this.getClass().getClassLoader().getResource("questions-en.csv").getFile()));
+        QuestionReader reader = new CSVQuestionReader(new File(this.getClass().getClassLoader().getResource("questions-en.csv").getFile()));
         List<Question> data = reader.readAll()
                 .stream()
                 .map(request -> request.toQuestion().build())
@@ -109,17 +112,18 @@ public class Application {
 
     @Bean
     public SentenceFactory sentenceFactory() {
-        return new CoreSentenceWrapperFactory();
+        return new CoreNLPSentenceFactory();
     }
+
 
     @Bean
     public SentenceDiffCheck sentenceDiffChecker() {
-        return new SentenceDiffCheckImpl(wordDiffCheck());
+        return new SentenceDiffCheckImpl(listDiffCheck());
     }
 
     @Bean
-    public WordDiffCheck wordDiffCheck() {
-        return new WordDiffCheckImpl();
+    public ListDiffCheck listDiffCheck() {
+        return new DMPListDiffCheck();
     }
 
 //    @Bean
@@ -134,7 +138,7 @@ public class Application {
 
     @Bean
     public ObjectMapper objectMapper() {
-        return ObjectMapperConfig.getObjectMapper();
+        return ObjectMapperFactory.defaultObjectMapper();
     }
 
 }

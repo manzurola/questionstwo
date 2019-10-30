@@ -1,7 +1,7 @@
 package com.prodigy.webapp.api.calls;
 
-import com.prodigy.domain.answer.Answer;
-import com.prodigy.domain.answer.service.SubmitAnswerRequest;
+import com.prodigy.domain.Answer;
+import com.prodigy.service.impl.SubmitAnswerRequest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;

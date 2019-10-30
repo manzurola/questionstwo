@@ -1,9 +1,9 @@
 package com.prodigy.recommend;
 
-import com.prodigy.diff.SentenceDiff;
-import com.prodigy.diff.SentenceDiffCheck;
+import com.prodigy.grammar.SentenceDiff;
+import com.prodigy.grammar.SentenceDiffCheck;
 import com.prodigy.grammar.Sentence;
-import com.prodigy.domain.questions.domain.Question;
+import com.prodigy.domain.Question;
 import com.prodigy.grammar.SentenceFactory;
 
 public class QuestionFeatureExtractor implements FeatureExtractor<Question> {
@@ -25,11 +25,11 @@ public class QuestionFeatureExtractor implements FeatureExtractor<Question> {
         return diffExtractor.extract(getDiffFromQuestion(question));
     }
 
-    private SentenceDiff getDiffFromQuestion(Question question) {
+    private SentenceDiff.SentenceDiff getDiffFromQuestion(Question question) {
         String source = question.getBody();
         String target = question.getAnswerKey().get(0);
-        Sentence sourceSent = sentenceFactory.getSentence(source);
-        Sentence targetSent = sentenceFactory.getSentence(target);
+        Sentence sourceSent = sentenceFactory.fromString(source);
+        Sentence targetSent = sentenceFactory.fromString(target);
         return sentenceDiffChecker.diffSourceAndTarget(sourceSent, targetSent);
     }
 }

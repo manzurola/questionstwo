@@ -2,7 +2,7 @@ package com.prodigy.webapp;
 
 import com.prodigy.common.Id;
 import com.prodigy.common.service.ServiceRequest;
-import com.prodigy.domain.questions.domain.Question;
+import com.prodigy.domain.Question;
 
 import java.util.Objects;
 

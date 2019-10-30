@@ -1,6 +1,6 @@
 package com.prodigy.webapp.api.calls;
 
-import com.prodigy.domain.questions.domain.Question;
+import com.prodigy.domain.Question;
 import com.prodigy.domain.questions.service.AddQuestionRequest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.core.ParameterizedTypeReference;

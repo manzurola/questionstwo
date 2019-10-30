@@ -1,13 +1,13 @@
 package com.prodigy.webapp.api;
 
 
-import com.prodigy.domain.answer.Answer;
-import com.prodigy.domain.answer.service.SubmitAnswerCommand;
-import com.prodigy.domain.answer.service.SubmitAnswerRequest;
+import com.prodigy.domain.Answer;
+import com.prodigy.service.impl.SubmitAnswerCommand;
+import com.prodigy.service.impl.SubmitAnswerRequest;
 import com.prodigy.common.Id;
 import com.prodigy.common.service.Result;
 import com.prodigy.common.service.ServiceExecutor;
-import com.prodigy.domain.questions.domain.Question;
+import com.prodigy.domain.Question;
 import com.prodigy.domain.questions.service.AddQuestionCommand;
 import com.prodigy.domain.questions.service.GetAllQuestionsCommand;
 import com.prodigy.domain.questions.service.AddQuestionRequest;

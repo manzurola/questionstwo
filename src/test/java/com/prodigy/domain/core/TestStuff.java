@@ -1,11 +1,13 @@
 package com.prodigy.domain.core;
 
 import com.prodigy.diff.*;
-import com.prodigy.grammar.corenlp.CoreSentenceWrapperFactory;
+import com.prodigy.diff.impl.DMPListDiffCheck;
 import com.prodigy.grammar.Sentence;
 import com.prodigy.grammar.SentenceFactory;
-import com.prodigy.domain.questions.domain.Question;
-import com.prodigy.utils.QuestionTestData;
+import com.prodigy.domain.Question;
+import com.prodigy.grammar.SentenceDiffCheck;
+import com.prodigy.grammar.impl.SentenceDiffCheckImpl;
+import com.prodigy.testdata.TestQuestions;
 import edu.stanford.nlp.ling.CoreLabel;
 import edu.stanford.nlp.ling.TaggedWord;
 import edu.stanford.nlp.process.*;
@@ -22,7 +24,7 @@ public class TestStuff {
     @Test
     public void sentenceFactoryTest() {
         SentenceFactory factory = new CoreSentenceWrapperFactory();
-        Sentence sentence = factory.getSentence("This dress is very old; I can't wear it any more.");
+        Sentence sentence = factory.fromString("This dress is very old; I can't wear it any more.");
         System.out.println(sentence);
     }
 
@@ -57,7 +59,7 @@ public class TestStuff {
 
     @Test
     public void printMistakes() {
-        QuestionTestData data = new QuestionTestData();
+        TestQuestions data = new TestQuestions();
         List<Question> questions = data.questions();
 
         for (Question question : questions) {
@@ -83,8 +85,8 @@ public class TestStuff {
                 "invertible"
         ).tokenize();
 
-        ListDiffCheck diffCalculator = new ListDiffCheck();
-        List<Diff<Wrapper>> diff = diffCalculator.diffSourceAndTarget(
+        DMPListDiffCheck diffCalculator = new DMPListDiffCheck();
+        List<Diff<Wrapper>> diff = diffCalculator.checkDiff(
                 sourceWords.stream().map(Wrapper::new).collect(Collectors.toList()),
                 targetWords.stream().map(Wrapper::new).collect(Collectors.toList())
         );
@@ -134,8 +136,8 @@ public class TestStuff {
 
         List<String> source = new ArrayList<>();
 
-        ListDiffCheck diffCalculator = new ListDiffCheck();
-        List<Diff<String>> actual = diffCalculator.diffSourceAndTarget(source, target);
+        DMPListDiffCheck diffCalculator = new DMPListDiffCheck();
+        List<Diff<String>> actual = diffCalculator.checkDiff(source, target);
         System.out.println(actual);
     }
 
@@ -154,8 +156,8 @@ public class TestStuff {
                 new Diff<>(Operation.EQUAL, new Elem("guy"))
         );
 
-        ListDiffCheck hashCodeDiffChecker = new ListDiffCheck();
-        List<Diff<Elem>> actual = hashCodeDiffChecker.diffSourceAndTarget(source, target);
+        DMPListDiffCheck hashCodeDiffChecker = new DMPListDiffCheck();
+        List<Diff<Elem>> actual = hashCodeDiffChecker.checkDiff(source, target);
 
         Assert.assertEquals(expected, actual);
     }
