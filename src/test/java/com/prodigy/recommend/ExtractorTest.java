@@ -5,7 +5,6 @@ import com.prodigy.nlp.impl.CoreNLPSentenceFactory;
 import com.prodigy.nlp.impl.SentenceDiffCheckImpl;
 import com.prodigy.domain.Question;
 import com.prodigy.recommend.QuestionFeatureExtractor;
-import com.prodigy.grammar.corenlp.CoreSentenceWrapperFactory;
 import com.prodigy.recommend.DiffPOSFeatureExtractor;
 import com.prodigy.recommend.FeatureExtractor;
 import com.prodigy.recommend.Point;
@@ -13,7 +12,7 @@ import com.prodigy.recommend.clustering.ApacheMLClusterer;
 import com.prodigy.recommend.clustering.Cluster;
 import com.prodigy.recommend.clustering.Clusterable;
 import com.prodigy.recommend.clustering.Clusterer;
-import com.prodigy.utils.QuestionTestData;
+import com.prodigy.testdata.TestQuestions;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -28,7 +27,7 @@ public class ExtractorTest {
         // extract features from source and target sentences
         // the input source and target, where source is the user answer, is actually the user features
 
-        QuestionTestData testData = new QuestionTestData();
+        TestQuestions testData = new TestQuestions();
         List<Question> questions = testData.questions();
 
         FeatureExtractor<Question> features = new QuestionFeatureExtractor(

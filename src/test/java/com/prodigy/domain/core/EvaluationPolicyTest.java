@@ -28,8 +28,8 @@ public class EvaluationPolicyTest {
         SentenceFactory sentenceFactory = new CoreNLPSentenceFactory();
         SentenceDiffCheck diffChecker = new SentenceDiffCheckImpl(new DMPListDiffCheck());
 
-        Sentence target = sentenceFactory.getSentence("He is walking home.");
-        Sentence input = sentenceFactory.getSentence("He walking home.");
+        Sentence target = sentenceFactory.fromString("He is walking home.");
+        Sentence input = sentenceFactory.fromString("He walking home.");
 
         SentenceDiff diff = diffChecker.diffSourceAndTarget(input, target);
 

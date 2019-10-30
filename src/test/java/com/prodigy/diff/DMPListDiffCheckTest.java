@@ -1,5 +1,6 @@
 package com.prodigy.diff;
 
+import com.prodigy.diff.impl.DMPListDiffCheck;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -13,7 +14,7 @@ public class DMPListDiffCheckTest {
     public void sourceIsMissingItem() {
         List<String> source = Arrays.asList("Hello", "World");
         List<String> target = Arrays.asList("Hello", "Dear", "World");
-        List<Diff<String>> actual = newStringDiffChecker().diffSourceAndTarget(source, target);
+        List<Diff<String>> actual = newDiffCheck().checkDiff(source, target);
         List<Diff<String>> expected = Arrays.asList(
                 new Diff<>(Operation.EQUAL, "Hello"),
                 new Diff<>(Operation.INSERT, "Dear"),
@@ -26,7 +27,7 @@ public class DMPListDiffCheckTest {
     public void sourceHasRedundantItem() {
         List<String> source = Arrays.asList("Hello", "Dear", "World");
         List<String> target = Arrays.asList("Hello", "World");
-        List<Diff<String>> actual = newStringDiffChecker().diffSourceAndTarget(source, target);
+        List<Diff<String>> actual = newDiffCheck().checkDiff(source, target);
         List<Diff<String>> expected = Arrays.asList(
                 new Diff<>(Operation.EQUAL, "Hello"),
                 new Diff<>(Operation.DELETE, "Dear"),
@@ -39,7 +40,7 @@ public class DMPListDiffCheckTest {
     public void complexDiff() {
         List<String> source = Arrays.asList("Dear", "World", ".");
         List<String> target = Arrays.asList("Hello", "World", "This", "Is", "Different");
-        List<Diff<String>> actual = newStringDiffChecker().diffSourceAndTarget(source, target);
+        List<Diff<String>> actual = newDiffCheck().checkDiff(source, target);
         List<Diff<String>> expected = Arrays.asList(
                 new Diff<>(Operation.DELETE, "Dear"),
                 new Diff<>(Operation.INSERT, "Hello"),
@@ -56,7 +57,7 @@ public class DMPListDiffCheckTest {
     public void emptySource() {
         List<String> source = Collections.emptyList();
         List<String> target = Arrays.asList("Hello", "World");
-        List<Diff<String>> actual = newStringDiffChecker().diffSourceAndTarget(source, target);
+        List<Diff<String>> actual = newDiffCheck().checkDiff(source, target);
         List<Diff<String>> expected = Arrays.asList(
                 new Diff<>(Operation.INSERT, "Hello"),
                 new Diff<>(Operation.INSERT, "World")
@@ -68,7 +69,7 @@ public class DMPListDiffCheckTest {
     public void emptyTarget() {
         List<String> source = Arrays.asList("Hello", "World");
         List<String> target = Collections.emptyList();
-        List<Diff<String>> actual = newStringDiffChecker().diffSourceAndTarget(source, target);
+        List<Diff<String>> actual = newDiffCheck().checkDiff(source, target);
         List<Diff<String>> expected = Arrays.asList(
                 new Diff<>(Operation.DELETE, "Hello"),
                 new Diff<>(Operation.DELETE, "World")
@@ -85,7 +86,7 @@ public class DMPListDiffCheckTest {
         Assert.assertEquals(expected, actual);
     }
 
-    private ListDiffCheck<String> newStringDiffChecker() {
-        return new ListDiffCheck<>();
+    private ListDiffCheck newDiffCheck() {
+        return new DMPListDiffCheck();
     }
 }

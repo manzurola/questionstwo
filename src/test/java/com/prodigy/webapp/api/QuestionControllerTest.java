@@ -1,4 +1,4 @@
-package com.prodigy.web.api;
+package com.prodigy.webapp.api;
 
 import com.prodigy.domain.Answer;
 import com.prodigy.service.impl.SubmitAnswerRequest;
@@ -16,12 +16,12 @@ import static org.junit.Assert.assertTrue;
 
 public class QuestionControllerTest extends EndToEndTest {
 
-    private QuestionTestData questionTestData = new QuestionTestData();
+    private TestQuestions testQuestions = new TestQuestions();
 
 
     @Test
     public void addQuestion() {
-        AddQuestionRequest request = questionTestData.randomRequest();
+        AddQuestionRequest request = testQuestions.randomRequest();
         ResponseEntity<Question> response = new AddQuestionApiCall().run(request, template, baseUrl);
         Question actual = response.getBody();
         Question expected = request.toQuestion().withId(actual.getId()).build();
@@ -30,14 +30,14 @@ public class QuestionControllerTest extends EndToEndTest {
 
     @Test
     public void getQuestion() {
-        AddQuestionRequest request = questionTestData.randomRequest();
+        AddQuestionRequest request = testQuestions.randomRequest();
         ResponseEntity<Question> response = new AddQuestionApiCall().run(request, template, baseUrl);
         Question actual = response.getBody();
     }
 
     @Test
     public void solveQuestion() {
-        AddQuestionRequest request = questionTestData.randomRequest();
+        AddQuestionRequest request = testQuestions.randomRequest();
         Question question = new AddQuestionApiCall().run(request, template, baseUrl).getBody();
         ResponseEntity<Answer> answer = new SubmitAnswerApiCall().run(
                 new SubmitAnswerRequest(question.getId(), "my answer"),
