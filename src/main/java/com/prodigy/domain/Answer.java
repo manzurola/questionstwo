@@ -1,8 +1,6 @@
 package com.prodigy.domain;
 
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
-import com.prodigy.common.Id;
-import com.prodigy.domain.review.Review;
 
 import java.util.Objects;
 

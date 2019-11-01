@@ -1,6 +1,6 @@
 package com.prodigy.domain.questions.service;
 
-import com.prodigy.common.service.ServiceRequest;
+import com.prodigy.service.ServiceRequest;
 
 public class GetAllQuestionsRequest implements ServiceRequest {
 }

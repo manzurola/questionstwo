@@ -1,7 +1,7 @@
 package com.prodigy.domain.users.database;
 
 import com.prodigy.database.impl.DataStore;
-import com.prodigy.common.Id;
+import com.prodigy.domain.Id;
 import com.prodigy.domain.users.User;
 
 public class ElasticsearchUserRepository implements UserRepository {

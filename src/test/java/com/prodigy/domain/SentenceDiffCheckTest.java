@@ -1,4 +1,4 @@
-package com.prodigy.domain.core;
+package com.prodigy.domain;
 
 public class SentenceDiffCheckTest {
 

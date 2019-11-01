@@ -1,9 +1,9 @@
 package com.prodigy.webapp.api;
 
 
-import com.prodigy.common.Id;
-import com.prodigy.common.service.Result;
-import com.prodigy.common.service.ServiceExecutor;
+import com.prodigy.domain.Id;
+import com.prodigy.service.Result;
+import com.prodigy.service.ServiceExecutor;
 import com.prodigy.domain.users.User;
 import com.prodigy.domain.users.service.AddUserCommand;
 import com.prodigy.domain.users.service.AddUserRequest;

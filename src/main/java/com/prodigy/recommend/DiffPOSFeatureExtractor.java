@@ -10,7 +10,7 @@ import java.util.Arrays;
 
 public class DiffPOSFeatureExtractor {
 
-    public Point extract(SentenceDiff.SentenceDiff sentenceDiff) {
+    public Point extract(SentenceDiff sentenceDiff) {
         double[] point = new double[POS.values().length];
         Arrays.fill(point, 0);
 

@@ -25,7 +25,7 @@ public class QuestionFeatureExtractor implements FeatureExtractor<Question> {
         return diffExtractor.extract(getDiffFromQuestion(question));
     }
 
-    private SentenceDiff.SentenceDiff getDiffFromQuestion(Question question) {
+    private SentenceDiff getDiffFromQuestion(Question question) {
         String source = question.getBody();
         String target = question.getAnswerKey().get(0);
         Sentence sourceSent = sentenceFactory.fromString(source);

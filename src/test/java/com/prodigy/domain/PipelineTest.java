@@ -1,4 +1,4 @@
-package com.prodigy.domain.core;
+package com.prodigy.domain;
 
 import edu.stanford.nlp.ling.CoreLabel;
 import edu.stanford.nlp.pipeline.*;

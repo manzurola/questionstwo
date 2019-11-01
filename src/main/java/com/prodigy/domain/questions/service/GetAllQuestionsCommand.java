@@ -1,6 +1,6 @@
 package com.prodigy.domain.questions.service;
 
-import com.prodigy.common.service.AbstractServiceCommand;
+import com.prodigy.service.AbstractServiceCommand;
 import com.prodigy.database.QuestionRepository;
 import com.prodigy.domain.Question;
 import org.springframework.stereotype.Component;

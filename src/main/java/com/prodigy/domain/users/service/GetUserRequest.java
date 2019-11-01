@@ -1,7 +1,7 @@
 package com.prodigy.domain.users.service;
 
-import com.prodigy.common.Id;
-import com.prodigy.common.service.ServiceRequest;
+import com.prodigy.domain.Id;
+import com.prodigy.service.ServiceRequest;
 import com.prodigy.domain.users.User;
 
 public class GetUserRequest implements ServiceRequest {

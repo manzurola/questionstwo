@@ -1,7 +1,7 @@
 package com.prodigy.serialization.jackson.mixin;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.prodigy.common.Id;
+import com.prodigy.domain.Id;
 import com.prodigy.domain.Question;
 
 import java.util.List;

@@ -2,10 +2,10 @@ package com.prodigy.serialization.jackson.mixin;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.prodigy.common.Id;
+import com.prodigy.domain.Id;
 import com.prodigy.domain.Answer;
 import com.prodigy.domain.Question;
-import com.prodigy.domain.review.Review;
+import com.prodigy.domain.Review;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class AnswerMixin extends Answer {

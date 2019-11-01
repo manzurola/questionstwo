@@ -1,4 +1,6 @@
-package com.prodigy.common.service;
+package com.prodigy.service.impl;
+
+import com.prodigy.service.*;
 
 public class ServiceExecutorImpl implements ServiceExecutor {
 

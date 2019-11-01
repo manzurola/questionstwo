@@ -1,6 +1,6 @@
 package com.prodigy.database.impl;
 
-import com.prodigy.common.Id;
+import com.prodigy.domain.Id;
 import com.prodigy.database.QuestionRepository;
 import com.prodigy.domain.Question;
 import org.elasticsearch.index.query.BoolQueryBuilder;

@@ -1,4 +1,4 @@
-package com.prodigy.common.service;
+package com.prodigy.service;
 
 public class AbstractCompositeServiceCommand<RESULT, REQUEST extends ServiceRequest> extends AbstractServiceCommand<RESULT, REQUEST> {
 

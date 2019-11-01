@@ -5,7 +5,7 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
-import com.prodigy.common.Id;
+import com.prodigy.domain.Id;
 import com.prodigy.domain.Answer;
 import com.prodigy.domain.Question;
 import com.prodigy.serialization.jackson.mixin.AnswerMixin;

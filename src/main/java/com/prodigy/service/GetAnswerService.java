@@ -1,6 +1,6 @@
 package com.prodigy.service;
 
-import com.prodigy.common.Id;
+import com.prodigy.domain.Id;
 import com.prodigy.domain.Answer;
 import com.prodigy.domain.Question;
 

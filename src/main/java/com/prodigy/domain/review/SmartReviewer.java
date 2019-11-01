@@ -1,6 +1,7 @@
 package com.prodigy.domain.review;
 
 import com.prodigy.diff.Operation;
+import com.prodigy.domain.Review;
 import com.prodigy.grammar.*;
 import com.prodigy.domain.Question;
 import com.prodigy.diff.Diff;

@@ -1,6 +1,6 @@
 package com.prodigy.domain.users.service;
 
-import com.prodigy.common.service.AbstractServiceCommand;
+import com.prodigy.service.AbstractServiceCommand;
 import com.prodigy.domain.users.User;
 import com.prodigy.domain.users.database.UserRepository;
 

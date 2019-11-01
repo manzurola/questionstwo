@@ -1,6 +1,6 @@
 package com.prodigy.domain.users;
 
-import com.prodigy.common.Id;
+import com.prodigy.domain.Id;
 
 import java.util.Objects;
 

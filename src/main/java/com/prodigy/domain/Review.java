@@ -1,4 +1,4 @@
-package com.prodigy.domain.review;
+package com.prodigy.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;

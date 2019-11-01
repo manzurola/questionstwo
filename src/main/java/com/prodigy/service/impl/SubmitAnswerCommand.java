@@ -3,9 +3,9 @@ package com.prodigy.service.impl;
 import com.prodigy.domain.Answer;
 import com.prodigy.database.AnswerRepository;
 import com.prodigy.domain.review.Reviewer;
-import com.prodigy.common.service.AbstractServiceCommand;
+import com.prodigy.service.AbstractServiceCommand;
 import com.prodigy.database.QuestionRepository;
-import com.prodigy.domain.review.Review;
+import com.prodigy.domain.Review;
 import org.springframework.stereotype.Component;
 
 @Component

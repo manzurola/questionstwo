@@ -1,4 +1,4 @@
-package com.prodigy.common.service;
+package com.prodigy.service;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;

@@ -1,7 +1,7 @@
 package com.prodigy.database;
 
 
-import com.prodigy.common.Id;
+import com.prodigy.domain.Id;
 import com.prodigy.domain.Question;
 
 import java.util.List;

@@ -1,6 +1,6 @@
 package com.prodigy.domain.game;
 
-import com.prodigy.common.Id;
+import com.prodigy.domain.Id;
 import com.prodigy.domain.users.User;
 
 public class Player {

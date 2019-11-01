@@ -1,7 +1,7 @@
 package com.prodigy.domain.users.service;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.prodigy.common.service.ServiceRequest;
+import com.prodigy.service.ServiceRequest;
 
 import javax.validation.constraints.Email;
 

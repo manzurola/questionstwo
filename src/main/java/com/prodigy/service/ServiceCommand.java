@@ -1,4 +1,4 @@
-package com.prodigy.common.service;
+package com.prodigy.service;
 
 public interface ServiceCommand<RESULT, REQUEST extends ServiceRequest>{
 

@@ -1,6 +1,6 @@
 package com.prodigy.database.impl;
 
-import com.prodigy.common.Id;
+import com.prodigy.domain.Id;
 
 import java.util.List;
 
