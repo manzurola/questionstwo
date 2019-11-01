@@ -21,8 +21,8 @@ public class EvaluationPolicyTest {
         // run policy - check diff between target and input
         // assert that feedback is equals to expected
 
-        SentenceFactory sentenceFactory = new CoreSentenceWrapperFactory();
-        SentenceDiffCheck diffChecker = new SentenceDiffCheckImpl(new WordDiffCheckImpl());
+        SentenceFactory sentenceFactory = new CoreNLPSentenceFactory();
+        SentenceDiffCheck diffChecker = new SentenceDiffCheckImpl(new DMPListDiffCheck());
 
         Sentence target = sentenceFactory.getSentence("He is walking home.");
         Sentence input = sentenceFactory.getSentence("He walking home.");

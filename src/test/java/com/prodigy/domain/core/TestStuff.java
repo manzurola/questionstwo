@@ -61,7 +61,7 @@ public class TestStuff {
         List<Question> questions = data.questions();
 
         for (Question question : questions) {
-            SentenceDiffCheck diffChecker = new SentenceDiffCheckImpl(new WordDiffCheckImpl());
+            SentenceDiffCheck diffChecker = new SentenceDiffCheckImpl(new DMPListDiffCheck());
 
         }
     }

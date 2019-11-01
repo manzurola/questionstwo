@@ -31,9 +31,9 @@ public class ExtractorTest {
         List<Question> questions = testData.questions();
 
         FeatureExtractor<Question> features = new QuestionFeatureExtractor(
-                new CoreSentenceWrapperFactory(),
+                new CoreNLPSentenceFactory(),
                 new DiffPOSFeatureExtractor(),
-                new SentenceDiffCheckImpl(new WordDiffCheckImpl())
+                new SentenceDiffCheckImpl(new DMPListDiffCheck())
         );
 
         List<Clusterable<Question>> vectors = new ArrayList<>();
