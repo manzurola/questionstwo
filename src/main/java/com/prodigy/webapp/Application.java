@@ -1,6 +1,8 @@
 package com.prodigy.webapp;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.prodigy.readers.QuestionCSVParser;
+import com.prodigy.readers.QuestionCSVParserV1;
 import com.prodigy.serialization.jackson.ObjectMapperFactory;
 import com.prodigy.diff.ListDiffCheck;
 import com.prodigy.diff.impl.DMPListDiffCheck;
@@ -12,8 +14,7 @@ import com.prodigy.service.common.ServiceExecutorImpl;
 import com.prodigy.domain.Question;
 import com.prodigy.database.impl.InMemoryQuestionRepository;
 import com.prodigy.database.QuestionRepository;
-import com.prodigy.readers.CSVQuestionReader;
-import com.prodigy.readers.QuestionReader;
+import com.prodigy.readers.QuestionCSVReader;
 import com.prodigy.nlp.SentenceFactory;
 import com.prodigy.nlp.impl.CoreNLPSentenceFactory;
 import com.prodigy.diff.SentenceDiffCheck;
@@ -28,10 +29,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.env.Environment;
 
-import java.io.File;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @SpringBootApplication
 @ComponentScan("com.prodigy")
@@ -83,12 +85,15 @@ public class Application {
 
     @Bean
     public QuestionRepository questionRepository() throws Exception {
-        QuestionReader reader = new CSVQuestionReader(new File(this.getClass().getClassLoader().getResource("questions-en.csv").getFile()));
-        List<Question> data = reader.readAll()
-                .stream()
-                .map(request -> request.toQuestion().build())
-                .collect(Collectors.toList());
+        QuestionCSVReader reader = new QuestionCSVReader(questionCSVParser());
+        URL resource = this.getClass().getClassLoader().getResource("questions-en.csv");
+        List<Question> data = new ArrayList<>(reader.readAll(new InputStreamReader(resource.openStream())));
         return new InMemoryQuestionRepository(data);
+    }
+
+    @Bean
+    public QuestionCSVParser questionCSVParser() {
+        return new QuestionCSVParserV1();
     }
 
     @Bean

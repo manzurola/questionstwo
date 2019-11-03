@@ -16,11 +16,6 @@ public class AddQuestionCommand extends AbstractServiceCommand<Question, AddQues
 
     @Override
     protected Question doExecute(AddQuestionRequest request) throws Exception {
-        Question question = Question.newBuilder()
-                .withBody(request.getBody())
-                .withAnswerKey(request.getAnswerKey())
-                .withInstructions(request.getInstructions())
-                .build();
-        return repository.add(question);
+        return repository.add(request.toQuestion());
     }
 }

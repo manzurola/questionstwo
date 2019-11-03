@@ -4,10 +4,6 @@ import com.prodigy.diff.impl.DMPListDiffCheck;
 import com.prodigy.nlp.impl.CoreNLPSentenceFactory;
 import com.prodigy.nlp.impl.SentenceDiffCheckImpl;
 import com.prodigy.domain.Question;
-import com.prodigy.recommend.QuestionFeatureExtractor;
-import com.prodigy.recommend.DiffPOSFeatureExtractor;
-import com.prodigy.recommend.FeatureExtractor;
-import com.prodigy.recommend.Point;
 import com.prodigy.recommend.clustering.ApacheMLClusterer;
 import com.prodigy.recommend.clustering.Cluster;
 import com.prodigy.recommend.clustering.Clusterable;
@@ -28,7 +24,7 @@ public class ExtractorTest {
         // the input source and target, where source is the user answer, is actually the user features
 
         TestQuestions testData = new TestQuestions();
-        List<Question> questions = testData.questions();
+        List<Question> questions = testData.getAll();
 
         FeatureExtractor<Question> features = new QuestionFeatureExtractor(
                 new CoreNLPSentenceFactory(),

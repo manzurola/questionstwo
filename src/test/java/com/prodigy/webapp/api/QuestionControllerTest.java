@@ -18,27 +18,25 @@ public class QuestionControllerTest extends EndToEndTest {
 
     private TestQuestions testQuestions = new TestQuestions();
 
-
     @Test
     public void addQuestion() {
-        AddQuestionRequest request = testQuestions.randomRequest();
-        ResponseEntity<Question> response = new AddQuestionApiCall().run(request, template, baseUrl);
+        Question expected = testQuestions.random();
+        ResponseEntity<Question> response = new AddQuestionApiCall().run(new AddQuestionRequest(expected), template, baseUrl);
         Question actual = response.getBody();
-        Question expected = request.toQuestion().withId(actual.getId()).build();
-        assertEquals(expected, actual);
+        assertEqualsIgnoreId(expected, actual);
     }
 
     @Test
     public void getQuestion() {
-        AddQuestionRequest request = testQuestions.randomRequest();
-        ResponseEntity<Question> response = new AddQuestionApiCall().run(request, template, baseUrl);
+        Question expected = testQuestions.random();
+        ResponseEntity<Question> response = new AddQuestionApiCall().run(new AddQuestionRequest(expected), template, baseUrl);
         Question actual = response.getBody();
     }
 
     @Test
     public void solveQuestion() {
-        AddQuestionRequest request = testQuestions.randomRequest();
-        Question question = new AddQuestionApiCall().run(request, template, baseUrl).getBody();
+        Question expected = testQuestions.random();
+        Question question = new AddQuestionApiCall().run(new AddQuestionRequest(expected), template, baseUrl).getBody();
         ResponseEntity<Answer> answer = new SubmitAnswerApiCall().run(
                 new SubmitAnswerRequest(question.getId(), "my answer"),
                 template,
@@ -47,5 +45,11 @@ public class QuestionControllerTest extends EndToEndTest {
 
         System.out.println(answer.getBody());
         assertTrue(answer.getStatusCode().is2xxSuccessful());
+    }
+
+    private void assertEqualsIgnoreId(Question expected, Question actual) {
+        assertEquals(expected.getBody(), actual.getBody());
+        assertEquals(expected.getAnswerKey(), actual.getAnswerKey());
+        assertEquals(expected.getInstructions(), actual.getInstructions());
     }
 }

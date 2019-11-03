@@ -16,24 +16,17 @@ public class AddQuestionRequest implements ServiceRequest {
     private final List<@NotEmpty String> answerKey;
     @NotEmpty
     private final String instructions;
-    @NotEmpty
-    private final String subject;
-    private final String source;
 
-    public AddQuestionRequest(String body, List<String> answerKey, String instructions, String subject, String source) {
+    public AddQuestionRequest(String body, List<String> answerKey, String instructions) {
         this.body = body;
         this.answerKey = answerKey;
         this.instructions = instructions;
-        this.subject = subject;
-        this.source = source;
     }
 
-    private AddQuestionRequest(AddQuestionRequest.Builder builder) {
-        this.body = builder.body;
-        this.answerKey = builder.answerKey;
-        this.instructions = builder.instructions;
-        this.subject = builder.subject;
-        this.source = builder.source;
+    public AddQuestionRequest(Question question) {
+        this.body = question.getBody();
+        this.answerKey = question.getAnswerKey();
+        this.instructions = question.getInstructions();
     }
 
     public String getBody() {
@@ -48,19 +41,8 @@ public class AddQuestionRequest implements ServiceRequest {
         return instructions;
     }
 
-    public String getSubject() {
-        return subject;
-    }
-
-    public String getSource() {
-        return source;
-    }
-
-    public Question.Builder toQuestion() {
-        return Question.newBuilder()
-                .withAnswerKey(this.getAnswerKey())
-                .withInstructions(this.getInstructions())
-                .withBody(this.getBody());
+    public Question toQuestion() {
+        return new Question(this.getBody(), this.getAnswerKey(), this.getInstructions());
     }
 
     @Override
@@ -70,57 +52,11 @@ public class AddQuestionRequest implements ServiceRequest {
         AddQuestionRequest that = (AddQuestionRequest) o;
         return Objects.equals(body, that.body) &&
                 Objects.equals(answerKey, that.answerKey) &&
-                Objects.equals(instructions, that.instructions) &&
-                Objects.equals(subject, that.subject) &&
-                Objects.equals(source, that.source);
+                Objects.equals(instructions, that.instructions);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(body, answerKey, instructions, subject, source);
-    }
-
-    public static Builder builder() {return new Builder();}
-
-    public static class Builder {
-        private String body;
-        private List<String> answerKey;
-        private String instructions;
-        private String subject;
-        private String source;
-
-        public Builder body(String body) {
-            this.body = body;
-            return this;
-        }
-
-        public Builder answerKey(List<String> answerKey) {
-            this.answerKey = answerKey;
-            return this;
-        }
-
-        public Builder answerKey(String... answers) {
-            this.answerKey = Arrays.asList(answers);
-            return this;
-        }
-
-        public Builder instructions(String instructions) {
-            this.instructions = instructions;
-            return this;
-        }
-
-        public Builder subject(String subject) {
-            this.subject = subject;
-            return this;
-        }
-
-        public Builder source(String source) {
-            this.source = source;
-            return this;
-        }
-
-        public AddQuestionRequest build() {
-            return new AddQuestionRequest(this);
-        }
+        return Objects.hash(body, answerKey, instructions);
     }
 }

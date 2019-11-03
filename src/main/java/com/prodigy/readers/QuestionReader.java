@@ -1,5 +1,6 @@
 package com.prodigy.readers;
 
+import com.prodigy.domain.Question;
 import com.prodigy.service.AddQuestionRequest;
 
 import java.io.Closeable;
@@ -11,7 +12,7 @@ import java.util.List;
  */
 public interface QuestionReader extends Closeable {
 
-    List<AddQuestionRequest> readAll() throws IOException;
+    List<Question> readAll() throws IOException;
 
-    AddQuestionRequest readNext() throws IOException;
+    Question readNext() throws IOException;
 }

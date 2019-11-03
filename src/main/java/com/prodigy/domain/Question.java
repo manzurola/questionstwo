@@ -22,6 +22,10 @@ public class Question implements Serializable {
         this.instructions = builder.instructions;
     }
 
+    public Question(String body, List<String> answerKey, String instructions) {
+        this(Id.next(), body, answerKey, instructions);
+    }
+
     public Question(Id<Question> id, String body, List<String> answerKey, String instructions) {
         this.id = id;
         this.body = body;

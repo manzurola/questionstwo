@@ -1,4 +1,4 @@
-package com.prodigy.domain.core;
+package com.prodigy.domain;
 
 import com.prodigy.diff.*;
 import com.prodigy.diff.impl.DMPListDiffCheck;

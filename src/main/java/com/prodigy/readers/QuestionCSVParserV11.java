@@ -1,29 +1,21 @@
 package com.prodigy.readers;
 
-import com.prodigy.service.AddQuestionRequest;
+import com.prodigy.domain.Question;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class MissingTextCSVQuestionReader extends CSVQuestionReader {
+public class QuestionCSVParserV11 implements QuestionCSVParser {
 
     private static final String BLANK_TOKEN = "___";
     private static final Pattern CONTENT_PATTERN = Pattern.compile("(\\{(.*?)\\})");
     private static final int VALUE_COUNT = 5;
 
-
-    public MissingTextCSVQuestionReader(File file) throws IOException {
-        super(file);
-        System.out.println("MissingTextAddQuestionRequestCSVReader: " + file);
-    }
-
     @Override
-    protected AddQuestionRequest parseValues(String[] values) {
+    public Question parseValues(String[] values) {
         if (values.length != VALUE_COUNT) {
             throw new IllegalArgumentException(String.format("expecting [%d] values, found only [%d] in entry [%s]", VALUE_COUNT, values.length, Arrays.toString(values)));
         }
@@ -60,11 +52,6 @@ public class MissingTextCSVQuestionReader extends CSVQuestionReader {
         matcher.appendTail(bodyBuf);
         answerBuf.delete(answerBuf.length() - 2, answerBuf.length());
 
-        return AddQuestionRequest.builder()
-                .answerKey(answerBuf.toString())
-                .body(bodyBuf.toString())
-                .instructions(instructions)
-                .subject(subject)
-                .build();
+        return new Question(bodyBuf.toString(), Arrays.asList(answerBuf.toString()), instructions);
     }
 }
