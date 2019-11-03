@@ -1,8 +1,8 @@
-package com.prodigy.questions.database;
+package com.prodigy.database;
 
 
-import com.prodigy.common.data.Id;
-import com.prodigy.questions.domain.Question;
+import com.prodigy.domain.Id;
+import com.prodigy.domain.Question;
 
 import java.util.List;
 

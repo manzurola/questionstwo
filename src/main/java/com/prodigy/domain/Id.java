@@ -1,4 +1,4 @@
-package com.prodigy.common.data;
+package com.prodigy.domain;
 
 import java.io.Serializable;
 import java.util.UUID;
@@ -22,20 +22,14 @@ public class Id<T> implements Serializable, Comparable<Id<T>> {
         return id;
     }
 
-    public final boolean equals(Object o) {
-        if (this == o) {
+    public final boolean equals(Object other) {
+        if (this == other) {
             return true;
-        } else if (o != null && o instanceof Id) {
-            Id guid1 = (Id) o;
+        } else if (other instanceof Id) {
+            Id otherId = (Id) other;
             if (this.id != null) {
-                if (!this.id.equals(guid1.id)) {
-                    return false;
-                }
-            } else if (guid1.id != null) {
-                return false;
-            }
-
-            return true;
+                return this.id.equals(otherId.id);
+            } else return otherId.id == null;
         } else {
             return false;
         }

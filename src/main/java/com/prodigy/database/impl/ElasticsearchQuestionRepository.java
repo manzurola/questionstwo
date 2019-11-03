@@ -1,8 +1,8 @@
-package com.prodigy.questions.database;
+package com.prodigy.database.impl;
 
-import com.prodigy.common.data.DataStore;
-import com.prodigy.common.data.Id;
-import com.prodigy.questions.domain.Question;
+import com.prodigy.database.QuestionRepository;
+import com.prodigy.domain.Id;
+import com.prodigy.domain.Question;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;

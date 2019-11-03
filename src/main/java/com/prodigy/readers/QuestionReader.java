@@ -1,4 +1,4 @@
-package com.prodigy.questions.readers;
+package com.prodigy.readers;
 
 import com.prodigy.service.AddQuestionRequest;
 
@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Created by guym on 21/05/2017.
  */
-public interface AddQuestionRequestReader extends Closeable {
+public interface QuestionReader extends Closeable {
 
     List<AddQuestionRequest> readAll() throws IOException;
 

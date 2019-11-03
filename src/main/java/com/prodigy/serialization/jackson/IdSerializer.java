@@ -1,4 +1,4 @@
-package com.prodigy.common.jackson;
+package com.prodigy.serialization.jackson;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;

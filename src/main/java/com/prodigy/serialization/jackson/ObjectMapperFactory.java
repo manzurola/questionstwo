@@ -1,4 +1,4 @@
-package com.prodigy.common.jackson;
+package com.prodigy.serialization.jackson;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.core.JsonParser;
@@ -16,20 +16,20 @@ import com.prodigy.nlp.Word;
 import static com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility.ANY;
 import static com.fasterxml.jackson.annotation.PropertyAccessor.FIELD;
 
-public class ObjectMapperConfig {
+public class ObjectMapperFactory {
 
-    public static ObjectMapper getObjectMapper() {
+    public static ObjectMapper defaultObjectMapper() {
         SimpleModule module = new SimpleModule();
         module.addSerializer(Id.class, new IdSerializer());
         module.addDeserializer(Id.class, new IdDeserializer());
 
-        ObjectMapper mapper = new ObjectMapper()
+        return new ObjectMapper()
                 .setVisibility(FIELD, ANY)
                 .enable(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES)
                 .registerModule(new ParameterNamesModule(JsonCreator.Mode.PROPERTIES))
                 .registerModule(module)
-                .addMixIn(Word.class, WordMixin.class);
-
-        return mapper;
+                .addMixIn(Word.class, WordMixin.class)
+                .addMixIn(Answer.class, AnswerMixin.class)
+                .addMixIn(Question.class, QuestionMixin.class);
     }
 }

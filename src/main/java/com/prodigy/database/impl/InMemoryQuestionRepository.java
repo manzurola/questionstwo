@@ -1,8 +1,8 @@
-package com.prodigy.questions.database;
+package com.prodigy.database.impl;
 
-import com.prodigy.common.data.Id;
-import com.prodigy.common.data.NotFoundException;
-import com.prodigy.questions.domain.Question;
+import com.prodigy.database.QuestionRepository;
+import com.prodigy.domain.Id;
+import com.prodigy.domain.Question;
 
 import java.util.ArrayList;
 import java.util.HashMap;

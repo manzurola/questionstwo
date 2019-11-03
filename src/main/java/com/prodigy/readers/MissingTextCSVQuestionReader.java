@@ -1,4 +1,4 @@
-package com.prodigy.questions.readers;
+package com.prodigy.readers;
 
 import com.prodigy.service.AddQuestionRequest;
 
@@ -10,14 +10,14 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class MissingTextAddQuestionRequestCSVReader extends AddQuestionRequestCSVReader {
+public class MissingTextCSVQuestionReader extends CSVQuestionReader {
 
     private static final String BLANK_TOKEN = "___";
     private static final Pattern CONTENT_PATTERN = Pattern.compile("(\\{(.*?)\\})");
     private static final int VALUE_COUNT = 5;
 
 
-    public MissingTextAddQuestionRequestCSVReader(File file) throws IOException {
+    public MissingTextCSVQuestionReader(File file) throws IOException {
         super(file);
         System.out.println("MissingTextAddQuestionRequestCSVReader: " + file);
     }

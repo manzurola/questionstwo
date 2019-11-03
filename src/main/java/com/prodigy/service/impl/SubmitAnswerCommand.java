@@ -1,4 +1,4 @@
-package com.prodigy.answers.service;
+package com.prodigy.service.impl;
 
 import com.prodigy.domain.Answer;
 import com.prodigy.database.AnswerRepository;

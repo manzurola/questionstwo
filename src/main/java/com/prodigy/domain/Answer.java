@@ -1,16 +1,9 @@
-package com.prodigy.answers.domain;
+package com.prodigy.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
-import com.prodigy.common.data.Id;
-import com.prodigy.questions.domain.Question;
-import com.prodigy.review.Review;
 
 import java.util.Objects;
 
-@JsonIgnoreProperties(ignoreUnknown = true)
-@JsonDeserialize(builder = Answer.Builder.class)
 public class Answer {
 
     private final Id<Answer> id;
@@ -23,6 +16,13 @@ public class Answer {
         this.questionId = builder.questionId;
         this.input = builder.input;
         this.review = builder.review;
+    }
+
+    public Answer(Id<Answer> id, Id<Question> questionId, String input, Review review) {
+        this.id = id;
+        this.questionId = questionId;
+        this.input = input;
+        this.review = review;
     }
 
     public static Builder builder() {

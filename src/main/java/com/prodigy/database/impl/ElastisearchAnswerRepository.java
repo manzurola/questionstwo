@@ -1,7 +1,7 @@
-package com.prodigy.answers.database;
+package com.prodigy.database.impl;
 
-import com.prodigy.answers.domain.Answer;
-import com.prodigy.common.data.DataStore;
+import com.prodigy.domain.Answer;
+import com.prodigy.database.AnswerRepository;
 
 public class ElastisearchAnswerRepository implements AnswerRepository {
 

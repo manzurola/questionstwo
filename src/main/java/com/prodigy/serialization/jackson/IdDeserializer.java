@@ -1,4 +1,4 @@
-package com.prodigy.common.jackson;
+package com.prodigy.serialization.jackson;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;

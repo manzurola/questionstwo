@@ -1,18 +1,14 @@
-package com.prodigy.questions.domain;
+package com.prodigy.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.prodigy.common.data.Id;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
 /**
  * Created by guym on 16/05/2017.
  */
-@JsonIgnoreProperties(ignoreUnknown = true)
-@JsonDeserialize(builder = Question.Builder.class)
-public class Question {
+public class Question implements Serializable {
 
     private final Id<Question> id;
     private final String body;
@@ -24,6 +20,13 @@ public class Question {
         this.body = builder.body;
         this.answerKey = builder.answerKey;
         this.instructions = builder.instructions;
+    }
+
+    public Question(Id<Question> id, String body, List<String> answerKey, String instructions) {
+        this.id = id;
+        this.body = body;
+        this.answerKey = answerKey;
+        this.instructions = instructions;
     }
 
     public Id<Question> getId() {

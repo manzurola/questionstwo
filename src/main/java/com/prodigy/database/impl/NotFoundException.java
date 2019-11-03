@@ -1,4 +1,4 @@
-package com.prodigy.common.data;
+package com.prodigy.database.impl;
 
 public class NotFoundException extends RuntimeException {
 

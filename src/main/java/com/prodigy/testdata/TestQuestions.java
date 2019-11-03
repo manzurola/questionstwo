@@ -1,4 +1,4 @@
-package com.prodigy.utils;
+package com.prodigy.testdata;
 
 import com.prodigy.domain.Question;
 import com.prodigy.service.AddQuestionRequest;
@@ -12,23 +12,19 @@ import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 
-public class QuestionTestData {
+public class TestQuestions {
 
     private final List<AddQuestionRequest> requests;
 
-    public QuestionTestData() {
-        AddQuestionRequestReader reader = null;
+    public TestQuestions() {
         try {
-            reader = new AddQuestionRequestCSVReader(new File(this.getClass().getClassLoader().getResource("questions-en.csv").getFile()));
+            File file = new File(this.getClass().getClassLoader().getResource("questions-en.csv").getFile());
+            QuestionReader reader = new CSVQuestionReader(file);
             requests = new ArrayList<>(reader.readAll());
         } catch (IOException e) {
             throw new IllegalStateException(e);
         }
 
-    }
-
-    public List<AddQuestionRequest> requests() {
-        return requests;
     }
 
     public List<Question> questions() {

@@ -28,8 +28,8 @@ public class QuestionFeatureExtractor implements FeatureExtractor<Question> {
     private SentenceDiff getDiffFromQuestion(Question question) {
         String source = question.getBody();
         String target = question.getAnswerKey().get(0);
-        Sentence sourceSent = sentenceFactory.getSentence(source);
-        Sentence targetSent = sentenceFactory.getSentence(target);
+        Sentence sourceSent = sentenceFactory.fromString(source);
+        Sentence targetSent = sentenceFactory.fromString(target);
         return sentenceDiffChecker.diffSourceAndTarget(sourceSent, targetSent);
     }
 }

@@ -1,4 +1,4 @@
-package com.prodigy.web;
+package com.prodigy.webapp;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.prodigy.serialization.jackson.ObjectMapperFactory;
@@ -83,7 +83,7 @@ public class Application {
 
     @Bean
     public QuestionRepository questionRepository() throws Exception {
-        AddQuestionRequestReader reader = new AddQuestionRequestCSVReader(new File(this.getClass().getClassLoader().getResource("questions-en.csv").getFile()));
+        QuestionReader reader = new CSVQuestionReader(new File(this.getClass().getClassLoader().getResource("questions-en.csv").getFile()));
         List<Question> data = reader.readAll()
                 .stream()
                 .map(request -> request.toQuestion().build())
@@ -114,17 +114,18 @@ public class Application {
 
     @Bean
     public SentenceFactory sentenceFactory() {
-        return new CoreSentenceWrapperFactory();
+        return new CoreNLPSentenceFactory();
     }
+
 
     @Bean
     public SentenceDiffCheck sentenceDiffChecker() {
-        return new SentenceDiffCheckImpl(wordDiffCheck());
+        return new SentenceDiffCheckImpl(listDiffCheck());
     }
 
     @Bean
-    public WordDiffCheck wordDiffCheck() {
-        return new WordDiffCheckImpl();
+    public ListDiffCheck listDiffCheck() {
+        return new DMPListDiffCheck();
     }
 
 //    @Bean
@@ -139,7 +140,7 @@ public class Application {
 
     @Bean
     public ObjectMapper objectMapper() {
-        return ObjectMapperConfig.getObjectMapper();
+        return ObjectMapperFactory.defaultObjectMapper();
     }
 
 }

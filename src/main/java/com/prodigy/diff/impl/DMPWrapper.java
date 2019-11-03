@@ -1,5 +1,7 @@
-package com.prodigy.diff;
+package com.prodigy.diff.impl;
 
+import com.prodigy.diff.Diff;
+import com.prodigy.diff.Operation;
 import org.bitbucket.cowwoc.diffmatchpatch.DiffMatchPatch;
 
 import java.util.ArrayList;

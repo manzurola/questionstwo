@@ -1,7 +1,8 @@
-package com.prodigy.answers.database;
+package com.prodigy.database.impl;
 
-import com.prodigy.answers.domain.Answer;
-import com.prodigy.common.data.Id;
+import com.prodigy.domain.Answer;
+import com.prodigy.database.AnswerRepository;
+import com.prodigy.domain.Id;
 import org.springframework.stereotype.Component;
 
 import java.util.*;

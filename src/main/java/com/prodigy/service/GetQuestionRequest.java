@@ -1,4 +1,4 @@
-package com.prodigy.questions.service;
+package com.prodigy.service;
 
 import com.prodigy.domain.Id;
 import com.prodigy.domain.Question;

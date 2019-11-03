@@ -1,4 +1,4 @@
-package com.prodigy.web.api;
+package com.prodigy.webapp.api;
 
 
 import com.prodigy.domain.Answer;

@@ -1,4 +1,4 @@
-package com.prodigy.questions.service;
+package com.prodigy.service;
 
 import com.prodigy.service.common.AbstractServiceCommand;
 import com.prodigy.domain.Question;

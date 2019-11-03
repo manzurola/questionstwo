@@ -1,4 +1,4 @@
-package com.prodigy.questions.readers;
+package com.prodigy.readers;
 
 import com.opencsv.CSVReader;
 import com.prodigy.service.AddQuestionRequest;
@@ -14,11 +14,11 @@ import java.util.List;
  * Created by guym on 21/05/2017.
  */
 
-public class AddQuestionRequestCSVReader implements AddQuestionRequestReader {
+public class CSVQuestionReader implements QuestionReader {
 
     private CSVReader reader;
 
-    public AddQuestionRequestCSVReader(File file) throws IOException {
+    public CSVQuestionReader(File file) throws IOException {
         System.out.println("AddQuestionRequestCSVReader: " + file);
         this.reader = new CSVReader(Files.newBufferedReader(file.toPath()));
     }
