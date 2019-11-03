@@ -15,7 +15,7 @@ final class CharListDiffCheck {
         return splitByChars(diffs);
     }
 
-    final List<Diff<Character>> splitByChars(List<Diff<String>> diff) {
+    private List<Diff<Character>> splitByChars(List<Diff<String>> diff) {
         List<Diff<Character>> result = new ArrayList<>();
         for (Diff<String> aDiff : diff) {
             result.addAll(getCharDiff(aDiff));

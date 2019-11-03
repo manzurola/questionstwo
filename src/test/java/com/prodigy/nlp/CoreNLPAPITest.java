@@ -1,10 +1,11 @@
-package com.prodigy.webapp.api;
+package com.prodigy.nlp;
 
 import edu.stanford.nlp.coref.data.CorefChain;
 import edu.stanford.nlp.ie.util.RelationTriple;
 import edu.stanford.nlp.ling.CoreLabel;
 import edu.stanford.nlp.pipeline.*;
 import edu.stanford.nlp.semgraph.SemanticGraph;
+import edu.stanford.nlp.simple.Sentence;
 import edu.stanford.nlp.trees.Tree;
 import org.junit.Test;
 
@@ -12,10 +13,50 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-public class StanfordNlpTest {
+public class CoreNLPAPITest {
 
     @Test
-    public void mainTest() {
+    public void testPipelineAnnotation() {
+
+        String text = "My friend may be coming over later tonight.";
+
+        // set up pipeline properties
+        Properties props = new Properties();
+        // set the list of annotators to run
+        props.setProperty("annotators", "tokenize,ssplit,pos");
+        // build pipeline
+        StanfordCoreNLP pipeline = new StanfordCoreNLP(props);
+        // create a document object
+        CoreDocument document = new CoreDocument(text);
+        // annnotate the document
+        pipeline.annotate(document);
+        // examples
+
+        CoreSentence sentence = document.sentences().get(0);
+
+        // 10th token of the document
+        for (CoreLabel token : sentence.tokens()) {
+            System.out.println(String.format("word: '%s', ner: '%s', tag: '%s', index: %d, begin: %d, end: %d, before: '%s', after: '%s'", token.word(), token.ner(), token.tag(), token.index(), token.beginPosition(), token.endPosition(), token.before(), token.after()));
+        }
+
+    }
+
+    @Test
+    public void testSimpleAPI() {
+        Sentence sent = new Sentence("Lucy is in the sky with diamonds.");
+        List<String> nerTags = sent.nerTags();  // [PERSON, O, O, O, O, O, O, O]
+        String firstPOSTag = sent.posTag(0);   // NNP
+
+        System.out.println(sent);
+        System.out.println("read first sentence");
+
+        Sentence sent2 = new Sentence("My friend Alon should be coming over later today.");
+        System.out.println(sent2);
+
+    }
+
+    @Test
+    public void pipelineUsageExampleAlwaysPasses() {
         String text = "I go there yesterday.";
 
         // set up pipeline properties
@@ -124,7 +165,5 @@ public class StanfordNlpTest {
                 System.out.println();
             }
         }
-
-
     }
 }

@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-public class HashingListDiffTest {
+public class DMPListDiffCheckTest {
 
     @Test
     public void sourceIsMissingItem() {
@@ -73,6 +73,15 @@ public class HashingListDiffTest {
                 new Diff<>(Operation.DELETE, "Hello"),
                 new Diff<>(Operation.DELETE, "World")
         );
+        Assert.assertEquals(expected, actual);
+    }
+
+    @Test
+    public void emptyLists() {
+        List<String> source = Collections.emptyList();
+        List<String> target = Collections.emptyList();
+        List<Diff<String>> actual = newDiffCheck().checkDiff(source, target);
+        List<Diff<String>> expected = Collections.emptyList();
         Assert.assertEquals(expected, actual);
     }
 

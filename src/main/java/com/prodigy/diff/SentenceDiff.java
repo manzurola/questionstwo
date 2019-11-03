@@ -1,6 +1,7 @@
 package com.prodigy.diff;
 
-import com.prodigy.grammar.Word;
+import com.prodigy.nlp.Sentence;
+import com.prodigy.nlp.Word;
 
 import java.util.List;
 

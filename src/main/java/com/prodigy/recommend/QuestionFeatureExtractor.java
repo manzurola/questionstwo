@@ -2,9 +2,9 @@ package com.prodigy.recommend;
 
 import com.prodigy.diff.SentenceDiff;
 import com.prodigy.diff.SentenceDiffCheck;
-import com.prodigy.grammar.Sentence;
-import com.prodigy.questions.domain.Question;
-import com.prodigy.grammar.SentenceFactory;
+import com.prodigy.nlp.Sentence;
+import com.prodigy.domain.Question;
+import com.prodigy.nlp.SentenceFactory;
 
 public class QuestionFeatureExtractor implements FeatureExtractor<Question> {
 

@@ -1,4 +1,4 @@
-package com.prodigy.grammar;
+package com.prodigy.nlp;
 
 import java.util.Optional;
 

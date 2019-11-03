@@ -2,9 +2,9 @@ package com.prodigy.recommend;
 
 import com.prodigy.diff.Diff;
 import com.prodigy.diff.Operation;
+import com.prodigy.nlp.POS;
+import com.prodigy.nlp.Word;
 import com.prodigy.diff.SentenceDiff;
-import com.prodigy.grammar.POS;
-import com.prodigy.grammar.Word;
 
 import java.util.Arrays;
 

@@ -1,8 +1,9 @@
-package com.prodigy.recommender.features;
+package com.prodigy.recommend;
 
-import com.prodigy.diff.SentenceDiffCheckImpl;
-import com.prodigy.diff.WordDiffCheckImpl;
-import com.prodigy.questions.domain.Question;
+import com.prodigy.diff.impl.DMPListDiffCheck;
+import com.prodigy.nlp.impl.CoreNLPSentenceFactory;
+import com.prodigy.nlp.impl.SentenceDiffCheckImpl;
+import com.prodigy.domain.Question;
 import com.prodigy.recommend.QuestionFeatureExtractor;
 import com.prodigy.grammar.corenlp.CoreSentenceWrapperFactory;
 import com.prodigy.recommend.DiffPOSFeatureExtractor;

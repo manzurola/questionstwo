@@ -1,8 +1,9 @@
 package com.prodigy.domain;
 
 import com.prodigy.diff.Operation;
-import com.prodigy.grammar.*;
-import com.prodigy.domain.Question;
+import com.prodigy.diff.SentenceDiff;
+import com.prodigy.diff.SentenceDiffCheck;
+import com.prodigy.nlp.*;
 import com.prodigy.diff.Diff;
 
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.prodigy.grammar;
+package com.prodigy.nlp;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -54,7 +54,7 @@ public enum POS {
     private final static Map<String, POS> map;
     static {
         map = new HashMap<>();
-        for (POS pos : com.prodigy.grammar.POS.values()) {
+        for (POS pos : com.prodigy.nlp.POS.values()) {
             map.put(pos.tag, pos);
         }
     }

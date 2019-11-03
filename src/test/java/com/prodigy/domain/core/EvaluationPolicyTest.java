@@ -1,10 +1,14 @@
 package com.prodigy.domain.core;
 
 import com.prodigy.diff.*;
-import com.prodigy.grammar.corenlp.CoreSentenceWrapperFactory;
-import com.prodigy.grammar.Sentence;
-import com.prodigy.grammar.SentenceFactory;
-import com.prodigy.grammar.Word;
+import com.prodigy.diff.impl.DMPListDiffCheck;
+import com.prodigy.nlp.Sentence;
+import com.prodigy.nlp.SentenceFactory;
+import com.prodigy.nlp.Word;
+import com.prodigy.diff.SentenceDiff;
+import com.prodigy.diff.SentenceDiffCheck;
+import com.prodigy.nlp.impl.CoreNLPSentenceFactory;
+import com.prodigy.nlp.impl.SentenceDiffCheckImpl;
 import org.junit.Assert;
 import org.junit.Test;
 

@@ -5,9 +5,13 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
-import com.prodigy.common.data.Id;
-import com.prodigy.common.jackson.mixin.WordMixin;
-import com.prodigy.grammar.Word;
+import com.prodigy.domain.Answer;
+import com.prodigy.domain.Id;
+import com.prodigy.domain.Question;
+import com.prodigy.serialization.jackson.mixin.AnswerMixin;
+import com.prodigy.serialization.jackson.mixin.QuestionMixin;
+import com.prodigy.serialization.jackson.mixin.WordMixin;
+import com.prodigy.nlp.Word;
 
 import static com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility.ANY;
 import static com.fasterxml.jackson.annotation.PropertyAccessor.FIELD;

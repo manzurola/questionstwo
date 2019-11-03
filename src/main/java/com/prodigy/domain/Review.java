@@ -3,7 +3,7 @@ package com.prodigy.domain;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
-import com.prodigy.grammar.SentenceDiff;
+import com.prodigy.diff.SentenceDiff;
 
 import java.util.Objects;
 
@@ -13,12 +13,12 @@ public class Review {
 
     private final double score;
     private final SentenceDiff diff;
-    private final boolean isCorrect;
+    private final boolean correct;
 
     private Review(Builder builder) {
         this.score = builder.score;
         this.diff = builder.diff;
-        this.isCorrect = builder.isCorrect;
+        this.correct = builder.correct;
     }
 
     public double score() {
@@ -30,7 +30,7 @@ public class Review {
     }
 
     public boolean isCorrect() {
-        return isCorrect;
+        return correct;
     }
 
     @Override
@@ -54,7 +54,7 @@ public class Review {
     public static class Builder {
         private double score;
         private SentenceDiff diff;
-        private boolean isCorrect;
+        private boolean correct;
 
         public Builder score(double score) {
             this.score = score;
@@ -67,7 +67,7 @@ public class Review {
         }
 
         public Builder isCorrect(boolean isCorrect) {
-            this.isCorrect = isCorrect;
+            this.correct = isCorrect;
             return this;
         }
 

@@ -1,4 +1,4 @@
-package com.prodigy.grammar.corenlp;
+package com.prodigy.nlp.impl;
 
 // https://nlp.stanford.edu/software/dependencies_manual.pdf
 //public class StanfordGrammaticalRelationsParser implements GrammaticalRelationsParser {
