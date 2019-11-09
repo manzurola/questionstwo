@@ -14,7 +14,7 @@ public class InsertWord implements TransformationOperation {
 
     public InsertWord(Sentence before, int index, Word word) {
         this.before = before;
-        this.after = before.addWord(index, word.value());
+        this.after = index >= before.size() ? before.addWord(word.value()) : before.addWord(index, word.value());
         this.index = index;
         this.word = word;
     }

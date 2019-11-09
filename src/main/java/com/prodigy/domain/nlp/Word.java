@@ -2,7 +2,7 @@ package com.prodigy.domain.nlp;
 
 import java.util.Objects;
 
-public class Word {
+public final class Word {
 
     private final Token token;
     private final POS posTag;
@@ -12,28 +12,28 @@ public class Word {
         this.posTag = posTag;
     }
 
-    public Token token() {
+    final Token token() {
         return token;
     }
 
-    public String value() {
+    public final String value() {
         return token.value();
     }
 
-    public String original() {
+    public final String original() {
         return token.original();
     }
 
-    public int index() {
+    public final int index() {
         return token.index();
     }
 
-    public POS posTag() {
+    public final POS posTag() {
         return posTag;
     }
 
     @Override
-    public boolean equals(Object o) {
+    public final boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Word word = (Word) o;
@@ -42,12 +42,12 @@ public class Word {
     }
 
     @Override
-    public int hashCode() {
+    public final int hashCode() {
         return Objects.hash(token, posTag);
     }
 
     @Override
-    public String toString() {
+    public final String toString() {
         return "Word{" +
                 "token=" + token +
                 ", posTag=" + posTag +

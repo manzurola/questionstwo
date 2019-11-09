@@ -2,7 +2,7 @@ package com.prodigy.domain.nlp;
 
 import java.util.Objects;
 
-public class Token {
+public final class Token {
 
     private final String value;
     private final String originalValue;
@@ -18,56 +18,40 @@ public class Token {
         this.index = index;
     }
 
-    public String value() {
+    public final String value() {
         return value;
     }
 
-    public String original() {
+    public final Token setValue(String value) {
+        return new Token(value, before, after, index);
+    }
+
+    public final String original() {
         return originalValue;
     }
 
-    public String before() {
+    public final String before() {
         return before;
     }
 
-    public String after() {
+    public final Token setBefore(String before) {
+        return new Token(value, before, after, index);
+    }
+
+    public final String after() {
         return after;
     }
 
-    public int index() {
+    public final Token setAfter(String after) {
+        return new Token(value, before, after, index);
+    }
+
+    public final int index() {
         return index;
     }
 
-    public boolean hasAfter() {
-        return !after.isEmpty();
-    }
-
-    public boolean hasBefore() {
-        return !before.isEmpty();
-    }
-
-    public Token clearAfter() {
-        return new Token(value, before, "", index);
-    }
-
-    public Token setAfter(String after) {
-        return new Token(value, before, after, index);
-    }
-
-    public Token setBefore(String before) {
-        return new Token(value, before, after, index);
-    }
-
-    public Token clearBefore() {
-        return new Token(value, "", after, index);
-    }
-
-    public Token setValue(String value) {
-        return new Token(value, before, after, index);
-    }
-
     @Override
-    public boolean equals(Object o) {
+    public final boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Token token = (Token) o;
@@ -79,12 +63,12 @@ public class Token {
     }
 
     @Override
-    public int hashCode() {
+    public final int hashCode() {
         return Objects.hash(value, originalValue, before, after, index);
     }
 
     @Override
-    public String toString() {
+    public final String toString() {
         return "Token{" +
                 "value='" + value + '\'' +
                 ", originalValue='" + originalValue + '\'' +

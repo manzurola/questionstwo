@@ -33,9 +33,9 @@ public class DiffBasedSentenceTransformation implements SentenceTransformation {
                     before = delete.after();
                     break;
                 case INSERT:
-                    TransformationOperation insert = new InsertWord(before, sourceIndex, diff.item());
-                    operations.add(insert);
-                    before = insert.after();
+                    TransformationOperation add = new InsertWord(before, sourceIndex, diff.item());
+                    operations.add(add);
+                    before = add.after();
                     ++sourceIndex;
                     break;
                 case EQUAL:

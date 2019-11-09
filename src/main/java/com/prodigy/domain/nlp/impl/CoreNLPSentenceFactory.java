@@ -61,7 +61,7 @@ public class CoreNLPSentenceFactory implements SentenceFactory {
     }
 
     private Word newWord(CoreLabel label) {
-        Token token = new Token(label.value(), label.before(), label.after(), label.index());
+        Token token = new Token(label.value(), label.before(), label.after(), label.index() - 1);
         return new Word(token, POS.ofTag(label.tag()));
     }
 

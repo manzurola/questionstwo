@@ -12,4 +12,11 @@ public class SentenceTransform {
     public List<TransformationOperation> operations() {
         return operations;
     }
+
+    @Override
+    public String toString() {
+        return "SentenceTransform{" +
+                "operations=" + operations +
+                '}';
+    }
 }

@@ -1,8 +1,6 @@
 package com.prodigy.domain.questions;
 
 import com.prodigy.domain.Id;
-import com.prodigy.domain.diff.SentenceDiff;
-import com.prodigy.domain.diff.SentenceDiffChecker;
 import com.prodigy.domain.nlp.Sentence;
 import com.prodigy.domain.nlp.SentenceFactory;
 
@@ -10,32 +8,26 @@ public class AnswerFactoryImpl implements AnswerFactory {
 
     private final QuestionData question;
     private final SentenceFactory sentenceFactory;
-    private final SentenceDiffChecker diffCheck;
-    private final SentenceDiffScoringStrategy scoringStrategy;
-    private final SentenceDiffFeedbackProvider feedbackProvider;
+    private final SentenceTransformation transformation;
+    private final SentenceTransformScoringStrategy scoringStrategy;
 
     public AnswerFactoryImpl(QuestionData question,
                              SentenceFactory sentenceFactory,
-                             SentenceDiffChecker diffChecker,
-                             SentenceDiffScoringStrategy scoringStrategy,
-                             SentenceDiffFeedbackProvider feedbackProvider) {
+                             SentenceTransformation transformation,
+                             SentenceTransformScoringStrategy scoringStrategy) {
         this.question = question;
         this.sentenceFactory = sentenceFactory;
-        this.diffCheck = diffChecker;
+        this.transformation = transformation;
         this.scoringStrategy = scoringStrategy;
-        this.feedbackProvider = feedbackProvider;
     }
 
     @Override
     public Answer create(String value) {
-        Sentence valueSentence = sentenceFactory.fromString(value);
-        Sentence solutionSentence = sentenceFactory.fromString(question.solution());
-        SentenceDiff sentenceDiff = diffCheck.diffSourceAndTarget(valueSentence, solutionSentence);
-
-        Score score = scoringStrategy.scoreDiff(sentenceDiff);          // experimental
-        String feedback = feedbackProvider.getFeedback(sentenceDiff);   // experimental
-
-        return new Answer(Id.next(), question.id(), valueSentence, sentenceDiff, score, feedback);
+        Sentence source = sentenceFactory.fromString(value);
+        Sentence target = sentenceFactory.fromString(question.solution());
+        SentenceTransform transform = transformation.transform(source, target);
+        Score score = scoringStrategy.computeScore(transform);          // experimental
+        return new Answer(Id.next(), question.id(), source, target, transform, score);
     }
 
 }

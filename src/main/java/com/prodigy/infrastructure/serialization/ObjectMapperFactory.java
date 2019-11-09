@@ -10,8 +10,6 @@ import com.prodigy.domain.Id;
 import com.prodigy.domain.Question;
 import com.prodigy.infrastructure.serialization.mixin.AnswerMixin;
 import com.prodigy.infrastructure.serialization.mixin.QuestionMixin;
-import com.prodigy.infrastructure.serialization.mixin.WordMixin;
-import com.prodigy.domain.nlp.Word;
 
 import static com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility.ANY;
 import static com.fasterxml.jackson.annotation.PropertyAccessor.FIELD;
@@ -28,7 +26,6 @@ public class ObjectMapperFactory {
                 .enable(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES)
                 .registerModule(new ParameterNamesModule(JsonCreator.Mode.PROPERTIES))
                 .registerModule(module)
-                .addMixIn(Word.class, WordMixin.class)
                 .addMixIn(Answer.class, AnswerMixin.class)
                 .addMixIn(Question.class, QuestionMixin.class);
     }

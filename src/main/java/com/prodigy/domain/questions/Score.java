@@ -1,13 +1,13 @@
 package com.prodigy.domain.questions;
 
 public class Score {
-    private final double total;
+    private final double percentage;
 
-    public Score(double total) {
-        this.total = total;
+    public Score(double percentage) {
+        this.percentage = percentage;
     }
 
     public double total() {
-        return total;
+        return percentage;
     }
 }

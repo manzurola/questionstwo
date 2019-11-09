@@ -5,11 +5,11 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-public class Sentence {
+public final class Sentence {
 
     private final String value;
     private final List<Word> words;
-    private final SentenceFactory factory;
+    private final transient SentenceFactory factory;
 
     public Sentence(String value, List<Word> words, SentenceFactory factory) {
         this.value = value;
@@ -17,19 +17,19 @@ public class Sentence {
         this.factory = factory;
     }
 
-    public String value() {
+    public final String value() {
         return value;
     }
 
-    public List<Word> words() {
+    public final List<Word> words() {
         return words;
     }
 
-    public Word wordAt(int index) {
+    public final Word wordAt(int index) {
         return words.get(index);
     }
 
-    public Sentence deleteWordAt(int index) {
+    public final Sentence deleteWordAt(int index) {
         List<Token> tokens = tokens();
         Token deletedToken = tokens.remove(index);
         if (deletedToken.index() == 0) {
@@ -44,15 +44,7 @@ public class Sentence {
         return newSentence(tokens);
     }
 
-    public List<Token> tokens() {
-        return words.stream().map(Word::token).collect(Collectors.toList());
-    }
-
-    private Sentence newSentence(List<Token> tokens) {
-        return factory.fromTokens(tokens);
-    }
-
-    public Sentence addWord(int index, String word) {
+    public final Sentence addWord(int index, String word) {
         List<Token> tokens = tokens();
         Token existingToken = tokens.get(index);
         Token tokenToInsert = existingToken.setValue(word);
@@ -60,7 +52,15 @@ public class Sentence {
         return factory.fromTokens(tokens);
     }
 
-    public Sentence setWord(int index, String word) {
+    public final Sentence addWord(String word) {
+        List<Token> tokens = tokens();
+        Token lastToken = tokens.get(tokens.size() - 1);
+        Token tokenToInsert = lastToken.setValue(word);
+        tokens.add(tokenToInsert);
+        return factory.fromTokens(tokens);
+    }
+
+    public final Sentence setWord(int index, String word) {
         List<Token> tokens = tokens();
         Token existingToken = tokens.get(index);
         Token replacementToken = existingToken.setValue(word);
@@ -68,8 +68,20 @@ public class Sentence {
         return factory.fromTokens(tokens);
     }
 
+    public final int size() {
+        return words.size();
+    }
+
+    private List<Token> tokens() {
+        return words.stream().map(Word::token).collect(Collectors.toList());
+    }
+
+    private Sentence newSentence(List<Token> tokens) {
+        return factory.fromTokens(tokens);
+    }
+
     @Override
-    public boolean equals(Object o) {
+    public final boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Sentence sentence = (Sentence) o;
@@ -78,12 +90,12 @@ public class Sentence {
     }
 
     @Override
-    public int hashCode() {
+    public final int hashCode() {
         return Objects.hash(value, words);
     }
 
     @Override
-    public String toString() {
+    public final String toString() {
         return "Sentence{" +
                 "text='" + value + '\'' +
                 ", words=" + words +

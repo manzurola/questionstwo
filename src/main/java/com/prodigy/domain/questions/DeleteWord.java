@@ -34,6 +34,10 @@ public class DeleteWord implements TransformationOperation {
         return after;
     }
 
+    public Word deletedWord() {
+        return deleted;
+    }
+
     @Override
     public String toString() {
         String before = String.format("Before: [%s]\n", this.before.value());
