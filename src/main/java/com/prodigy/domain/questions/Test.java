@@ -1,8 +1,6 @@
 package com.prodigy.domain.questions;
 
-import com.prodigy.domain.diff.SentenceDiffChecker;
 import com.prodigy.domain.diff.impl.DMPListDiffCheck;
-import com.prodigy.domain.diff.impl.SentenceDiffCheckerImpl;
 import com.prodigy.domain.nlp.Sentence;
 import com.prodigy.domain.nlp.SentenceFactory;
 import com.prodigy.domain.nlp.impl.CoreNLPSentenceFactory;
@@ -29,11 +27,11 @@ public class Test {
 //    }
 
     public static void main(String[] args) {
-        SentenceTransformer sentenceTransformer = new DiffBasedSentenceTransformer(new DMPListDiffCheck());
+        SentenceTransformation sentenceTransformation = new DiffBasedSentenceTransformation(new DMPListDiffCheck());
         SentenceFactory sentenceFactory = new CoreNLPSentenceFactory();
-        Sentence source = sentenceFactory.fromString("A dogs cute are.");
-        Sentence target = sentenceFactory.fromString("Dogs are cute.");
-        SentenceTransformation transform = sentenceTransformer.transform(source, target);
+        Sentence source = sentenceFactory.fromString("Natasha was is fat not.");
+        Sentence target = sentenceFactory.fromString("Natasha is not fat.");
+        SentenceTransform transform = sentenceTransformation.transform(source, target);
         for (TransformationOperation operation : transform.operations()) {
             System.out.println(operation);
         }

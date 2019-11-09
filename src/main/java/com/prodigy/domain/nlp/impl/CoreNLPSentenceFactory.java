@@ -23,28 +23,26 @@ public class CoreNLPSentenceFactory implements SentenceFactory {
         this.pipeline = createDefaultPipeline();
     }
 
+    private StanfordCoreNLP createDefaultPipeline() {
+        Properties props = new Properties();
+        // TODO read https://stanfordnlp.github.io/CoreNLP/ssplit.html, there is an option to treat document as one sentence (ssplit)
+        props.setProperty("annotators", "tokenize,ssplit,pos");
+        props.setProperty("ssplit.isOneSentence", "true");
+        return new StanfordCoreNLP(props);
+    }
+
     @Override
     public Sentence fromString(String value) {
         List<Word> words = parseWords(value);
         return new Sentence(value, words, this);
     }
 
-    private StanfordCoreNLP createDefaultPipeline() {
-        Properties props = new Properties();
-        // TODO read https://stanfordnlp.github.io/CoreNLP/ssplit.html, there is an option to treat document as one sentence (ssplit)
-        props.setProperty("annotators", "tokenize,ssplit,pos");
-        return new StanfordCoreNLP(props);
-    }
-
     private List<Word> parseWords(String sentence) {
         CoreDocument document = parseCoreDocument(sentence);
-        if (documentIsEmpty(document)) {
+        if (document.sentences().isEmpty()) {
             return Collections.emptyList();
         }
-        if (documentContainsMultipleSentences(document)) {
-            throw new RuntimeException("Value must contain exactly one sentence");
-        }
-        CoreSentence firstSentence = getFirstSentence(document);
+        CoreSentence firstSentence = document.sentences().get(0);
         return parseWords(firstSentence);
     }
 
@@ -55,18 +53,6 @@ public class CoreNLPSentenceFactory implements SentenceFactory {
         return document;
     }
 
-    private boolean documentIsEmpty(CoreDocument document) {
-        return document.sentences().isEmpty();
-    }
-
-    private boolean documentContainsMultipleSentences(CoreDocument document) {
-        return document.sentences().size() > 1;
-    }
-
-    private CoreSentence getFirstSentence(CoreDocument document) {
-        return document.sentences().get(0);
-    }
-
     private List<Word> parseWords(CoreSentence sentence) {
         return sentence.tokens()
                 .stream()
@@ -75,6 +61,20 @@ public class CoreNLPSentenceFactory implements SentenceFactory {
     }
 
     private Word newWord(CoreLabel label) {
-        return new Word(label.value(), label.index(), POS.ofTag(label.tag()), label.value().concat(label.after()));
+        Token token = new Token(label.value(), label.before(), label.after(), label.index());
+        return new Word(token, POS.ofTag(label.tag()));
+    }
+
+    @Override
+    public Sentence fromTokens(List<Token> tokens) {
+        return fromString(assembleValueFromTokens(tokens));
+    }
+
+    private String assembleValueFromTokens(List<Token> tokens) {
+        StringBuilder builder = new StringBuilder();
+        for (Token token : tokens) {
+            builder.append(token.original());
+        }
+        return builder.toString();
     }
 }

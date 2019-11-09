@@ -1,6 +1,5 @@
 package com.prodigy.domain.nlp;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -30,32 +29,43 @@ public class Sentence {
         return words.get(index);
     }
 
-    public Sentence deleteWord(Word word) {
-        if (words.contains(word)) {
-            List<Word> newWords = words.stream().filter(word::equals).collect(Collectors.toList());
-            return factory.fromString(assembleValue(newWords));
-        }
-        return this;
-    }
-
     public Sentence deleteWordAt(int index) {
-        List<Word> newWords = new ArrayList<>(words);
-        newWords.remove(index);
-        return factory.fromString(assembleValue(newWords));
-    }
-
-    private String assembleValue(List<Word> words) {
-        StringBuilder builder = new StringBuilder();
-        for (Word word : words) {
-            builder.append(word.original());
+        List<Token> tokens = tokens();
+        Token deletedToken = tokens.remove(index);
+        if (deletedToken.index() == 0) {
+            Token next = tokens.get(index);
+            tokens.set(index, next.setBefore(deletedToken.before()));
         }
-        return builder.toString();
+        else if (tokens.size() > index) {
+            int previousIndex = index - 1;
+            Token previous = tokens.get(previousIndex);
+            tokens.set(previousIndex, previous.setAfter(deletedToken.after()));
+        }
+        return newSentence(tokens);
     }
 
-    public Sentence insertWord(int index, Word word) {
-        List<Word> newWords = new ArrayList<>(words);
-        newWords.add(index, word);
-        return factory.fromString(assembleValue(newWords));
+    public List<Token> tokens() {
+        return words.stream().map(Word::token).collect(Collectors.toList());
+    }
+
+    private Sentence newSentence(List<Token> tokens) {
+        return factory.fromTokens(tokens);
+    }
+
+    public Sentence addWord(int index, String word) {
+        List<Token> tokens = tokens();
+        Token existingToken = tokens.get(index);
+        Token tokenToInsert = existingToken.setValue(word);
+        tokens.add(index, tokenToInsert);
+        return factory.fromTokens(tokens);
+    }
+
+    public Sentence setWord(int index, String word) {
+        List<Token> tokens = tokens();
+        Token existingToken = tokens.get(index);
+        Token replacementToken = existingToken.setValue(word);
+        tokens.set(index, replacementToken);
+        return factory.fromTokens(tokens);
     }
 
     @Override

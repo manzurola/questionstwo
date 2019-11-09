@@ -1,15 +1,8 @@
 package com.prodigy.domain.questions;
 
-import java.util.List;
+import com.prodigy.domain.nlp.Sentence;
 
-public class SentenceTransformation {
-    private final List<TransformationOperation> operations;
+public interface SentenceTransformation {
 
-    public SentenceTransformation(List<TransformationOperation> operations) {
-        this.operations = operations;
-    }
-
-    public List<TransformationOperation> operations() {
-        return operations;
-    }
+    SentenceTransform transform(Sentence source, Sentence target);
 }
