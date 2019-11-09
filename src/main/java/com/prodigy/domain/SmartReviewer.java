@@ -1,19 +1,19 @@
 package com.prodigy.domain;
 
-import com.prodigy.diff.Operation;
-import com.prodigy.diff.SentenceDiff;
-import com.prodigy.diff.SentenceDiffCheck;
-import com.prodigy.nlp.*;
-import com.prodigy.diff.Diff;
+import com.prodigy.domain.diff.Operation;
+import com.prodigy.domain.diff.SentenceDiff;
+import com.prodigy.domain.diff.SentenceDiffChecker;
+import com.prodigy.domain.nlp.*;
+import com.prodigy.domain.diff.Diff;
 
 import java.util.List;
 
 public class SmartReviewer implements Reviewer {
 
     private final SentenceFactory sentenceFactory;
-    private final SentenceDiffCheck diffChecker;
+    private final SentenceDiffChecker diffChecker;
 
-    public SmartReviewer(SentenceFactory sentenceFactory, SentenceDiffCheck diffChecker) {
+    public SmartReviewer(SentenceFactory sentenceFactory, SentenceDiffChecker diffChecker) {
         this.sentenceFactory = sentenceFactory;
         this.diffChecker = diffChecker;
     }

@@ -59,7 +59,7 @@ public class Answer {
         return this;
     }
 
-    com.prodigy.domain.Answer toDomain(AnswerFactory factory) {
-        return factory.create(questionId, input);
+    public com.prodigy.domain.Answer toDomain(AnswerFactory factory) {
+        return factory.build(questionId, input);
     }
 }

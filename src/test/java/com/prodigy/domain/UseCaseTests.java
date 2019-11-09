@@ -1,11 +1,24 @@
 package com.prodigy.domain;
 
+import com.prodigy.application.command.AddQuestionCommand;
+import com.prodigy.application.command.AddQuestionCommandHandler;
+import com.prodigy.domain.repository.QuestionRepository;
 import org.junit.Test;
+import org.mockito.Mockito;
+
+import java.util.Arrays;
 
 public class UseCaseTests {
 
     @Test
     public void addQuestion() {
+        Question expected = new Question("a body", Arrays.asList("an answer"), "instructions");
+        AddQuestionCommand command = new AddQuestionCommand(expected);
+        QuestionRepository repository = Mockito.mock(QuestionRepository.class);
+        AddQuestionCommandHandler handler = new AddQuestionCommandHandler(repository);
+
+        handler.handle(command);
+        Mockito.verify(repository).add(expected);
     }
 
     @Test

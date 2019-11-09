@@ -1,20 +1,20 @@
 package com.prodigy.recommend;
 
-import com.prodigy.diff.SentenceDiff;
-import com.prodigy.diff.SentenceDiffCheck;
-import com.prodigy.nlp.Sentence;
+import com.prodigy.domain.diff.SentenceDiff;
+import com.prodigy.domain.diff.SentenceDiffChecker;
+import com.prodigy.domain.nlp.Sentence;
 import com.prodigy.domain.Question;
-import com.prodigy.nlp.SentenceFactory;
+import com.prodigy.domain.nlp.SentenceFactory;
 
 public class QuestionFeatureExtractor implements FeatureExtractor<Question> {
 
     private final SentenceFactory sentenceFactory;
     private final DiffPOSFeatureExtractor diffExtractor;
-    private final SentenceDiffCheck sentenceDiffChecker;
+    private final SentenceDiffChecker sentenceDiffChecker;
 
     public QuestionFeatureExtractor(SentenceFactory sentenceFactory,
                                     DiffPOSFeatureExtractor diffExtractor,
-                                    SentenceDiffCheck sentenceDiffChecker) {
+                                    SentenceDiffChecker sentenceDiffChecker) {
         this.sentenceFactory = sentenceFactory;
         this.diffExtractor = diffExtractor;
         this.sentenceDiffChecker = sentenceDiffChecker;

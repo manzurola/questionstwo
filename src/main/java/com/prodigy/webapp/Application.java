@@ -1,24 +1,26 @@
 package com.prodigy.webapp;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.prodigy.domain.repository.AnswerRepository;
+import com.prodigy.infrastructure.repository.InMemoryAnswerRepository;
 import com.prodigy.readers.QuestionCSVParser;
 import com.prodigy.readers.QuestionCSVParserV1;
-import com.prodigy.serialization.jackson.ObjectMapperFactory;
-import com.prodigy.diff.ListDiffCheck;
-import com.prodigy.diff.impl.DMPListDiffCheck;
+import com.prodigy.infrastructure.serialization.ObjectMapperFactory;
+import com.prodigy.domain.diff.ListDiffCheck;
+import com.prodigy.domain.diff.impl.DMPListDiffCheck;
 import com.prodigy.domain.Reviewer;
 import com.prodigy.domain.SmartReviewer;
-import com.prodigy.service.CommandFactory;
-import com.prodigy.service.ServiceExecutor;
-import com.prodigy.service.common.ServiceExecutorImpl;
+import com.prodigy.application.command.*;
+import com.prodigy.application.common.CommandProcessorImpl;
 import com.prodigy.domain.Question;
-import com.prodigy.database.impl.InMemoryQuestionRepository;
-import com.prodigy.database.QuestionRepository;
+import com.prodigy.infrastructure.repository.InMemoryQuestionRepository;
+import com.prodigy.domain.repository.QuestionRepository;
 import com.prodigy.readers.QuestionCSVReader;
-import com.prodigy.nlp.SentenceFactory;
-import com.prodigy.nlp.impl.CoreNLPSentenceFactory;
-import com.prodigy.diff.SentenceDiffCheck;
-import com.prodigy.nlp.impl.SentenceDiffCheckImpl;
+import com.prodigy.domain.nlp.SentenceFactory;
+import com.prodigy.domain.nlp.impl.CoreNLPSentenceFactory;
+import com.prodigy.domain.diff.SentenceDiffChecker;
+import com.prodigy.domain.diff.impl.SentenceDiffCheckerImpl;
+import com.prodigy.application.query.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
@@ -97,14 +99,51 @@ public class Application {
     }
 
     @Bean
-    public ServiceExecutor serviceExecutor() {
-        return new ServiceExecutorImpl(commandFactory());
+    public CommandProcessor commandProcessor() throws Exception {
+        return new CommandProcessorImpl(commandHandlerProvider());
     }
 
     @Bean
-    public CommandFactory commandFactory() {
-        return applicationContext::getBean;
+    public CommandHandlerProvider commandHandlerProvider() throws Exception {
+        return new DefaultCommandHandlerProvider.Builder()
+                .register(AddQuestionCommand.class, addQuestionCommandHandler())
+                .register(AddAnswerCommand.class, addAnswerCommandHandler())
+                .build();
     }
+
+    @Bean
+    public CommandHandler<AddQuestionCommand> addQuestionCommandHandler() throws Exception {
+        return new AddQuestionCommandHandler(questionRepository());
+    }
+
+    @Bean
+    public CommandHandler<AddAnswerCommand> addAnswerCommandHandler() throws Exception {
+        return new AddAnswerCommandHandler(null, answerRepository());//TODO fix
+    }
+
+    @Bean
+    public QueryHandlerProvider queryHandlerProvider() throws Exception {
+        return new DefaultQueryHandlerProvider.Builder()
+                .register(GetQuestionsQuery.class, getQuestionsQueryHandler())
+                .register(GetQuestionByIdQuery.class, getQuestionByIdQueryHandler())
+                .build();
+    }
+
+    @Bean
+    public QueryHandler<GetQuestionsQuery, List<Question>> getQuestionsQueryHandler() throws Exception {
+        return new GetQuestionsQueryHandler(questionRepository());
+    }
+
+    @Bean
+    public QueryHandler<GetQuestionByIdQuery, Question> getQuestionByIdQueryHandler() throws Exception {
+        return new GetQuestionByIdQueryHandler(questionRepository());
+    }
+
+    @Bean
+    public AnswerRepository answerRepository() {
+        return new InMemoryAnswerRepository();
+    }
+
 
 //    @Bean
 //    public ContractionResolver contractionResolver() throws FileNotFoundException {
@@ -124,8 +163,8 @@ public class Application {
 
 
     @Bean
-    public SentenceDiffCheck sentenceDiffChecker() {
-        return new SentenceDiffCheckImpl(listDiffCheck());
+    public SentenceDiffChecker sentenceDiffChecker() {
+        return new SentenceDiffCheckerImpl(listDiffCheck());
     }
 
     @Bean

@@ -3,7 +3,7 @@ package com.prodigy.domain;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
-import com.prodigy.diff.SentenceDiff;
+import com.prodigy.domain.diff.SentenceDiff;
 
 import java.util.Objects;
 

@@ -1,7 +1,7 @@
 package com.prodigy.webapp.api.calls;
 
 import com.prodigy.domain.Question;
-import com.prodigy.service.AddQuestionRequest;
+import com.prodigy.application.command.AddQuestionCommand;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
@@ -10,10 +10,10 @@ import org.springframework.http.ResponseEntity;
 
 import java.net.URL;
 
-public class AddQuestionApiCall implements ApiCall<Question, AddQuestionRequest> {
+public class AddQuestionApiCall implements ApiCall<Question, AddQuestionCommand> {
 
     @Override
-    public ResponseEntity<Question> run(AddQuestionRequest request, TestRestTemplate template, URL baseUrl) {
+    public ResponseEntity<Question> run(AddQuestionCommand request, TestRestTemplate template, URL baseUrl) {
         ResponseEntity<Question> response = template.exchange(
                 baseUrl.toString() + "/questions",
                 HttpMethod.POST,

@@ -1,8 +1,8 @@
 package com.prodigy.recommend;
 
-import com.prodigy.diff.impl.DMPListDiffCheck;
-import com.prodigy.nlp.impl.CoreNLPSentenceFactory;
-import com.prodigy.nlp.impl.SentenceDiffCheckImpl;
+import com.prodigy.domain.diff.impl.DMPListDiffCheck;
+import com.prodigy.domain.nlp.impl.CoreNLPSentenceFactory;
+import com.prodigy.domain.diff.impl.SentenceDiffCheckerImpl;
 import com.prodigy.domain.Question;
 import com.prodigy.recommend.clustering.ApacheMLClusterer;
 import com.prodigy.recommend.clustering.Cluster;
@@ -29,7 +29,7 @@ public class ExtractorTest {
         FeatureExtractor<Question> features = new QuestionFeatureExtractor(
                 new CoreNLPSentenceFactory(),
                 new DiffPOSFeatureExtractor(),
-                new SentenceDiffCheckImpl(new DMPListDiffCheck())
+                new SentenceDiffCheckerImpl(new DMPListDiffCheck())
         );
 
         List<Clusterable<Question>> vectors = new ArrayList<>();

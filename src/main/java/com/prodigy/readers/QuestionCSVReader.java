@@ -2,14 +2,10 @@ package com.prodigy.readers;
 
 import com.opencsv.CSVReader;
 import com.prodigy.domain.Question;
-import com.prodigy.service.AddQuestionRequest;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.Reader;
-import java.nio.file.Files;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**

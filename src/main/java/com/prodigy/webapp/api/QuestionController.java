@@ -1,12 +1,10 @@
 package com.prodigy.webapp.api;
 
 
-import com.prodigy.domain.Answer;
-import com.prodigy.domain.Id;
-import com.prodigy.service.*;
-import com.prodigy.service.impl.SubmitAnswerCommand;
-import com.prodigy.service.impl.SubmitAnswerRequest;
+import com.prodigy.application.command.*;
 import com.prodigy.domain.Question;
+import com.prodigy.application.query.GetQuestionsQuery;
+import com.prodigy.application.query.QueryProcessor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,10 +17,12 @@ import java.util.List;
 @RequestMapping("/questions")
 public class QuestionController {
 
-    private final ServiceExecutor serviceExecutor;
+    private final CommandProcessor commandProcessor;
+    private final QueryProcessor queryProcessor;
 
-    public QuestionController(ServiceExecutor serviceExecutor) {
-        this.serviceExecutor = serviceExecutor;
+    public QuestionController(CommandProcessor commandProcessor, QueryProcessor queryProcessor) {
+        this.commandProcessor = commandProcessor;
+        this.queryProcessor = queryProcessor;
     }
 
 //    @RequestMapping(method = RequestMethod.GET)
@@ -37,8 +37,8 @@ public class QuestionController {
 
     @RequestMapping(method = RequestMethod.GET)
     public List<Question> getAllQuestions() {
-        Result<List<Question>> result = serviceExecutor.execute(GetAllQuestionsCommand.class, new GetAllQuestionsRequest());
-        return result.getData();
+        List<Question> result = queryProcessor.process(new GetQuestionsQuery());
+        return result;
     }
 
 //    @RequestMapping(method = RequestMethod.GET)
@@ -47,17 +47,11 @@ public class QuestionController {
 //        return result.getData();
 //    }
 
-    @RequestMapping(method = RequestMethod.POST)
-    public Question addQuestion(@RequestBody AddQuestionRequest requestBody) {
-        Result<Question> result = serviceExecutor.execute(AddQuestionCommand.class, requestBody);
-        return result.getData();
-    }
-
-    @RequestMapping(method = RequestMethod.POST, value = "/{questionId}/answer")
-    public Answer submitAnswer(@PathVariable Id<Question> questionId, @RequestBody SubmitAnswerRequest request) {
-        return serviceExecutor.execute(SubmitAnswerCommand.class, request.withQuestionId(questionId)).getData();
-    }
-
+//    @RequestMapping(method = RequestMethod.POST, value = "/{questionId}/answer")
+//    public Answer submitAnswer(@PathVariable Id<Question> questionId, @RequestBody SubmitAnswerRequest request) {
+////        return commandProcessor.process(SubmitAnswerCommandHandler.class, request.withQuestionId(questionId)).getData();
+//        return
+//    }
 
 
 }

@@ -1,14 +1,14 @@
 package com.prodigy.domain;
 
-import com.prodigy.diff.*;
-import com.prodigy.diff.impl.DMPListDiffCheck;
-import com.prodigy.nlp.Sentence;
-import com.prodigy.nlp.SentenceFactory;
-import com.prodigy.nlp.Word;
-import com.prodigy.diff.SentenceDiff;
-import com.prodigy.diff.SentenceDiffCheck;
-import com.prodigy.nlp.impl.CoreNLPSentenceFactory;
-import com.prodigy.nlp.impl.SentenceDiffCheckImpl;
+import com.prodigy.domain.diff.*;
+import com.prodigy.domain.diff.impl.DMPListDiffCheck;
+import com.prodigy.domain.nlp.Sentence;
+import com.prodigy.domain.nlp.SentenceFactory;
+import com.prodigy.domain.nlp.Word;
+import com.prodigy.domain.diff.SentenceDiff;
+import com.prodigy.domain.diff.SentenceDiffChecker;
+import com.prodigy.domain.nlp.impl.CoreNLPSentenceFactory;
+import com.prodigy.domain.diff.impl.SentenceDiffCheckerImpl;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -26,7 +26,7 @@ public class EvaluationPolicyTest {
         // assert that feedback is equals to expected
 
         SentenceFactory sentenceFactory = new CoreNLPSentenceFactory();
-        SentenceDiffCheck diffChecker = new SentenceDiffCheckImpl(new DMPListDiffCheck());
+        SentenceDiffChecker diffChecker = new SentenceDiffCheckerImpl(new DMPListDiffCheck());
 
         Sentence target = sentenceFactory.fromString("He is walking home.");
         Sentence input = sentenceFactory.fromString("He walking home.");

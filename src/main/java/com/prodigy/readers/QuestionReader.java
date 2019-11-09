@@ -1,7 +1,6 @@
 package com.prodigy.readers;
 
 import com.prodigy.domain.Question;
-import com.prodigy.service.AddQuestionRequest;
 
 import java.io.Closeable;
 import java.io.IOException;

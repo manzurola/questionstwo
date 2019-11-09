@@ -1,10 +1,10 @@
 package com.prodigy.recommend;
 
-import com.prodigy.diff.Diff;
-import com.prodigy.diff.Operation;
-import com.prodigy.nlp.POS;
-import com.prodigy.nlp.Word;
-import com.prodigy.diff.SentenceDiff;
+import com.prodigy.domain.diff.Diff;
+import com.prodigy.domain.diff.Operation;
+import com.prodigy.domain.nlp.POS;
+import com.prodigy.domain.nlp.Word;
+import com.prodigy.domain.diff.SentenceDiff;
 
 import java.util.Arrays;
 

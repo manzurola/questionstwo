@@ -25,6 +25,20 @@ public class Answer {
         this.review = review;
     }
 
+    public Answer(Id<Answer> id, Id<Question> questionId, String input) {
+        this.id = id;
+        this.questionId = questionId;
+        this.input = input;
+        this.review = null;
+    }
+
+    public Answer(Id<Question> questionId, String input) {
+        this.id = Id.next();
+        this.questionId = questionId;
+        this.input = input;
+        this.review = null;
+    }
+
     public static Builder builder() {
         return new Builder();
     }
